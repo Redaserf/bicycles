@@ -2,34 +2,34 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".splash"
-    android:background="@color/blueP">
+    android:background="@color/black">
     <TextView
-        android:layout_width="300dp"
-        android:layout_height="100dp"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
         android:gravity="center"
-        android:text="Bicycles"
-        android:textColor="#000000"
-        android:textSize="64dp"
+        android:text="Cargando.."
+        android:textColor="#FFFFFF"
+        android:textSize="14dp"
         android:textStyle="bold"
         android:textAlignment="center"
         android:fontFamily="sans-serif-smallcaps"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/animation"/>
+        app:layout_constraintTop_toBottomOf="@id/animation"
+        app:layout_constraintBottom_toBottomOf="parent"/>
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/animation"
-        android:layout_width="275dp"
-        android:layout_height="261dp"
+        android:layout_width="375dp"
+        android:layout_height="361dp"
+        android:layout_marginTop="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
-        app:lottie_rawRes="@raw/splashlottie2" />
+        app:lottie_rawRes="@raw/animationsplash" />
 </androidx.constraintlayout.widget.ConstraintLayout>
