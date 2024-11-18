@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="#000000"
     android:padding="24dp"
-    tools:context=".register">
+    tools:context=".Views.register">
     <TextView
         android:id="@+id/Tv_Nombreapp"
         android:layout_width="300dp"

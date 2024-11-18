@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="#000000"
     android:padding="24dp"
-    tools:context=".splash">
+    tools:context=".Views.splash">
     <TextView
         android:layout_width="100dp"
         android:layout_height="50dp"
