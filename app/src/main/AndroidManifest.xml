@@ -13,16 +13,16 @@
         android:theme="@style/Theme.Bicycles"
         tools:targetApi="31" >
         <activity
-            android:name=".register"
+            android:name=".Views.register"
             android:exported="false" />
         <activity
-            android:name=".login"
+            android:name=".Views.login"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Views.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".splash"
+            android:name=".Views.splash"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

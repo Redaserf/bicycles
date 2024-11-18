@@ -38,6 +38,8 @@ dependencies {
     implementation(libs.activity)
     implementation("com.airbnb.android:lottie:6.0.1")
     implementation(libs.constraintlayout)
+    implementation(libs.converter.gson)
+    implementation(libs.retrofit)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

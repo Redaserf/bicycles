@@ -1,4 +1,4 @@
-package com.example.bicycles;
+package com.example.bicycles.Views;
 
 import android.os.Bundle;
 
@@ -9,6 +9,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import android.content.Intent;
 import android.os.CountDownTimer;
+
+import com.example.bicycles.R;
 
 
 public class splash extends AppCompatActivity {
