@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.bicycles"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -36,7 +36,10 @@ dependencies {
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
+    implementation("com.airbnb.android:lottie:6.0.1")
     implementation(libs.constraintlayout)
+    implementation(libs.converter.gson)
+    implementation(libs.retrofit)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
