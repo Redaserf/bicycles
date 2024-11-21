@@ -10,11 +10,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.ViewModelProvider;
 
-import com.example.bicycles.Model.RegisterRequest;
+import com.example.bicycles.Models.RegisterRequest;
 import com.example.bicycles.R;
 import com.example.bicycles.Responses.RegisterResponse;
 import com.example.bicycles.Singleton.RetrofitClient;
+import com.example.bicycles.ViewModels.RegisterViewModel;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -44,6 +46,7 @@ public class register extends AppCompatActivity {
             return insets;
         });
 
+        RegisterViewModel registerViewModel = new ViewModelProvider(this).get(RegisterViewModel.class);
 
         btnRegister.setOnClickListener(v -> {
             String name = etName.getText().toString().trim();
@@ -54,29 +57,32 @@ public class register extends AppCompatActivity {
             if (name.isEmpty() || lastName.isEmpty() || email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Completa todos los campos", Toast.LENGTH_SHORT).show();
             } else {
-                registrarUsuario(name, lastName, email, password);
+                registerViewModel.register(name, lastName, email, password, register.this);
+                //De este y el login falta el observe de la LiveData del viewModel
+                // y que al cambiar chequen el valor y pongan una alerta con el texto de la liveData o algo asi
+//                registrarUsuario(name, lastName, email, password);
             }
         });
     }
 
 
-    private void registrarUsuario(String name, String lastName, String email, String password) {
-        RegisterRequest request = new RegisterRequest(name, lastName, email, password);
-
-        RetrofitClient.getInstance().getApiService().register(request).enqueue(new Callback<RegisterResponse>() {
-            @Override
-            public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    Toast.makeText(register.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(register.this, "Error en el registro", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<RegisterResponse> call, Throwable t) {
-                Toast.makeText(register.this, "Error de conexión: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
+//    private void registrarUsuario(String name, String lastName, String email, String password) {
+//        RegisterRequest request = new RegisterRequest(name, lastName, email, password);
+//
+//        RetrofitClient.getInstance().getApiService().register(request).enqueue(new Callback<RegisterResponse>() {
+//            @Override
+//            public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
+//                if (response.isSuccessful() && response.body() != null) {
+//                    Toast.makeText(register.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+//                } else {
+//                    Toast.makeText(register.this, "Error en el registro", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<RegisterResponse> call, Throwable t) {
+//                Toast.makeText(register.this, "Error de conexión: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
 }

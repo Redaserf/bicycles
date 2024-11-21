@@ -2,8 +2,8 @@ package com.example.bicycles.Networks;
 
 
 
-import com.example.bicycles.Model.LoginRequest;
-import com.example.bicycles.Model.RegisterRequest;
+import com.example.bicycles.Models.LoginRequest;
+import com.example.bicycles.Models.RegisterRequest;
 import com.example.bicycles.Responses.LoginResponse;
 import com.example.bicycles.Responses.RegisterResponse;
 import retrofit2.Call;

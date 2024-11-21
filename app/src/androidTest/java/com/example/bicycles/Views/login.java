@@ -2,7 +2,6 @@ package com.example.bicycles.Views;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -13,11 +12,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 
-import com.example.bicycles.Model.LoginRequest;
+import com.example.bicycles.Models.LoginRequest;
 import com.example.bicycles.R;
 import com.example.bicycles.Responses.LoginResponse;
 import com.example.bicycles.Singleton.RetrofitClient;
+import com.example.bicycles.ViewModels.LoginViewModel;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,6 +39,7 @@ public class login extends AppCompatActivity {
         etContrasena = findViewById(R.id.et_contrasena);
         btnIniciarSesion = findViewById(R.id.btn_iniciar_sesion);
 
+        LoginViewModel loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
 
         btnIniciarSesion.setOnClickListener(view -> {
             String correo = etCorreo.getText().toString().trim();
@@ -45,7 +48,8 @@ public class login extends AppCompatActivity {
             if (correo.isEmpty() || contrasena.isEmpty()) {
                 Toast.makeText(this, "Completa todos los campos", Toast.LENGTH_SHORT).show();
             } else {
-                iniciarSesion(correo, contrasena);
+                loginViewModel.login(correo, contrasena, login.this);
+//                iniciarSesion(correo, contrasena);
             }
         });
 
@@ -64,26 +68,26 @@ public class login extends AppCompatActivity {
     }
 
 
-    private void iniciarSesion(String correo, String contrasena) {
-        LoginRequest request = new LoginRequest(correo, contrasena);
-
-        RetrofitClient.getInstance()
-                .getApiService()
-                .login(request)
-                .enqueue(new Callback<LoginResponse>() {
-                    @Override
-                    public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                        if (response.isSuccessful() && response.body() != null) {
-                            Toast.makeText(login.this, "Bienvenido " + response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(login.this, "Credenciales inválidas", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<LoginResponse> call, Throwable t) {
-                        Toast.makeText(login.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
+//    private void iniciarSesion(String correo, String contrasena) {
+//        LoginRequest request = new LoginRequest(correo, contrasena);
+//
+//        RetrofitClient.getInstance()
+//                .getApiService()
+//                .login(request)
+//                .enqueue(new Callback<LoginResponse>() {
+//                    @Override
+//                    public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+//                        if (response.isSuccessful() && response.body() != null) {
+//                            Toast.makeText(login.this, "Bienvenido " + response.body().getMessage(), Toast.LENGTH_SHORT).show();
+//                        } else {
+//                            Toast.makeText(login.this, "Credenciales inválidas", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<LoginResponse> call, Throwable t) {
+//                        Toast.makeText(login.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//    }
 }
