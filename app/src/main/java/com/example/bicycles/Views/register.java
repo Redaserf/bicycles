@@ -1,6 +1,7 @@
 package com.example.bicycles.Views;
 
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -12,15 +13,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.bicycles.Models.RegisterRequest;
 import com.example.bicycles.R;
-import com.example.bicycles.Responses.RegisterResponse;
-import com.example.bicycles.Singleton.RetrofitClient;
 import com.example.bicycles.ViewModels.RegisterViewModel;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class register extends AppCompatActivity {
     private EditText etName, etLastName, etEmail, etPassword;
@@ -31,6 +25,11 @@ public class register extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_register);
+
+        if (android.os.Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
 
 
         etName = findViewById(R.id.et_nombre);

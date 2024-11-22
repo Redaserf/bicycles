@@ -12,18 +12,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.bicycles.Models.LoginRequest;
 import com.example.bicycles.R;
-import com.example.bicycles.Responses.LoginResponse;
-import com.example.bicycles.Singleton.RetrofitClient;
 import com.example.bicycles.ViewModels.LoginViewModel;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class login extends AppCompatActivity {
     private EditText etCorreo, etContrasena;

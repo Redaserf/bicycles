@@ -8,7 +8,7 @@ public class RetrofitClient {
     private static RetrofitClient instance = null ;
     private ApiService apiService;
 
-    private static final String BASE_URL = "AQUI LA IP DE LA API";
+    private static final String BASE_URL = "http://192.168.122.1:8000/api/v1/";
 
     private RetrofitClient(){
         Retrofit retrofit = new Retrofit.Builder()

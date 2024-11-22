@@ -1,32 +1,32 @@
 package com.example.bicycles.Models;
 
 public class RegisterRequest {
-    private String name;
-    private String lastName;
+    private String nombre;
+    private String apellido;
     private String email;
     private String password;
 
-    public RegisterRequest(String name, String lastName, String email, String password) {
-        this.name = name;
-        this.lastName = lastName;
+    public RegisterRequest(String nombre, String apellido, String email, String password) {
+        this.nombre = nombre;
+        this.apellido = apellido;
         this.email = email;
         this.password = password;
     }
 
-    public String getName() {
-        return name;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getApellido() {
+        return apellido;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
     }
 
     public String getEmail() {

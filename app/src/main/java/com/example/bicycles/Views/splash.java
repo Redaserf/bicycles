@@ -25,14 +25,29 @@ public class splash extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        new CountDownTimer(3000, 1000) {
+//        new CountDownTimer(3000, 1000) {
+//            @Override
+//            public void onTick(long millisUntilFinished) {
+//            }
+//
+//            @Override
+//            public void onFinish() {
+//                Intent intent = new Intent(splash.this, login.class);
+//                startActivity(intent);
+//                finish();
+//            }
+//        }.start();
+
+        new CountDownTimer(3000, 1000){
+
             @Override
-            public void onTick(long millisUntilFinished) {
+            public void onTick(long l) {
+
             }
 
             @Override
             public void onFinish() {
-                Intent intent = new Intent(splash.this, login.class);
+                Intent intent = new Intent( splash.this, login.class );
                 startActivity(intent);
                 finish();
             }

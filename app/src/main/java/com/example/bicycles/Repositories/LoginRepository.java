@@ -1,16 +1,15 @@
 package com.example.bicycles.Repositories;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.widget.Toast;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.bicycles.Models.LoginRequest;
 import com.example.bicycles.Networks.ApiService;
 import com.example.bicycles.Responses.LoginResponse;
 import com.example.bicycles.Singleton.RetrofitClient;
-import com.example.bicycles.Views.login;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,6 +32,14 @@ public class LoginRepository {
                 if (response.isSuccessful() && response.body() != null) {
                     Toast.makeText(context, "Bienvenido " + response.body().getMessage(), Toast.LENGTH_SHORT).show();
                     //logica para guardar el token con SharedPreferences
+
+                    if(response.body().getToken() != null){
+
+                        SharedPreferences token = context.getSharedPreferences("token", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = token.edit();
+                        editor.putString("token", response.body().getToken());
+                        editor.apply();
+                    }
                     loginResponse.setValue(response.body().getMessage());
 
                 } else {

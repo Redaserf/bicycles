@@ -9,7 +9,6 @@ import com.example.bicycles.Models.RegisterRequest;
 import com.example.bicycles.Networks.ApiService;
 import com.example.bicycles.Responses.RegisterResponse;
 import com.example.bicycles.Singleton.RetrofitClient;
-import com.example.bicycles.Views.register;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,16 +29,16 @@ public class RegisterRepository {
             @Override
             public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    Toast.makeText(context, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, response.body().getMensaje(), Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(context, "Error en el registro", Toast.LENGTH_SHORT).show();
                 }
-                registerResponse.setValue(response.body().getMessage());
+                registerResponse.setValue(response.body().getMensaje());
             }
 
             @Override
             public void onFailure(Call<RegisterResponse> call, Throwable t) {
-                Toast.makeText(context, "Error de conexión: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context,t.getMessage(), Toast.LENGTH_SHORT).show();
                 registerResponse.setValue(t.getMessage());
             }
         });
