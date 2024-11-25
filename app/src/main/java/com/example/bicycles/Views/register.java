@@ -1,7 +1,10 @@
 package com.example.bicycles.Views;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.text.InputType;
+import android.view.MotionEvent;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -19,7 +22,9 @@ import com.example.bicycles.ViewModels.RegisterViewModel;
 public class register extends AppCompatActivity {
     private EditText etName, etLastName, etEmail, etPassword;
     private Button btnRegister;
+    private boolean isPasswordVisible = false;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +42,37 @@ public class register extends AppCompatActivity {
         etEmail = findViewById(R.id.et_correo);
         etPassword = findViewById(R.id.et_contrasena);
         btnRegister = findViewById(R.id.btn_registrarse);
+        // Listener para alternar la visibilidad de la contraseña
+        etPassword.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                // Detectar si se tocó el ícono del "ojito"
+                if (event.getRawX() >= (etPassword.getRight() - etPassword.getCompoundDrawables()[2].getBounds().width())) {
+                    isPasswordVisible = !isPasswordVisible;
+
+                    if (isPasswordVisible) {
+                        etPassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                        etPassword.setCompoundDrawablesWithIntrinsicBounds(
+                                R.drawable.baseline_lock_24,
+                                0,
+                                R.drawable.baseline_visibility_24, // Ícono ojito abierto
+                                0
+                        );
+                    } else {
+                        etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                        etPassword.setCompoundDrawablesWithIntrinsicBounds(
+                                R.drawable.baseline_lock_24,
+                                0,
+                                R.drawable.baseline_visibility_off_24, // Ícono ojito cerrado
+                                0
+                        );
+                    }
+                    // Mover cursor al final del texto
+                    etPassword.setSelection(etPassword.getText().length());
+                    return true;
+                }
+            }
+            return false;
+        });
 
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
