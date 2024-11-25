@@ -13,8 +13,15 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.bicycles.Models.Usuario;
 import com.example.bicycles.R;
+import com.example.bicycles.Responses.RegisterResponse;
+import com.example.bicycles.Singleton.RetrofitClient;
 import com.example.bicycles.ViewModels.RegisterViewModel;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class register extends AppCompatActivity {
     private EditText etName, etLastName, etEmail, etPassword;
@@ -57,8 +64,8 @@ public class register extends AppCompatActivity {
                 Toast.makeText(this, "Completa todos los campos", Toast.LENGTH_SHORT).show();
             } else {
                 registerViewModel.register(name, lastName, email, password, register.this);
-                //De este y el login falta el observe de la LiveData del viewModel
-                // y que al cambiar chequen el valor y pongan una alerta con el texto de la liveData o algo asi
+//                De este y el login falta el observe de la LiveData del viewModel
+//                 y que al cambiar chequen el valor y pongan una alerta con el texto de la liveData o algo asi
 //                registrarUsuario(name, lastName, email, password);
             }
         });
@@ -66,21 +73,21 @@ public class register extends AppCompatActivity {
 
 
 //    private void registrarUsuario(String name, String lastName, String email, String password) {
-//        RegisterRequest request = new RegisterRequest(name, lastName, email, password);
+//        Usuario usuario = new Usuario(name, lastName, email, password);
 //
-//        RetrofitClient.getInstance().getApiService().register(request).enqueue(new Callback<RegisterResponse>() {
+//        RetrofitClient.getInstance(register.this).getApiService().register(usuario).enqueue(new Callback<RegisterResponse>() {
 //            @Override
 //            public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
 //                if (response.isSuccessful() && response.body() != null) {
-//                    Toast.makeText(register.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(register.this, response.body().getMensaje(), Toast.LENGTH_SHORT).show();
 //                } else {
-//                    Toast.makeText(register.this, "Error en el registro", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(register.this, response.code(), Toast.LENGTH_SHORT).show();
 //                }
 //            }
 //
 //            @Override
 //            public void onFailure(Call<RegisterResponse> call, Throwable t) {
-//                Toast.makeText(register.this, "Error de conexión: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(register.this, t.getMessage(), Toast.LENGTH_SHORT).show();
 //            }
 //        });
 //    }

@@ -1,5 +1,6 @@
 package com.example.bicycles.Views;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -10,6 +11,7 @@ import androidx.core.view.WindowInsetsCompat;
 import android.content.Intent;
 import android.os.CountDownTimer;
 
+import com.example.bicycles.Models.Token;
 import com.example.bicycles.R;
 
 
@@ -47,9 +49,17 @@ public class splash extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                Intent intent = new Intent( splash.this, login.class );
-                startActivity(intent);
-                finish();
+//                SharedPreferences token = getSharedPreferences("token", MODE_PRIVATE);
+//                String tokenStr = token.getString("token", null);
+//                if(tokenStr != null && !Token.isTokenExpired(tokenStr)){
+//                    Intent intent = new Intent( splash.this, MainActivity.class );
+//                    startActivity(intent);
+//                    finish();
+//                }else{
+                    Intent intent = new Intent( splash.this, login.class );
+                    startActivity(intent);
+                    finish();
+//                }
             }
         }.start();
 

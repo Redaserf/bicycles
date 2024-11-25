@@ -1,6 +1,7 @@
 package com.example.bicycles.Repositories;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.widget.Toast;
 
@@ -10,6 +11,7 @@ import com.example.bicycles.Models.LoginRequest;
 import com.example.bicycles.Networks.ApiService;
 import com.example.bicycles.Responses.LoginResponse;
 import com.example.bicycles.Singleton.RetrofitClient;
+import com.example.bicycles.Views.MainActivity;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,6 +41,9 @@ public class LoginRepository {
                         SharedPreferences.Editor editor = token.edit();
                         editor.putString("token", response.body().getToken());
                         editor.apply();
+
+                        Intent intent = new Intent(context, MainActivity.class);
+                        context.startActivity(intent);
                     }
                     loginResponse.setValue(response.body().getMessage());
 

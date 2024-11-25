@@ -1,16 +1,27 @@
 package com.example.bicycles.Models;
 
-public class RegisterRequest {
+import java.lang.ref.SoftReference;
+
+public class Usuario {
+    private int id;
     private String nombre;
     private String apellido;
     private String email;
     private String password;
 
-    public RegisterRequest(String nombre, String apellido, String email, String password) {
+    public Usuario(String nombre, String apellido, String email, String password) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.email = email;
         this.password = password;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNombre() {
