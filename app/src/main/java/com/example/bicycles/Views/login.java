@@ -1,7 +1,10 @@
 package com.example.bicycles.Views;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
+import android.view.MotionEvent;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -20,7 +23,9 @@ import com.example.bicycles.ViewModels.LoginViewModel;
 public class login extends AppCompatActivity {
     private EditText etCorreo, etContrasena;
     private Button btnIniciarSesion;
+    private boolean isPasswordVisible = false;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +36,39 @@ public class login extends AppCompatActivity {
         etContrasena = findViewById(R.id.et_contrasena);
         btnIniciarSesion = findViewById(R.id.btn_iniciar_sesion);
 
+        etContrasena.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                // Detectar si se tocó el ícono del "ojito"
+                if (event.getRawX() >= (etContrasena.getRight() - etContrasena.getCompoundDrawables()[2].getBounds().width())) {
+                    isPasswordVisible = !isPasswordVisible;
+
+                    if (isPasswordVisible) {
+                        etContrasena.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                        etContrasena.setCompoundDrawablesWithIntrinsicBounds(
+                                R.drawable.baseline_lock_24,
+                                0,
+                                R.drawable.baseline_visibility_24, // Ícono ojito abierto
+                                0
+                        );
+                    } else {
+                        etContrasena.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                        etContrasena.setCompoundDrawablesWithIntrinsicBounds(
+                                R.drawable.baseline_lock_24,
+                                0,
+                                R.drawable.baseline_visibility_off_24, // Ícono ojito cerrado
+                                0
+                        );
+                    }
+                    // Mover cursor al final del texto
+                    etContrasena.setSelection(etContrasena.getText().length());
+                    return true;
+                }
+            }
+            return false;
+        });
+
         LoginViewModel loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
+
 
         btnIniciarSesion.setOnClickListener(view -> {
             String correo = etCorreo.getText().toString().trim();
