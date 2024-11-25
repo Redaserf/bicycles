@@ -9,7 +9,7 @@
     android:background="@drawable/backgroundlogreg"
     android:padding="16dp">
 
-    <!-- centrar la cartita de mrd -->
+    <!-- centrar la cartita -->
     <androidx.cardview.widget.CardView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
