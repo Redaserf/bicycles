@@ -95,28 +95,4 @@ public class login extends AppCompatActivity {
             startActivity(intent);
         });
     }
-
-
-//    private void iniciarSesion(String correo, String contrasena) {
-//        LoginRequest request = new LoginRequest(correo, contrasena);
-//
-//        RetrofitClient.getInstance()
-//                .getApiService()
-//                .login(request)
-//                .enqueue(new Callback<LoginResponse>() {
-//                    @Override
-//                    public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-//                        if (response.isSuccessful() && response.body() != null) {
-//                            Toast.makeText(login.this, "Bienvenido " + response.body().getMessage(), Toast.LENGTH_SHORT).show();
-//                        } else {
-//                            Toast.makeText(login.this, "Credenciales inválidas", Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<LoginResponse> call, Throwable t) {
-//                        Toast.makeText(login.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//    }
 }

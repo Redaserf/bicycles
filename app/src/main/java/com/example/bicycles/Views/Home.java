@@ -1,6 +1,7 @@
 package com.example.bicycles.Views;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -9,8 +10,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.bicycles.R;
+import com.example.bicycles.Views.Fragments.ConfiguracionFragment;
+import com.example.bicycles.Views.Fragments.MasFragment;
+import com.example.bicycles.Views.Fragments.MisBicisFragment;
+import com.example.bicycles.Views.Fragments.MisRecorridosFragment;
+import com.example.bicycles.Views.Fragments.PerfilFragment;
 import com.nafis.bottomnavigation.NafisBottomNavigation;
 
 import kotlin.Unit;
@@ -22,7 +30,6 @@ public class Home extends AppCompatActivity {
     protected final int mis_bicis=3;
     protected final int mis_recorridos=4;
     protected final int perfil=5;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +44,10 @@ public class Home extends AppCompatActivity {
         });
         @SuppressLint({"MissingInflatedId", "LocalSuppress"})
         NafisBottomNavigation bottomNavigation = findViewById(R.id.NafisBottomNavigation);
-        bottomNavigation.add(new NafisBottomNavigation.Model(mas,R.drawable.mas));
-        bottomNavigation.add(new NafisBottomNavigation.Model(configuracion,R.drawable.baseline_settings_24));
         bottomNavigation.add(new NafisBottomNavigation.Model(mis_bicis,R.drawable.mis_bicis));
         bottomNavigation.add(new NafisBottomNavigation.Model(mis_recorridos,R.drawable.mis_recorridos));
+        bottomNavigation.add(new NafisBottomNavigation.Model(mas,R.drawable.mas));
+        bottomNavigation.add(new NafisBottomNavigation.Model(configuracion,R.drawable.baseline_settings_24));
         bottomNavigation.add(new NafisBottomNavigation.Model(perfil,R.drawable.perfil));
 
         bottomNavigation.setOnClickMenuListener(new Function1<NafisBottomNavigation.Model, Unit>() {
@@ -51,33 +58,37 @@ public class Home extends AppCompatActivity {
             }
         });
 
-        bottomNavigation.setOnShowListener(new Function1<NafisBottomNavigation.Model, Unit>() {
+        bottomNavigation.setOnClickMenuListener(new Function1<NafisBottomNavigation.Model, Unit>() {
             @Override
             public Unit invoke(NafisBottomNavigation.Model model) {
-                String name;
                 switch (model.getId()) {
                     case mas:
-                        name = "mas";
+                        setCurrentFragment(new MasFragment());
                         break;
                     case configuracion:
-                        name = "configuracion";
+                        setCurrentFragment(new ConfiguracionFragment());
                         break;
                     case mis_bicis:
-                        name = "mis_bicis";
+                        setCurrentFragment(new MisBicisFragment());
                         break;
                     case mis_recorridos:
-                        name = "mis_recorridos";
+                        setCurrentFragment(new MisRecorridosFragment());
                         break;
                     case perfil:
-                        name = "perfil";
+                        setCurrentFragment(new PerfilFragment());
                         break;
                     default:
-                        name = "Unknown";
+                        Toast.makeText(Home.this, "Opción desconocida", Toast.LENGTH_SHORT).show();
                 }
-                Toast.makeText(Home.this, "Mostrando: " + name, Toast.LENGTH_SHORT).show();
                 return null;
             }
         });
+    }
 
+    private void setCurrentFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .commit();
     }
 }
