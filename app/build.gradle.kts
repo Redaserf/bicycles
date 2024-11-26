@@ -43,6 +43,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.activity)
     implementation("com.airbnb.android:lottie:6.0.1")
+    implementation ("com.auth0:java-jwt:3.18.2")
     implementation(libs.constraintlayout)
     implementation(libs.converter.gson)
     implementation(libs.retrofit)

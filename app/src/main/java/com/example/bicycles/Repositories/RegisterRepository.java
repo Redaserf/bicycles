@@ -5,7 +5,7 @@ import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.bicycles.Models.RegisterRequest;
+import com.example.bicycles.Models.Usuario;
 import com.example.bicycles.Networks.ApiService;
 import com.example.bicycles.Responses.RegisterResponse;
 import com.example.bicycles.Singleton.RetrofitClient;
@@ -24,8 +24,8 @@ public class RegisterRepository {
 
     public MutableLiveData<String> register(String name, String lastName, String email, String password, Context context) {
         MutableLiveData<String> registerResponse = new MutableLiveData<>();
-        RegisterRequest request = new RegisterRequest(name, lastName, email, password);
-        apiService.register(request).enqueue(new Callback<RegisterResponse>() {
+        Usuario usuario = new Usuario(name, lastName, email, password);
+        apiService.register(usuario).enqueue(new Callback<RegisterResponse>() {
             @Override
             public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
