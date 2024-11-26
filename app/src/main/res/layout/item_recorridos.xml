@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="250dp"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="36dp"
+    app:cardElevation="4dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/tarjetarecycler">
+        <ImageButton
+            android:id="@+id/menu_opciones_recorridos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/baseline_more_vert_24"
+            android:contentDescription="Opciones"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_margin="14dp"/>
+        <ImageView
+            android:id="@+id/imagen_bicicleta"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginEnd="200dp"
+            app:layout_constraintBottom_toTopOf="@id/recorrido_id"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/trj_recorrido_imagen"/>
+
+        <TextView
+            android:id="@+id/recorrido_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Recorrido 1"
+            android:textColor="@android:color/black"
+            android:layout_marginEnd="200dp"
+            android:fontFamily="sans-serif-smallcaps"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@id/imagen_bicicleta"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+        <TextView
+            android:id="@+id/fecha_recorrido"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="23/17/2024"
+            android:textColor="@android:color/black"
+            android:layout_marginStart="150dp"
+            android:fontFamily="sans-serif-smallcaps"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/tiempo_recorrido"/>
+        <TextView
+            android:id="@+id/tiempo_recorrido"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1H 23Min"
+            android:textColor="@android:color/black"
+            android:layout_marginStart="150dp"
+            android:fontFamily="sans-serif-smallcaps"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@id/fecha_recorrido"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/distancia_recorrido"/>
+        <TextView
+            android:id="@+id/distancia_recorrido"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="23km"
+            android:textColor="@android:color/black"
+            android:layout_marginStart="150dp"
+            android:fontFamily="sans-serif-smallcaps"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@id/tiempo_recorrido"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
