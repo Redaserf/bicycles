@@ -29,6 +29,12 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
+    buildFeatures {
+        viewBinding = true
+        dataBinding = true
+    }
+
 }
 
 dependencies {
@@ -37,10 +43,12 @@ dependencies {
     implementation(libs.material)
     implementation(libs.activity)
     implementation("com.airbnb.android:lottie:6.0.1")
+    implementation ("com.auth0:java-jwt:3.18.2")
     implementation(libs.constraintlayout)
     implementation(libs.converter.gson)
     implementation(libs.retrofit)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation ("com.github.Foysalofficial:NafisBottomNav:5.0")
 }

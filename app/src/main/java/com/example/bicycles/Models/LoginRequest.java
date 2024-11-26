@@ -1,4 +1,4 @@
-package com.example.bicycles.Model;
+package com.example.bicycles.Models;
 
 public class LoginRequest {
     private String email;
