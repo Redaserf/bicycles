@@ -2,6 +2,8 @@ package com.example.bicycles.Networks;
 
 
 
+import android.content.SharedPreferences;
+
 import com.example.bicycles.Models.Bicicleta;
 import com.example.bicycles.Models.LoginRequest;
 import com.example.bicycles.Models.Usuario;
@@ -13,6 +15,7 @@ import retrofit2.http.Body;
 import retrofit2.http.POST;
 
 public interface ApiService {
+
 
     @POST("login")
     Call<LoginResponse> login (@Body LoginRequest request);

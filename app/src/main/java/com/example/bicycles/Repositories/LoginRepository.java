@@ -11,6 +11,7 @@ import com.example.bicycles.Models.LoginRequest;
 import com.example.bicycles.Networks.ApiService;
 import com.example.bicycles.Responses.LoginResponse;
 import com.example.bicycles.Singleton.RetrofitClient;
+import com.example.bicycles.Token.SharedPreferencesManager;
 import com.example.bicycles.Views.MainActivity;
 
 import retrofit2.Call;
@@ -20,6 +21,7 @@ import retrofit2.Response;
 public class LoginRepository {
     public ApiService apiService;
     public Context context;
+    public static String token;
 
     public LoginRepository(){
         this.apiService = RetrofitClient.getInstance().getApiService();
@@ -37,10 +39,8 @@ public class LoginRepository {
 
                     if(response.body().getToken() != null){
 
-                        SharedPreferences token = context.getSharedPreferences("token", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = token.edit();
-                        editor.putString("token", response.body().getToken());
-                        editor.apply();
+                        SharedPreferencesManager.getInstance(null).saveData("token", response.body().getToken());
+
 
                         Intent intent = new Intent(context, MainActivity.class);
                         context.startActivity(intent);

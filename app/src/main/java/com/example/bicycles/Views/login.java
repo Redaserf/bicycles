@@ -69,7 +69,6 @@ public class login extends AppCompatActivity {
 
         LoginViewModel loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
 
-
         btnIniciarSesion.setOnClickListener(view -> {
             String correo = etCorreo.getText().toString().trim();
             String contrasena = etContrasena.getText().toString().trim();
