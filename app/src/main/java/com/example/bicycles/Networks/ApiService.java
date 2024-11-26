@@ -10,6 +10,7 @@ import com.example.bicycles.Responses.LoginResponse;
 import com.example.bicycles.Responses.RegisterResponse;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface ApiService {
@@ -22,4 +23,10 @@ public interface ApiService {
 
     @POST("bicicleta")
     Call<BicicletaResponse> addBicicleta(@Body Bicicleta bicicleta);
+
+    @GET("bicicleta/{id}")
+    Call<BicicletaResponse> getBicicleta(@Body Bicicleta bicicleta);
+
+    @GET("recorrido/{id}")
+    Call<BicicletaResponse> recorrido(@Body Bicicleta bicicleta);
 }
