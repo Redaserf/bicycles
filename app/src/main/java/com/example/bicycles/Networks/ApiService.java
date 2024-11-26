@@ -4,14 +4,17 @@ package com.example.bicycles.Networks;
 
 import com.example.bicycles.Models.Bicicleta;
 import com.example.bicycles.Models.LoginRequest;
+import com.example.bicycles.Models.Recorrido;
 import com.example.bicycles.Models.Usuario;
 import com.example.bicycles.Responses.BicicletaResponse;
 import com.example.bicycles.Responses.LoginResponse;
+import com.example.bicycles.Responses.RecorridoResponse;
 import com.example.bicycles.Responses.RegisterResponse;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface ApiService {
 
@@ -27,6 +30,10 @@ public interface ApiService {
     @GET("bicicleta/{id}")
     Call<BicicletaResponse> getBicicleta(@Body Bicicleta bicicleta);
 
-    @GET("recorrido/{id}")
-    Call<BicicletaResponse> recorrido(@Body Bicicleta bicicleta);
+    @POST("recorridos")
+    Call<RecorridoResponse> addRecorrido(@Body Recorrido recorrido);
+
+    @GET("recorridos/{id}")
+    Call<RecorridoResponse> getRecorridoById(@Path("id") int id); // por ver
+
 }
