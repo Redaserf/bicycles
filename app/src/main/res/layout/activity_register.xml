@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     tools:context=".Views.register"
     android:layout_height="match_parent"
-    android:background="@drawable/registro_verde_fin"
+    android:background="@drawable/register_green"
     android:padding="16dp">
 
     <!-- centrar la cartita -->
