@@ -11,7 +11,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/tarjetarecycler">
+        android:background="@drawable/tarjeta_verde_fondo">
         <ImageButton
             android:id="@+id/menu_opciones_recorridos"
             android:layout_width="wrap_content"
