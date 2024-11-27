@@ -18,8 +18,8 @@ public class RegisterRepository {
 
     private ApiService apiService;
 
-    public RegisterRepository() {
-        this.apiService = RetrofitClient.getInstance().getApiService();
+    public RegisterRepository(Context context) {
+        this.apiService = RetrofitClient.getInstance(context).getApiService();
     }
 
     public MutableLiveData<String> register(String name, String lastName, String email, String password, Context context) {

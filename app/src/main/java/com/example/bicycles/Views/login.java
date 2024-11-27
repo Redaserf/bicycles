@@ -17,6 +17,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.bicycles.Factory.Factory;
 import com.example.bicycles.R;
 import com.example.bicycles.ViewModels.LoginViewModel;
 
@@ -67,7 +68,9 @@ public class login extends AppCompatActivity {
             return false;
         });
 
-        LoginViewModel loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
+        Factory factory = new Factory(this);
+        LoginViewModel loginViewModel = new ViewModelProvider(
+                this, factory).get(LoginViewModel.class);
 
         btnIniciarSesion.setOnClickListener(view -> {
             String correo = etCorreo.getText().toString().trim();

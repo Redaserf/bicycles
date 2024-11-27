@@ -13,8 +13,8 @@ public class LoginViewModel extends ViewModel {
     private LoginRepository loginRepository;
     private MutableLiveData<String> loginMessage;
 
-    public LoginViewModel() {
-        this.loginRepository = new LoginRepository();
+    public LoginViewModel(Context context) {
+        this.loginRepository = new LoginRepository(context);
     }
 
     public void login(String email, String password, Context context) {

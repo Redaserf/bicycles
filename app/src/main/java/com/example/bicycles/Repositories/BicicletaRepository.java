@@ -18,8 +18,8 @@ public class BicicletaRepository {
 
     private ApiService apiService;
 
-    public BicicletaRepository() {
-        this.apiService = RetrofitClient.getInstance().getApiService();
+    public BicicletaRepository(Context context) {
+        this.apiService = RetrofitClient.getInstance(context).getApiService();
     }
 
     public MutableLiveData<String> register(String nombre, int usuario_id, Context context) {

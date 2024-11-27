@@ -13,8 +13,8 @@ public class RegisterViewModel extends ViewModel {
     private MutableLiveData<String> registerMessage;
     private RegisterRepository registerRepository;
 
-    public RegisterViewModel() {
-        this.registerRepository = new RegisterRepository();
+    public RegisterViewModel(Context context) {
+        this.registerRepository = new RegisterRepository(context);
     }
 
     public void register(String name, String lastName, String email, String password, Context context) {

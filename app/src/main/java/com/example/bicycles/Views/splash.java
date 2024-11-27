@@ -49,17 +49,17 @@ public class splash extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-//                SharedPreferences token = getSharedPreferences("token", MODE_PRIVATE);
-//                String tokenStr = token.getString("token", null);
-//                if(tokenStr != null && !Token.isTokenExpired(tokenStr)){
-//                    Intent intent = new Intent( splash.this, MainActivity.class );
-//                    startActivity(intent);
-//                    finish();
-//                }else{
+                SharedPreferences token = getSharedPreferences("token", MODE_PRIVATE);
+                String tokenStr = token.getString("token", null);
+                if(tokenStr != null){
+                    Intent intent = new Intent( splash.this, Home.class );
+                    startActivity(intent);
+                    finish();
+                }else{
                     Intent intent = new Intent( splash.this, login.class );
                     startActivity(intent);
                     finish();
-//                }
+                }
             }
         }.start();
 

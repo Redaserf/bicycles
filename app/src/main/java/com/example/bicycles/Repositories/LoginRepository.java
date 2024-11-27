@@ -12,6 +12,7 @@ import com.example.bicycles.Networks.ApiService;
 import com.example.bicycles.Responses.LoginResponse;
 import com.example.bicycles.Singleton.RetrofitClient;
 import com.example.bicycles.Token.SharedPreferencesManager;
+import com.example.bicycles.Views.Home;
 import com.example.bicycles.Views.MainActivity;
 
 import retrofit2.Call;
@@ -23,8 +24,8 @@ public class LoginRepository {
     public Context context;
     public static String token;
 
-    public LoginRepository(){
-        this.apiService = RetrofitClient.getInstance().getApiService();
+    public LoginRepository(Context context){
+        this.apiService = RetrofitClient.getInstance(context).getApiService();
     }
 
     public MutableLiveData<String> login(String email, String password, Context context){
@@ -39,10 +40,12 @@ public class LoginRepository {
 
                     if(response.body().getToken() != null){
 
-                        SharedPreferencesManager.getInstance(null).saveData("token", response.body().getToken());
+                        SharedPreferences pref = context.getSharedPreferences("token", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = pref.edit();
+                        editor.putString("token", response.body().getToken());
+                        editor.apply();
 
-
-                        Intent intent = new Intent(context, MainActivity.class);
+                        Intent intent = new Intent(context, Home.class);
                         context.startActivity(intent);
                     }
                     loginResponse.setValue(response.body().getMessage());
