@@ -6,8 +6,21 @@
     android:layout_width="match_parent"
     tools:context=".Views.register"
     android:layout_height="match_parent"
-    android:background="@drawable/register_green"
+    android:background="@drawable/rtr_verde"
     android:padding="16dp">
+    <TextView
+        android:id="@+id/titulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="BICYCLES"
+        android:textAlignment="center"
+        android:fontFamily="sans-serif"
+        android:textColor="@color/green"
+        android:textSize="66sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textStyle="bold" />
 
     <!-- centrar la cartita -->
     <androidx.cardview.widget.CardView
