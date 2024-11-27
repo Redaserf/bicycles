@@ -5,11 +5,12 @@
     android:layout_width="match_parent"
     android:id="@+id/main"
     android:layout_height="match_parent"
-    android:background="@drawable/splash_verde_final"
+    android:background="@drawable/splash_green"
     android:padding="24dp"
     tools:context=".Views.splash">
+
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/animation"
+        android:id="@+id/animation2"
         android:layout_width="100dp"
         android:layout_height="61dp"
         android:layout_marginBottom="20dp"
