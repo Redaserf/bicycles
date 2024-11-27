@@ -22,7 +22,7 @@ public class RetrofitClient {
     private Context context;
     private static String token;
 
-    public static final String BASE_URL = "http://192.168.1.10:8000/api/v1/";
+    public static final String BASE_URL = "http://192.168.115.208:8000/api/v1/";
 
 
     private RetrofitClient(Context context){
