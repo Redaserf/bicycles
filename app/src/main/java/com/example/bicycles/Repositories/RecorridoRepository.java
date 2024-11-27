@@ -20,8 +20,8 @@ public class RecorridoRepository {
 
     private ApiService apiService;
 
-    public RecorridoRepository() {
-        this.apiService = RetrofitClient.getInstance().getApiService();
+    public RecorridoRepository(Context context) {
+        this.apiService = RetrofitClient.getInstance(context).getApiService();
     }
 
     public MutableLiveData<String> addRecorrido(int usuario_id, int bicicleta_id, String tiempo, double calorias,

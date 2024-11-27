@@ -10,11 +10,8 @@ import com.example.bicycles.Models.Recorrido;
 import com.example.bicycles.Models.Usuario;
 import com.example.bicycles.Responses.BicicletaResponse;
 import com.example.bicycles.Responses.LoginResponse;
-<<<<<<< HEAD
 import com.example.bicycles.Responses.MisBicicletasResponse;
-=======
 import com.example.bicycles.Responses.RecorridoResponse;
->>>>>>> a8fc652745ff9f6a9dbb3d9be3168067eaeb5f10
 import com.example.bicycles.Responses.RegisterResponse;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -34,10 +31,9 @@ public interface ApiService {
     @POST("bicicleta")
     Call<BicicletaResponse> addBicicleta(@Body Bicicleta bicicleta);
 
-<<<<<<< HEAD
     @GET("bicicleta")
     Call<MisBicicletasResponse> getBicicletas();
-=======
+
     @GET("bicicleta/{id}")
     Call<BicicletaResponse> getBicicleta(@Body Bicicleta bicicleta);
 
@@ -47,5 +43,4 @@ public interface ApiService {
     @GET("recorridos/{id}")
     Call<RecorridoResponse> getRecorridoById(@Path("id") int id); // por ver
 
->>>>>>> a8fc652745ff9f6a9dbb3d9be3168067eaeb5f10
 }

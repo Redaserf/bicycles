@@ -13,8 +13,8 @@ public class BicicletaViewModel extends ViewModel {
     private MutableLiveData<String> bicicletaMessage;
     private BicicletaRepository bicicletaRepository;
 
-    public BicicletaViewModel() {
-        this.bicicletaRepository = new BicicletaRepository();
+    public BicicletaViewModel(Context context) {
+        this.bicicletaRepository = new BicicletaRepository(context);
     }
 
     public void addBicicleta(String nombre, int usuario_id, Context context) {

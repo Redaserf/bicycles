@@ -15,8 +15,8 @@ public class RecorridoViewModel extends ViewModel {
     private MutableLiveData<Recorrido> recorridoData;
     private RecorridoRepository recorridoRepository;
 
-    public RecorridoViewModel() {
-        this.recorridoRepository = new RecorridoRepository();
+    public RecorridoViewModel(Context context) {
+        this.recorridoRepository = new RecorridoRepository(context);
     }
 
     public void addRecorrido(int usuario_id, int bicicleta_id, String tiempo, double calorias,
