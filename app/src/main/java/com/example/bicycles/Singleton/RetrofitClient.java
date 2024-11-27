@@ -2,7 +2,10 @@ package com.example.bicycles.Singleton;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+<<<<<<< HEAD
 import android.widget.Toast;
+=======
+>>>>>>> a8fc652745ff9f6a9dbb3d9be3168067eaeb5f10
 
 import com.example.bicycles.Networks.ApiService;
 import com.example.bicycles.Token.MyAplication;
@@ -18,14 +21,37 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
-    private static RetrofitClient instance = null ;
+    private static RetrofitClient instance = null;
     private ApiService apiService;
     private Context context;
     private static String token;
 
     public static final String BASE_URL = "http://192.168.1.10:8000/api/v1/";
 
+<<<<<<< HEAD
 
+=======
+//    private RetrofitClient(Context context) {
+//        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+//                .addInterceptor(new Interceptor() {
+//                    @Override
+//                    public Response intercept(Chain chain) throws IOException {
+//                        SharedPreferences preferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+//                        String token = preferences.getString("auth_token", ""); // Obtén el token almacenado
+//                        Request request = chain.request().newBuilder()
+//                                .addHeader("Authorization", "Bearer " + token) // Agrega el token al header
+//                                .build();
+//                        return chain.proceed(request);
+//                    }
+//                })
+//                .build();
+    private RetrofitClient(){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+//                .client(okHttpClient)
+                .build();
+>>>>>>> a8fc652745ff9f6a9dbb3d9be3168067eaeb5f10
 
     private RetrofitClient(Context context){
         this.context = context;
@@ -68,9 +94,17 @@ public class RetrofitClient {
 
         }
     }
+<<<<<<< HEAD
     public static synchronized RetrofitClient getInstance(Context context) {
         if (instance == null) {
             instance = new RetrofitClient(context);
+=======
+    public static synchronized RetrofitClient getInstance() {
+//    public static synchronized RetrofitClient getInstance(Context context) {
+        if (instance == null) {
+            instance = new RetrofitClient();
+//            instance = new RetrofitClient(context);
+>>>>>>> a8fc652745ff9f6a9dbb3d9be3168067eaeb5f10
         }
         return instance;
     }

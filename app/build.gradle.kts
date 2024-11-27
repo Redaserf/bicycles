@@ -51,4 +51,5 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     implementation ("com.github.Foysalofficial:NafisBottomNav:5.0")
+
 }

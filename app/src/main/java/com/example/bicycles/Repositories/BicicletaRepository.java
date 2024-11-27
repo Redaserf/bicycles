@@ -22,7 +22,7 @@ public class BicicletaRepository {
         this.apiService = RetrofitClient.getInstance(context).getApiService();
     }
 
-    public MutableLiveData<String> register(String nombre, int usuario_id, Context context) {
+    public MutableLiveData<String> addBicicleta(String nombre, int usuario_id, Context context) {
         MutableLiveData<String> bicicletaResponse = new MutableLiveData<>();
         Bicicleta bicicleta = new Bicicleta(nombre, usuario_id);
         apiService.addBicicleta(bicicleta).enqueue(new Callback<BicicletaResponse>() {
