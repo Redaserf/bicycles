@@ -8,5 +8,7 @@
     <color name="purple">#bb27cc</color>
     <color name="yellow_fuerte">#fbff00</color>
     <color name="lavanda">#8692f7</color>
-    <color name="green">#7fd517</color>
+    <color name="green">#008000</color>"
+    <color name="transparente">#00FF0000</color>
+    <color name="red">#FF0000</color>"
 </resources>

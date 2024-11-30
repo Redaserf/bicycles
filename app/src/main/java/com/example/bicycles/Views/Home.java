@@ -23,13 +23,16 @@ import com.nafis.bottomnavigation.NafisBottomNavigation;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
+import android.os.SystemClock; // Importar para medir el tiempo
 
 public class Home extends AppCompatActivity {
-    protected final int mas=1;
-    protected final int configuracion=2;
-    protected final int mis_bicis=3;
-    protected final int mis_recorridos=4;
-    protected final int perfil=5;
+    protected final int mas = 1;
+    protected final int configuracion = 2;
+    protected final int mis_bicis = 3;
+    protected final int mis_recorridos = 4;
+    protected final int perfil = 5;
+
+    private long lastClickTimeMas = 0; // Para registrar el tiempo del último clic en "Más"
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,28 +45,31 @@ public class Home extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
         @SuppressLint({"MissingInflatedId", "LocalSuppress"})
         NafisBottomNavigation bottomNavigation = findViewById(R.id.NafisBottomNavigation);
-        bottomNavigation.add(new NafisBottomNavigation.Model(mis_bicis,R.drawable.mis_bicis));
-        bottomNavigation.add(new NafisBottomNavigation.Model(mis_recorridos,R.drawable.mis_recorridos));
-        bottomNavigation.add(new NafisBottomNavigation.Model(mas,R.drawable.mas));
-        bottomNavigation.add(new NafisBottomNavigation.Model(configuracion,R.drawable.baseline_settings_24));
-        bottomNavigation.add(new NafisBottomNavigation.Model(perfil,R.drawable.perfil));
+        bottomNavigation.add(new NafisBottomNavigation.Model(mis_bicis, R.drawable.mis_bicis));
+        bottomNavigation.add(new NafisBottomNavigation.Model(mis_recorridos, R.drawable.mis_recorridos));
+        bottomNavigation.add(new NafisBottomNavigation.Model(mas, R.drawable.mas));
+        bottomNavigation.add(new NafisBottomNavigation.Model(configuracion, R.drawable.baseline_settings_24));
+        bottomNavigation.add(new NafisBottomNavigation.Model(perfil, R.drawable.perfil));
 
-        bottomNavigation.setOnClickMenuListener(new Function1<NafisBottomNavigation.Model, Unit>() {
-            @Override
-            public Unit invoke(NafisBottomNavigation.Model model) {
-                Toast.makeText(Home.this, "item click"+model.getId(), Toast.LENGTH_SHORT).show();
-                return null;
-            }
-        });
+        // Cargar el fragmento inicial
+        setCurrentFragment(new MisBicisFragment());
 
+        // Manejar los clics del BottomNavigation
         bottomNavigation.setOnClickMenuListener(new Function1<NafisBottomNavigation.Model, Unit>() {
             @Override
             public Unit invoke(NafisBottomNavigation.Model model) {
                 switch (model.getId()) {
                     case mas:
-                        setCurrentFragment(new MasFragment());
+                        long currentTime = SystemClock.elapsedRealtime();
+                        if (currentTime - lastClickTimeMas < 500) { // Doble clic detectado (menos de 500ms)
+                            openMasActivity(); // Redirigir a la nueva vista
+                        } else {
+                            setCurrentFragment(new MasFragment()); // Cargar el fragmento normalmente
+                        }
+                        lastClickTimeMas = currentTime; // Actualizar el último tiempo de clic
                         break;
                     case configuracion:
                         setCurrentFragment(new ConfiguracionFragment());
@@ -83,6 +89,12 @@ public class Home extends AppCompatActivity {
                 return null;
             }
         });
+    }
+
+    private void openMasActivity() {
+        // Abrir una nueva actividad (MasActivity)
+        Intent intent = new Intent(this, MasActivity.class);
+        startActivity(intent);
     }
 
     private void setCurrentFragment(Fragment fragment) {
