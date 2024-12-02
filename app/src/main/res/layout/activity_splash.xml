@@ -12,7 +12,6 @@
         android:id="@+id/waveimg"
         android:layout_width="10000dp"
         android:layout_height="92dp"
-        android:src="@drawable/ola"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
