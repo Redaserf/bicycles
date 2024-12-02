@@ -8,14 +8,7 @@
     android:background="@color/azul_50"
     android:padding="24dp"
     tools:context=".Views.splash">
-    <ImageView
-        android:id="@+id/waveimg"
-        android:layout_width="10000dp"
-        android:layout_height="92dp"
-        android:src="@drawable/ola"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+
     <TextView
         android:id="@+id/titulo"
         android:layout_width="match_parent"
@@ -29,6 +22,18 @@
         android:textColor="@color/azul_500"
         android:textSize="66sp"
         android:textStyle="bold" />
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animation1"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/titulo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/animation2"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/splashanimation" />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/animation2"
