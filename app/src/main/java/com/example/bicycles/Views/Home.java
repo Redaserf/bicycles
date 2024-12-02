@@ -93,7 +93,7 @@ public class Home extends AppCompatActivity {
 
     private void openMasActivity() {
         // Abrir una nueva actividad (MasActivity)
-        Intent intent = new Intent(this, MasActivity.class);
+        Intent intent = new Intent(this, MasFragment.class);
         startActivity(intent);
     }
 
