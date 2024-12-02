@@ -16,6 +16,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.bicycles.Factory.Factory;
 import com.example.bicycles.Models.Usuario;
 import com.example.bicycles.R;
 import com.example.bicycles.Responses.RegisterResponse;
@@ -73,8 +74,8 @@ public class register extends AppCompatActivity {
                                 0
                         );
                     }
-                    // Mover cursor al final del texto
-                    etPassword.setSelection(etPassword.getText().length());
+//                    // Mover cursor al final del texto
+//                    etPassword.setSelection(etPassword.getText().length());
                     return true;
                 }
             }
@@ -88,8 +89,9 @@ public class register extends AppCompatActivity {
             return insets;
         });
 
-        RegisterViewModel registerViewModel = new ViewModelProvider(this).get(RegisterViewModel.class);
-
+        Factory factory = new Factory(this);
+        RegisterViewModel registerViewModel = new ViewModelProvider(this, factory).get(RegisterViewModel.class);
+//
         btnRegister.setOnClickListener(v -> {
             String name = etName.getText().toString().trim();
             String lastName = etLastName.getText().toString().trim();
@@ -102,29 +104,30 @@ public class register extends AppCompatActivity {
                 registerViewModel.register(name, lastName, email, password, register.this);
 //                De este y el login falta el observe de la LiveData del viewModel
 //                 y que al cambiar chequen el valor y pongan una alerta con el texto de la liveData o algo asi
-//                registrarUsuario(name, lastName, email, password);
+                registrarUsuario(name, lastName, email, password);
             }
         });
     }
 
 
-//    private void registrarUsuario(String name, String lastName, String email, String password) {
-//        Usuario usuario = new Usuario(name, lastName, email, password);
-//
-//        RetrofitClient.getInstance(register.this).getApiService().register(usuario).enqueue(new Callback<RegisterResponse>() {
-//            @Override
-//            public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
-//                if (response.isSuccessful() && response.body() != null) {
-//                    Toast.makeText(register.this, response.body().getMensaje(), Toast.LENGTH_SHORT).show();
-//                } else {
-//                    Toast.makeText(register.this, response.code(), Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<RegisterResponse> call, Throwable t) {
-//                Toast.makeText(register.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
+    private void registrarUsuario(String name, String lastName, String email, String password) {
+        Usuario usuario = new Usuario(name, lastName, email, password);
+
+        RetrofitClient.getInstance(register.this).getApiService().register(usuario).enqueue(new Callback<RegisterResponse>() {
+            @Override
+            public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    Toast.makeText(register.this, response.body().getMensaje(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(register.this, response.code(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RegisterResponse> call, Throwable t) {
+                Toast.makeText(register.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
 }

@@ -1,6 +1,7 @@
 package com.example.bicycles.ViewModels;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -12,15 +13,13 @@ public class RegisterViewModel extends ViewModel {
 
     private MutableLiveData<String> registerMessage;
     private RegisterRepository registerRepository;
-
+//
     public RegisterViewModel(Context context) {
         this.registerRepository = new RegisterRepository(context);
     }
-
+//
     public void register(String name, String lastName, String email, String password, Context context) {
-
         registerMessage = registerRepository.register(name, lastName, email, password, context);
-
     }
 
     public LiveData<String> getRegisterMessage() {
