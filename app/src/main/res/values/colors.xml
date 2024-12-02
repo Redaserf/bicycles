@@ -11,4 +11,16 @@
     <color name="green">#008000</color>"
     <color name="transparente">#00FF0000</color>
     <color name="red">#FF0000</color>"
+    <color name="azul_50">#ECF7FF</color>
+    <color name="azul_100">#D4ECFF</color>
+    <color name="azul_200">#B3DFFF</color>
+    <color name="azul_300">#7FCDFF</color>
+    <color name="azul_400">#43AFFF</color>
+    <color name="azul_500">#188AFF</color>
+    <color name="azul_600">#0066FF</color>
+    <color name="azul_700">#004EFB</color>
+    <color name="azul_800">#0342D3</color>
+    <color name="azul_900">#0A3A9E</color>
+    <color name="azul_950">#0C255F</color>
+
 </resources>

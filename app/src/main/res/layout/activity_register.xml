@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     tools:context=".Views.register"
     android:layout_height="match_parent"
-    android:background="@drawable/rtr_verde"
     android:padding="16dp">
     <TextView
         android:id="@+id/titulo"
@@ -15,7 +14,7 @@
         android:text="BICYCLES"
         android:textAlignment="center"
         android:fontFamily="sans-serif"
-        android:textColor="@color/green"
+        android:textColor="@color/azul_400"
         android:textSize="66sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -144,7 +143,7 @@
                 android:layout_height="50dp"
                 android:text="Registrarse"
                 android:fontFamily="sans-serif"
-                android:backgroundTint="@color/green"
+                android:backgroundTint="@color/azul_300"
                 android:textColor="@color/gray"
                 android:textStyle="bold"
                 android:textSize="18dp"
