@@ -5,8 +5,21 @@
     android:background="@color/white"
     android:padding="16dp">
 
+    <!-- Botón de Volver -->
 
     <!-- Imagen ciclista y velocímetro -->
+    <Button
+        android:id="@+id/btn_back_to_home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
+        android:backgroundTint="@color/black"
+        android:text="Volver"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/cyclist_icon"
         android:layout_width="96dp"
@@ -164,8 +177,20 @@
         </LinearLayout>
     </LinearLayout>
 
-
-
+    <!-- Botón Estilo Spotify -->
+    <ImageButton
+        android:id="@+id/play_pause_button"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rounded_background"
+        android:src="@drawable/ic_play"
+        android:contentDescription="Botón de inicio"
+        android:scaleType="centerInside"
+        app:layout_constraintTop_toBottomOf="@id/statistics_container"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
@@ -173,4 +198,5 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="47dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
