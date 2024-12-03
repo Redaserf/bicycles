@@ -18,8 +18,16 @@
       android:fontFamily="sans-serif"
       android:textColor="@color/azul_400"
       android:textSize="66sp"
-      android:layout_marginBottom="60dp"
+      android:layout_marginBottom="20dp"
       android:textStyle="bold" />
+  <com.airbnb.lottie.LottieAnimationView
+      android:id="@+id/animation2"
+      android:layout_width="100dp"
+      android:layout_height="100dp"
+      android:layout_marginBottom="10dp"
+      app:lottie_autoPlay="true"
+      app:lottie_loop="true"
+      app:lottie_rawRes="@raw/splashanimation" />
 
   <androidx.cardview.widget.CardView
       android:layout_width="match_parent"
