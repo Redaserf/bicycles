@@ -1,42 +1,58 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     android:padding="16dp">
 
+    <!-- Botón de Volver -->
 
+    <!-- Imagen ciclista y velocímetro -->
+    <Button
+        android:id="@+id/btn_back_to_home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-smallcaps"
+        android:layout_marginStart="14dp"
+        android:backgroundTint="@color/azul_300"
+        android:text="Volver"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@id/guideline2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-
-
-    <ImageView
-        android:id="@+id/cyclist_icon"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
-        android:layout_marginTop="16dp"
-        android:contentDescription="Ciclista"
-        android:src="@drawable/baseline_directions_bike_24"
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animation2"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginBottom="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/guideline2" />
+        app:layout_constraintTop_toTopOf="@id/guideline2"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/splashanimation" />
 
     <TextView
         android:id="@+id/velocidad_actual_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:fontFamily="sans-serif-smallcaps"
         android:text="Velocidad actual"
         android:textColor="@color/black"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cyclist_icon" />
+        app:layout_constraintTop_toBottomOf="@id/animation2" />
 
     <TextView
         android:id="@+id/velocidad_actual"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:fontFamily="sans-serif-smallcaps"
         android:text="0.0 km/h"
         android:textColor="@color/black"
         android:textSize="32sp"
@@ -50,13 +66,14 @@
         android:id="@+id/statistics_container"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:background="@color/white"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/border_card"
         android:orientation="vertical"
         android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/velocidad_actual">
+        app:layout_constraintBottom_toTopOf="@id/tv_calorias"
+        app:layout_constraintTop_toBottomOf="@id/guideline">
 
         <!-- Fila 1 -->
         <LinearLayout
@@ -73,14 +90,16 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Distancia"
                     android:drawableLeft="@drawable/baseline_fmd_good_24"
+                    android:fontFamily="sans-serif-smallcaps"
+                    android:text="Distancia"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-smallcaps"
                     android:text="0.0 km"
                     android:textColor="@color/black"
                     android:textSize="16sp"
@@ -96,14 +115,16 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Max velocidad"
                     android:drawableLeft="@drawable/baseline_speed_24"
+                    android:fontFamily="sans-serif-smallcaps"
+                    android:text="Max velocidad"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-smallcaps"
                     android:text="0.0 km/h"
                     android:textColor="@color/black"
                     android:textSize="16sp"
@@ -127,14 +148,16 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/baseline_access_time_24"
+                    android:fontFamily="sans-serif-smallcaps"
                     android:text="Tiempo"
                     android:textColor="@color/black"
-                    android:drawableLeft="@drawable/baseline_access_time_24"
                     android:textSize="14sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-smallcaps"
                     android:text="00:00"
                     android:textColor="@color/black"
                     android:textSize="16sp"
@@ -151,6 +174,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/baseline_speed_24"
+                    android:fontFamily="sans-serif-smallcaps"
                     android:text="Velocidad Promedio"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
@@ -158,6 +182,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-smallcaps"
                     android:text="0.0 km/h"
                     android:textColor="@color/black"
                     android:textSize="16sp"
@@ -166,6 +191,24 @@
         </LinearLayout>
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/tv_calorias"
+        android:layout_width="378dp"
+        android:layout_height="39dp"
+        android:background="@drawable/border_card"
+        android:drawableRight="@drawable/baseline_local_fire_department_24"
+        android:drawablePadding="8dp"
+        android:fontFamily="sans-serif-smallcaps"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="Calorías quemadas: 29k"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/play_pause_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/statistics_container" />
+
     <!-- Botón Estilo Spotify -->
     <ImageButton
         android:id="@+id/play_pause_button"
@@ -173,13 +216,14 @@
         android:layout_height="64dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/rounded_background"
-        android:src="@drawable/ic_play"
+        android:backgroundTint="@color/azul_300"
         android:contentDescription="Botón de inicio"
         android:scaleType="centerInside"
-        app:layout_constraintTop_toBottomOf="@id/statistics_container"
+        android:src="@drawable/ic_play"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/tv_calorias" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
@@ -187,5 +231,12 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="47dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_end="371dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
