@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">bicycles</string>
+
+    <string-array name="filtros_bicis">
+        <item>Más reciente a más viejo</item>
+        <item>Más viejo a más reciente</item>
+    </string-array>
+
+
 </resources>

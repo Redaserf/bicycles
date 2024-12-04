@@ -38,17 +38,22 @@ public class MisBicisAdapter extends RecyclerView.Adapter<MisBicisAdapter.ViewHo
         return bicicletas.size();
     }
 
+    // Método para actualizar la lista de bicicletas y refrescar el RecyclerView
+    public void setBicicletas(List<Bicicleta> bicicletas) {
+        this.bicicletas = bicicletas;
+        notifyDataSetChanged();
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView nombre;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             this.nombre = itemView.findViewById(R.id.nombre_bicicleta);
-
         }
+
         public void bind(Bicicleta bicicleta) {
             nombre.setText(bicicleta.getNombre());
         }
-
     }
 }
