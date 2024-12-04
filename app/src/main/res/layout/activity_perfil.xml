@@ -1,116 +1,146 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:background="@color/transparente">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:padding="16dp">
 
-    <LinearLayout
-        android:padding="30dp"
+    <!-- Título: Datos Públicos -->
+    <TextView
+        android:id="@+id/tv_public_data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:text="Datos públicos"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="35sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
 
-        <!-- Foto de Perfil -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center_horizontal"
-            android:paddingBottom="16dp">
-        </LinearLayout>
+        app:layout_constraintMarginTop="16dp" />
 
-        <!-- Datos Públicos -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Datos públicos"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:paddingTop="8dp" />
+    <!-- Línea divisoria -->
+    <View
+        android:id="@+id/view_divider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/azul_300"
+        app:layout_constraintTop_toBottomOf="@id/tv_public_data"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tv_label_username"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintMarginTop="8dp" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="8dp"
-            android:background="@color/white" />
+    <!-- Nombre de Usuario -->
+    <TextView
+        android:id="@+id/tv_label_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nombre de usuario:"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="30sp"
+        app:layout_constraintTop_toBottomOf="@id/view_divider"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tv_username"
+        app:layout_constraintMarginTop="16dp" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+    <TextView
+        android:id="@+id/tv_username"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Pedro"
+        android:textColor="@color/black"
+        android:textSize="27sp"
+        app:layout_constraintTop_toBottomOf="@id/tv_label_username"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tv_label_about_me"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintMarginTop="8dp" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Nombre de usuario:"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
+    <!-- Sobre Mí -->
+    <TextView
+        android:id="@+id/tv_label_about_me"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sobre mí:"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="30sp"
+        app:layout_constraintTop_toBottomOf="@id/tv_username"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tv_about_me"
+        app:layout_constraintMarginTop="16dp" />
 
-            <TextView
-                android:id="@+id/tv_username"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Pedro"
-                android:textColor="@color/white"
-                android:textSize="14sp"
-                android:paddingBottom="8dp" />
+    <TextView
+        android:id="@+id/tv_about_me"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Escribe algo sobre ti"
+        android:textColor="@color/black"
+        android:textSize="27sp"
+        app:layout_constraintTop_toBottomOf="@id/tv_label_about_me"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tv_label_recorridos"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintMarginTop="8dp" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Sobre mí:"
-                android:textColor="@color/white"
-                android:textSize="14sp"
-                android:paddingTop="8dp" />
+    <!-- Recorridos -->
+    <TextView
+        android:id="@+id/tv_label_recorridos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Recorridos:"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="30sp"
+        app:layout_constraintTop_toBottomOf="@id/tv_about_me"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tv_recorridos"
+        app:layout_constraintMarginTop="16dp" />
 
-            <TextView
-                android:id="@+id/tv_about_me"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Escribe algo interesante sobre ti"
-                android:textColor="@color/white"
-                android:paddingBottom="8dp" />
-        </LinearLayout>
+    <TextView
+        android:id="@+id/tv_recorridos"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="0 recorridos"
+        android:textColor="@color/black"
+        android:textSize="27sp"
+        app:layout_constraintTop_toBottomOf="@id/tv_label_recorridos"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btn_edit_profile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintMarginTop="8dp" />
 
-        <!-- Botón para Editar Perfil -->
-        <Button
-            android:id="@+id/btn_edit_profile"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Editar Perfil"
-            android:textColor="@color/black"
-            android:backgroundTint="@color/yellow_fuerte"
-            android:layout_marginTop="16dp" />
+    <!-- Botón Editar Perfil -->
+    <Button
+        android:id="@+id/btn_edit_profile"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Editar Perfil"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        android:backgroundTint="@color/azul_300"
+        app:layout_constraintTop_toBottomOf="@id/tv_recorridos"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btn_logout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintMarginTop="24dp" />
 
-        <!-- Botón para Cerrar Sesión -->
-        <LinearLayout
-            android:id="@+id/btn_logout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:padding="12dp"
-            android:background="@drawable/logout_button_background">
+    <!-- Botón Cerrar Sesión -->
+    <Button
+        android:id="@+id/btn_logout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Cerrar sesión"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        android:backgroundTint="@color/azul_300"
+        app:layout_constraintTop_toBottomOf="@id/btn_edit_profile"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintMarginTop="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
-            <ImageView
-                android:id="@+id/logout_icon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_logout"
-                android:contentDescription="Cerrar Sesión" />
-
-            <TextView
-                android:id="@+id/logout_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="Cerrar sesión"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
-        </LinearLayout>
-
-    </LinearLayout>
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

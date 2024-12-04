@@ -12,6 +12,7 @@
         android:id="@+id/btn_back_to_home"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-smallcaps"
         android:layout_marginStart="14dp"
         android:backgroundTint="@color/azul_300"
         android:text="Volver"
