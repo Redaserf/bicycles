@@ -1,45 +1,51 @@
-    package com.example.bicycles.Views;
+package com.example.bicycles.Views;
 
-    import android.content.Intent;
-    import android.os.Bundle;
-    import android.widget.Button;
-    import android.widget.EditText;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
 
-    import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
-    import com.example.bicycles.R;
+import com.example.bicycles.R;
 
-    public class EditProfileActivity extends AppCompatActivity {
+public class EditProfileActivity extends AppCompatActivity {
 
-        private EditText etUsername, etAboutMe;
-        private Button btnSave;
+    private EditText etUsername, etLastname, etEmail;
+    private Button btnSave;
 
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_edit_profile);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_edit_profile);
 
-            etUsername = findViewById(R.id.et_username);
-            etAboutMe = findViewById(R.id.et_about_me);
-            btnSave = findViewById(R.id.btn_save);
+        // Inicializar vistas
+        etUsername = findViewById(R.id.et_username);
+        etLastname = findViewById(R.id.et_lastname);
+        etEmail = findViewById(R.id.et_email);
+        btnSave = findViewById(R.id.btn_save);
 
-            // Recuperar datos actuales del perfil
-            Intent intent = getIntent();
-            String currentUsername = intent.getStringExtra("username");
-            String currentAboutMe = intent.getStringExtra("about_me");
+        // Simulación de carga de datos iniciales (puedes cambiar esto según tu implementación)
+        etUsername.setText("Juan");
+        etLastname.setText("Pérez");
+        etEmail.setText("juan.perez@example.com");
 
-            etUsername.setText(currentUsername);
-            etAboutMe.setText(currentAboutMe);
+        // Configurar botón Guardar
+        btnSave.setOnClickListener(view -> {
+            // Obtener datos actualizados
+            String updatedUsername = etUsername.getText().toString().trim();
+            String updatedLastname = etLastname.getText().toString().trim();
+            String updatedEmail = etEmail.getText().toString().trim();
 
-            btnSave.setOnClickListener(view -> {
-                String updatedUsername = etUsername.getText().toString().trim();
-                String updatedAboutMe = etAboutMe.getText().toString().trim();
+            // Aquí puedes realizar la lógica que necesites, como enviar los datos al servidor
+            // o almacenarlos en una base de datos local.
 
-                Intent resultIntent = new Intent();
-                resultIntent.putExtra("updated_username", updatedUsername);
-                resultIntent.putExtra("updated_about_me", updatedAboutMe);
-                setResult(RESULT_OK, resultIntent);
-                finish();
-            });
-        }
+            // Por ejemplo:
+            System.out.println("Nombre: " + updatedUsername);
+            System.out.println("Apellido: " + updatedLastname);
+            System.out.println("Correo: " + updatedEmail);
+
+            // Finalizar la actividad
+            finish();
+        });
     }
+}
