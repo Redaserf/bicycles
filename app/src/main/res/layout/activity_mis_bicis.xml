@@ -9,13 +9,12 @@
         android:id="@+id/btn_toggle_order"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="Ordenar Descendente"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="16dp"
         android:backgroundTint="@color/azul_800"
-        app:layout_constraintStart_toStartOf="parent"
+        android:text="Ordenar Descendente"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintMarginTop="16dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- RecyclerView para mostrar las bicicletas -->
     <androidx.recyclerview.widget.RecyclerView
@@ -26,6 +25,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintMarginTop="16dp" />
+        android:layout_marginTop="16dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

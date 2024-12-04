@@ -18,8 +18,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-
-        app:layout_constraintMarginTop="16dp" />
+        android:layout_marginTop="16dp" />
 
     <!-- Línea divisoria -->
     <View
@@ -31,7 +30,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/tv_label_username"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintMarginTop="8dp" />
+        android:layout_marginTop="8dp" />
 
     <!-- Nombre de Usuario -->
     <TextView
@@ -46,7 +45,7 @@
         app:layout_constraintTop_toBottomOf="@id/view_divider"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/tv_username"
-        app:layout_constraintMarginTop="16dp" />
+        android:layout_marginTop="16dp" />
 
     <TextView
         android:id="@+id/tv_username"
@@ -60,7 +59,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/tv_label_lastname"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintMarginTop="8dp" />
+        android:layout_marginTop="8dp" />
 
     <!-- Sobre Mí -->
     <TextView
@@ -75,7 +74,7 @@
         app:layout_constraintTop_toBottomOf="@id/tv_username"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/tv_about_me"
-        app:layout_constraintMarginTop="16dp" />
+        android:layout_marginTop="16dp" />
 
     <TextView
         android:id="@+id/tv_about_me"
@@ -89,7 +88,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/tv_label_email"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintMarginTop="8dp" />
+        android:layout_marginTop="8dp" />
 
     <!-- Recorridos -->
     <TextView
@@ -104,7 +103,7 @@
         app:layout_constraintTop_toBottomOf="@id/tv_about_me"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/tv_recorridos"
-        app:layout_constraintMarginTop="16dp" />
+        android:layout_marginTop="16dp" />
 
     <TextView
         android:id="@+id/tv_recorridos"
@@ -118,7 +117,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/btn_edit_profile"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintMarginTop="8dp" />
+        android:layout_marginTop="8dp" />
 
     <!-- Botón Editar Perfil -->
     <Button
@@ -134,7 +133,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/btn_logout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintMarginTop="24dp" />
+        android:layout_marginTop="24dp" />
 
     <!-- Botón Cerrar Sesión -->
     <Button
@@ -149,7 +148,7 @@
         app:layout_constraintTop_toBottomOf="@id/btn_edit_profile"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintMarginTop="16dp"
+        android:layout_marginTop="22dp"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
