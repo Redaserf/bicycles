@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModel;
 import com.example.bicycles.Repositories.LoginRepository;
 
 public class LoginViewModel extends ViewModel {
-
     private LoginRepository loginRepository;
     private MutableLiveData<String> loginMessage;
 
@@ -17,12 +16,14 @@ public class LoginViewModel extends ViewModel {
         this.loginRepository = new LoginRepository(context);
     }
 
-    public void login(String email, String password, Context context) {
-        loginMessage = loginRepository.login(email, password, context);
+    public void login(String email, String password) {
+        if (loginMessage == null) {
+            loginMessage = new MutableLiveData<>();
+        }
+        loginMessage = loginRepository.login(email, password);
     }
 
     public LiveData<String> getLoginMessage() {
         return loginMessage;
     }
-
 }

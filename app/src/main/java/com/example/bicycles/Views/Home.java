@@ -92,10 +92,10 @@ public class Home extends AppCompatActivity {
     }
 
     private void openMasActivity() {
-        // Abrir una nueva actividad (MasActivity)
-        Intent intent = new Intent(this, MasFragment.class);
-        startActivity(intent);
+        // Simplemente carga el fragmento en el contenedor
+        setCurrentFragment(new MasFragment());
     }
+
 
     private void setCurrentFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();

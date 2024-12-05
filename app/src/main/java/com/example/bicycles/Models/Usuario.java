@@ -6,14 +6,23 @@ public class Usuario {
     private int id;
     private String nombre;
     private String apellido;
+    private Double peso;
     private String email;
     private String password;
 
-    public Usuario(String nombre, String apellido, String email, String password) {
+    public Usuario(String nombre, String apellido, Double peso, String email, String password) {
         this.nombre = nombre;
         this.apellido = apellido;
+        this.peso = peso;
         this.email = email;
         this.password = password;
+    }
+
+    public Usuario(String nombre, String apellido, Double peso, String email) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.peso = peso;
+        this.email = email;
     }
 
     public int getId() {
@@ -38,6 +47,14 @@ public class Usuario {
 
     public void setApellido(String apellido) {
         this.apellido = apellido;
+    }
+
+    public Double getPeso() {
+        return peso;
+    }
+
+    public void setPeso(Double peso) {
+        this.peso = peso;
     }
 
     public String getEmail() {
