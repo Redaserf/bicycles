@@ -1,5 +1,6 @@
 package com.example.bicycles.Views;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -8,19 +9,30 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.ViewModelProvider;
+
 import android.content.Intent;
 import android.os.CountDownTimer;
+import android.util.Log;
+import android.widget.Toast;
 
+import com.example.bicycles.Factory.Factory;
 import com.example.bicycles.Models.Token;
 import com.example.bicycles.R;
+import com.example.bicycles.Responses.SensoresResponse;
+import com.example.bicycles.ViewModels.SensoresViewModel;
 import com.example.bicycles.Views.Fragments.MasFragment;
 import com.nafis.bottomnavigation.NafisBottomNavigation;
+
+import java.util.List;
 
 
 public class splash extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Context context = getApplicationContext();
+
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_splash);
@@ -29,6 +41,9 @@ public class splash extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        Log.d("Splash", "Intentando redirigir...");
+
 //        new CountDownTimer(3000, 1000) {
 //            @Override
 //            public void onTick(long millisUntilFinished) {
@@ -51,17 +66,29 @@ public class splash extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                SharedPreferences token = getSharedPreferences("token", MODE_PRIVATE);
-                String tokenStr = token.getString("token", null);
-                if(tokenStr != null){
-                    Intent intent = new Intent( splash.this, Home.class);
+
+                try {
+                    SharedPreferences tokenPref = getSharedPreferences("token", MODE_PRIVATE);
+                    String tokenStr = tokenPref.getString("token", null);
+
+                    Log.d("Splash", "Token encontrado: " + tokenStr);
+
+                    if (tokenStr != null) {
+                        Intent intent = new Intent(splash.this, Home.class);
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(splash.this, login.class);
+                        startActivity(intent);
+                    }
+                } catch (Exception e) {
+                    Log.e("Splash", "Error en Splash: " + e.getMessage(), e);
+                    Toast.makeText(context,"Ha ocurrido un error. Redirigiendo a Login...", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(splash.this, login.class);
                     startActivity(intent);
-                    finish();
-                }else{
-                    Intent intent = new Intent( splash.this, login.class );
-                    startActivity(intent);
+                } finally {
                     finish();
                 }
+
             }
         }.start();
 

@@ -9,19 +9,7 @@
     <!-- Botón de Volver -->
 
     <!-- Imagen ciclista y velocímetro -->
-    <Button
-        android:id="@+id/btn_back_to_home"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-smallcaps"
-        android:layout_marginStart="14dp"
-        android:backgroundTint="@color/azul_300"
-        android:text="Volver"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@id/guideline2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+    
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/animation2"
         android:layout_width="200dp"
@@ -193,14 +181,15 @@
 
     <TextView
         android:id="@+id/tv_calorias"
-        android:layout_width="378dp"
-        android:layout_height="39dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
         android:background="@drawable/border_card"
         android:drawableRight="@drawable/baseline_local_fire_department_24"
         android:drawablePadding="8dp"
         android:fontFamily="sans-serif-smallcaps"
         android:gravity="center"
-        android:padding="8dp"
+        android:padding="11dp"
+        android:textColor="@color/black"
         android:text="Calorías quemadas: 29k"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -237,6 +226,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_end="371dp" />
+        app:layout_constraintGuide_percent="0.47195622" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

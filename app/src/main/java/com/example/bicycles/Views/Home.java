@@ -104,9 +104,9 @@ public class Home extends AppCompatActivity {
     }
 
     private void openMasActivity() {
-        // Abrir una nueva actividad (MasActivity)
         setCurrentFragment(new MasFragment());
     }
+
 
     private void setCurrentFragment(Fragment fragment) {
         Toast.makeText(this, "Cambiando al fragment: " + fragment.getClass().getSimpleName(), Toast.LENGTH_SHORT).show();

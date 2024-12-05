@@ -6,10 +6,15 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.bicycles.ViewModels.AllRecorridosUsuarioViewModel;
 import com.example.bicycles.ViewModels.BicicletaViewModel;
 import com.example.bicycles.ViewModels.LoginViewModel;
+import com.example.bicycles.ViewModels.LogoutViewModel;
 import com.example.bicycles.ViewModels.MisBicisViewModel;
 import com.example.bicycles.ViewModels.RegisterViewModel;
+import com.example.bicycles.ViewModels.SensoresViewModel;
+import com.example.bicycles.ViewModels.UsuarioEditViewModel;
+import com.example.bicycles.ViewModels.UsuarioViewModel;
 
 public class Factory implements ViewModelProvider.Factory {
     private final Context context;
@@ -27,6 +32,16 @@ public class Factory implements ViewModelProvider.Factory {
             return (T) new LoginViewModel(context);
         } else if (modelClass.isAssignableFrom(RegisterViewModel.class)) {
             return (T) new RegisterViewModel(context);
+        } else if (modelClass.isAssignableFrom(SensoresViewModel.class)) {
+            return (T) new SensoresViewModel(context);
+        } else if (modelClass.isAssignableFrom(UsuarioEditViewModel.class)) {
+            return (T) new UsuarioEditViewModel(context);
+        } else if (modelClass.isAssignableFrom(UsuarioViewModel.class)) {
+            return (T) new UsuarioViewModel(context);
+        } else if (modelClass.isAssignableFrom(AllRecorridosUsuarioViewModel.class)) {
+            return (T) new AllRecorridosUsuarioViewModel(context);
+        } else if (modelClass.isAssignableFrom(LogoutViewModel.class)) {
+            return (T) new LogoutViewModel(context);
         } else if (modelClass.isAssignableFrom(BicicletaViewModel.class)) {
             return (T) new BicicletaViewModel(context);
         }
