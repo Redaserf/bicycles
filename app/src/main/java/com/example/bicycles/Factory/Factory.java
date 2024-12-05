@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.bicycles.ViewModels.AllRecorridosUsuarioViewModel;
+import com.example.bicycles.ViewModels.BicicletaViewModel;
 import com.example.bicycles.ViewModels.LoginViewModel;
 import com.example.bicycles.ViewModels.LogoutViewModel;
 import com.example.bicycles.ViewModels.MisBicisViewModel;
@@ -41,8 +42,10 @@ public class Factory implements ViewModelProvider.Factory {
             return (T) new AllRecorridosUsuarioViewModel(context);
         } else if (modelClass.isAssignableFrom(LogoutViewModel.class)) {
             return (T) new LogoutViewModel(context);
+        } else if (modelClass.isAssignableFrom(BicicletaViewModel.class)) {
+            return (T) new BicicletaViewModel(context);
         }
-            // Aquí puedes seguir agregando más ViewModels según los vayas necesitando.
+        //A qui ir agregando los viewModels
 
         throw new IllegalArgumentException("Unknown ViewModel class");
     }
