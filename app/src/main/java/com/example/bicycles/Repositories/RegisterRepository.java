@@ -24,9 +24,9 @@ public class RegisterRepository {
         this.apiService = RetrofitClient.getInstance(context).getApiService();
     }
 
-    public MutableLiveData<String> register(String name, String lastName, String email, String password, Context context) {
+    public MutableLiveData<String> register(String name, String lastName, Double peso, String email, String password, Context context) {
         MutableLiveData<String> registerResponse = new MutableLiveData<>();
-        Usuario usuario = new Usuario(name, lastName, email, password);
+        Usuario usuario = new Usuario(name, lastName, peso, email, password);
         apiService.register(usuario).enqueue(new Callback<RegisterResponse>() {
             @Override
             public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
