@@ -5,6 +5,16 @@
     android:layout_height="match_parent">
 
 
+    <Button
+        android:id="@+id/agregar_bici"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/azul_800"
+        android:text="Agregar Bici"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- RecyclerView para mostrar las bicicletas -->
     <androidx.recyclerview.widget.RecyclerView

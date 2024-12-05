@@ -53,7 +53,7 @@ public class splash extends AppCompatActivity {
                 SharedPreferences token = getSharedPreferences("token", MODE_PRIVATE);
                 String tokenStr = token.getString("token", null);
                 if(tokenStr != null){
-                    Intent intent = new Intent( splash.this, MasFragment.class );
+                    Intent intent = new Intent( splash.this, Home.class );
                     startActivity(intent);
                     finish();
                 }else{

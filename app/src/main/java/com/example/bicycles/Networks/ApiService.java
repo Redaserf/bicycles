@@ -34,8 +34,8 @@ public interface ApiService {
     @GET("bicicleta")
     Call<MisBicicletasResponse> getBicicletas();
 
-    @GET("bicicleta/{id}")
-    Call<BicicletaResponse> getBicicleta(@Body Bicicleta bicicleta);
+//    @GET("bicicleta/{id}")
+//    Call<BicicletaResponse> getBicicleta(@Body Bicicleta bicicleta);
 
     @POST("recorridos")
     Call<RecorridoResponse> addRecorrido(@Body Recorrido recorrido);

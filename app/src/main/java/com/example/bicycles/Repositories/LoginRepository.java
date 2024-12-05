@@ -26,10 +26,11 @@ public class LoginRepository {
     public static String token;
 
     public LoginRepository(Context context){
+        this.context = context;
         this.apiService = RetrofitClient.getInstance(context).getApiService();
     }
 
-    public MutableLiveData<String> login(String email, String password, Context context) {
+    public MutableLiveData<String> login(String email, String password) {
         MutableLiveData<String> loginResponse = new MutableLiveData<>();
         LoginRequest request = new LoginRequest(email, password);
 
@@ -47,7 +48,8 @@ public class LoginRepository {
                     loginResponse.setValue(response.body().getMessage());
 
                     // Redirigir a la vista de activity_mas
-                    Intent intent = new Intent(context, MasFragment.class); // Cambiar "Home" por la actividad deseada
+                    Toast.makeText(context, "Se inicio sesion correctamente", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(context, Home.class); // Cambiar "Home" por la actividad deseada
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // Necesario para iniciar actividad desde un contexto
                     context.startActivity(intent);
 
@@ -61,7 +63,7 @@ public class LoginRepository {
 
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
-
+                Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
                 loginResponse.setValue(t.getMessage());
             }
         });
