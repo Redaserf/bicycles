@@ -15,20 +15,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> 1369665c8e68175616d33ea14aa114b1521a197c
-    <!-- RecyclerView para mostrar las bicicletas -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_mis_bicis"
         android:layout_width="0dp"
         android:layout_height="0dp"
-<<<<<<< HEAD
         app:layout_constraintTop_toBottomOf="@id/agregar_bici"
-=======
->>>>>>> 1369665c8e68175616d33ea14aa114b1521a197c
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
