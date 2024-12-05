@@ -6,13 +6,23 @@
 
     <!-- Botón para alternar orden -->
     <Button
+        android:id="@+id/agregar_bici"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/azul_800"
+        android:text="Agregar Bici"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
         android:id="@+id/btn_toggle_order"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:backgroundTint="@color/azul_800"
-        android:text="Ordenar Descendente"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Agregar Bici"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

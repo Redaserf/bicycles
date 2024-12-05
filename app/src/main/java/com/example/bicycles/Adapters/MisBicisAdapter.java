@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bicycles.Models.Bicicleta;
@@ -46,6 +47,8 @@ public class MisBicisAdapter extends RecyclerView.Adapter<MisBicisAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView nombre;
+        public ConstraintLayout layout;
+        //maybew para cuando le de click a cualquier parte de el item que le pueda editar el nombre
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

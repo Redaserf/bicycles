@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.bicycles.ViewModels.BicicletaViewModel;
 import com.example.bicycles.ViewModels.LoginViewModel;
 import com.example.bicycles.ViewModels.MisBicisViewModel;
 import com.example.bicycles.ViewModels.RegisterViewModel;
@@ -26,7 +27,10 @@ public class Factory implements ViewModelProvider.Factory {
             return (T) new LoginViewModel(context);
         } else if (modelClass.isAssignableFrom(RegisterViewModel.class)) {
             return (T) new RegisterViewModel(context);
-        }  //A qui ir agregando los viewModels
+        } else if (modelClass.isAssignableFrom(BicicletaViewModel.class)) {
+            return (T) new BicicletaViewModel(context);
+        }
+        //A qui ir agregando los viewModels
 
         throw new IllegalArgumentException("Unknown ViewModel class");
     }

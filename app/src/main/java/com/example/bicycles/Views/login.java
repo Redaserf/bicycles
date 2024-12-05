@@ -78,7 +78,8 @@ public class login extends AppCompatActivity {
             if (correo.isEmpty() || contrasena.isEmpty()) {
                 Toast.makeText(this, "Completa todos los campos", Toast.LENGTH_SHORT).show();
             } else {
-                loginViewModel.login(correo, contrasena, login.this);
+                loginViewModel.login(correo, contrasena);
+                Toast.makeText(this, "Intentando logear", Toast.LENGTH_LONG).show();
             }
         });
 

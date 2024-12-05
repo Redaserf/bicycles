@@ -24,9 +24,6 @@ public class MisBicisViewModel extends ViewModel {
     }
 
     public void fetchMisBicicletas() {
-        if (bicicletas == null) {
-            bicicletas = new MutableLiveData<>();
-        }
         bicicletas = (MutableLiveData<List<Bicicleta>>) repository.getMisBicicletas();
     }
 
