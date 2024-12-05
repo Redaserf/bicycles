@@ -45,7 +45,7 @@ public class MisBicisAdapter extends RecyclerView.Adapter<MisBicisAdapter.ViewHo
         notifyDataSetChanged();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView nombre;
         public ConstraintLayout layout;
         //maybew para cuando le de click a cualquier parte de el item que le pueda editar el nombre
@@ -57,6 +57,11 @@ public class MisBicisAdapter extends RecyclerView.Adapter<MisBicisAdapter.ViewHo
 
         public void bind(Bicicleta bicicleta) {
             nombre.setText(bicicleta.getNombre());
+        }
+
+        @Override
+        public void onClick(View v) {
+
         }
     }
 }

@@ -8,10 +8,15 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.bicycles.Repositories.BicicletaRepository;
 import com.example.bicycles.Responses.BicicletaResponse;
+import com.example.bicycles.Responses.EditarBicicletaResponse;
+import com.example.bicycles.Responses.EliminarBicicletaResponse;
 
 public class BicicletaViewModel extends ViewModel {
 
     private MutableLiveData<BicicletaResponse> bicicletaMessage;
+    private MutableLiveData<EliminarBicicletaResponse> eliminarResponse;
+    private MutableLiveData<EditarBicicletaResponse> editarResponse;
+
     private BicicletaRepository bicicletaRepository;
 
     public BicicletaViewModel(Context context) {
@@ -24,5 +29,13 @@ public class BicicletaViewModel extends ViewModel {
 
     public LiveData<BicicletaResponse> getBicicletaResponse() {
         return bicicletaMessage;
+    }
+
+    public void eliminarBicicleta(int id){
+        eliminarResponse = bicicletaRepository.eliminarBicicleta(id);
+    }
+
+    public void editarBicicleta(int id){
+        editarResponse = bicicletaRepository.editarBicicleta(id);
     }
 }

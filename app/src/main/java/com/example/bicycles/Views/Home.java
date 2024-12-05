@@ -46,6 +46,9 @@ public class Home extends AppCompatActivity {
             return insets;
         });
 
+        // Carga un fragment inicial si es necesario
+
+
         @SuppressLint({"MissingInflatedId", "LocalSuppress"})
         NafisBottomNavigation bottomNavigation = findViewById(R.id.NafisBottomNavigation);
         bottomNavigation.add(new NafisBottomNavigation.Model(mis_bicis, R.drawable.mis_bicis));
@@ -54,8 +57,9 @@ public class Home extends AppCompatActivity {
         bottomNavigation.add(new NafisBottomNavigation.Model(configuracion, R.drawable.baseline_settings_24));
         bottomNavigation.add(new NafisBottomNavigation.Model(perfil, R.drawable.perfil));
 
-        // Cargar el fragmento inicial
-        setCurrentFragment(new MisBicisFragment());
+        setCurrentFragment(new MasFragment());
+
+
 
         // Manejar los clics del BottomNavigation
         bottomNavigation.setOnClickMenuListener(new Function1<NafisBottomNavigation.Model, Unit>() {
@@ -91,13 +95,21 @@ public class Home extends AppCompatActivity {
         });
     }
 
+    public void navigateToFragment(Fragment fragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
     private void openMasActivity() {
         // Abrir una nueva actividad (MasActivity)
-        Intent intent = new Intent(this, MasFragment.class);
-        startActivity(intent);
+        setCurrentFragment(new MasFragment());
     }
 
     private void setCurrentFragment(Fragment fragment) {
+        Toast.makeText(this, "Cambiando al fragment: " + fragment.getClass().getSimpleName(), Toast.LENGTH_SHORT).show();
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, fragment)

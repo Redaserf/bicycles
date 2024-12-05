@@ -14,6 +14,7 @@ import android.os.CountDownTimer;
 import com.example.bicycles.Models.Token;
 import com.example.bicycles.R;
 import com.example.bicycles.Views.Fragments.MasFragment;
+import com.nafis.bottomnavigation.NafisBottomNavigation;
 
 
 public class splash extends AppCompatActivity {
@@ -53,7 +54,7 @@ public class splash extends AppCompatActivity {
                 SharedPreferences token = getSharedPreferences("token", MODE_PRIVATE);
                 String tokenStr = token.getString("token", null);
                 if(tokenStr != null){
-                    Intent intent = new Intent( splash.this, Home.class );
+                    Intent intent = new Intent( splash.this, Home.class);
                     startActivity(intent);
                     finish();
                 }else{
