@@ -44,5 +44,7 @@ public class MasFragment extends Fragment {
         velocidadActual.setText("0.0 km/h");
 
         return view;
+
+
     }
 }

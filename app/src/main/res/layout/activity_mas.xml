@@ -9,18 +9,6 @@
     <!-- Botón de Volver -->
 
     <!-- Imagen ciclista y velocímetro -->
-    <Button
-        android:id="@+id/btn_back_to_home"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-smallcaps"
-        android:layout_marginStart="14dp"
-        android:backgroundTint="@color/azul_300"
-        android:text="Volver"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@id/guideline2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/animation2"
@@ -224,6 +212,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_calorias" />
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="16dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"

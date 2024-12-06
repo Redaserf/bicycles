@@ -1,18 +1,109 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@color/white"
+    android:padding="16dp">
 
+    <!-- Título: Información de la App -->
     <TextView
-        android:id="@+id/textViewMas"
+        android:id="@+id/tv_app_info_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Configuracion"
-        android:textSize="24sp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp"
+        android:fontFamily="sans-serif-smallcaps"
+        android:text="Información de la App"
+        android:textColor="@color/black"
+        android:textSize="35sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Línea divisoria -->
+    <View
+        android:id="@+id/view_divider_info"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/azul_300"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_app_info_title" />
+
+    <!-- Versión de la App -->
+    <TextView
+        android:id="@+id/tv_app_version_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="sans-serif-smallcaps"
+        android:text="Versión de la App:"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view_divider_info" />
+
+    <TextView
+        android:id="@+id/tv_app_version"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="sans-serif-smallcaps"
+        android:text="1.0.0"
+        android:textColor="@color/black"
+        android:textSize="27sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_app_version_label" />
+
+    <!-- Política de Privacidad -->
+    <Button
+        android:id="@+id/btn_privacy_policy"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="@color/azul_300"
+        android:fontFamily="sans-serif-smallcaps"
+        android:text="Política de Privacidad"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_app_version" />
+
+    <!-- Soporte -->
+
+    <Button
+        android:id="@+id/btn_support"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:backgroundTint="@color/azul_300"
+        android:fontFamily="sans-serif-smallcaps"
+        android:text="Soporte"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_privacy_policy" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="325dp"
+        android:layout_height="302dp"
+        android:layout_marginTop="52dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_support"
+        app:layout_constraintVertical_bias="0.0"
+        tools:srcCompat="@mipmap/iconappbicycles" />
+
+    <!-- Logo de la App -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

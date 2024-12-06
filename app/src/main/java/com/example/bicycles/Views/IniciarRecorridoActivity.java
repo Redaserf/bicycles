@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bicycles.R;
 
-public class IniciarRecorridoActivity extends AppCompatActivity {
+/*public class IniciarRecorridoActivity extends AppCompatActivity {
 
     private boolean isPlaying = false; // Estado inicial: no está reproduciendo
 
@@ -42,3 +42,5 @@ public class IniciarRecorridoActivity extends AppCompatActivity {
         });
     }
 }
+
+ */

@@ -46,7 +46,6 @@ public class Home extends AppCompatActivity {
             return insets;
         });
 
-        @SuppressLint({"MissingInflatedId", "LocalSuppress"})
         NafisBottomNavigation bottomNavigation = findViewById(R.id.NafisBottomNavigation);
         bottomNavigation.add(new NafisBottomNavigation.Model(mis_bicis, R.drawable.mis_bicis));
         bottomNavigation.add(new NafisBottomNavigation.Model(mis_recorridos, R.drawable.mis_recorridos));
@@ -54,42 +53,49 @@ public class Home extends AppCompatActivity {
         bottomNavigation.add(new NafisBottomNavigation.Model(configuracion, R.drawable.baseline_settings_24));
         bottomNavigation.add(new NafisBottomNavigation.Model(perfil, R.drawable.perfil));
 
-        // Cargar el fragmento inicial
-        setCurrentFragment(new MisBicisFragment());
+        // Verificar si hay que cargar un fragmento específico
+        if (savedInstanceState == null) {
+            String fragmentToLoad = getIntent().getStringExtra("load_fragment");
 
-        // Manejar los clics del BottomNavigation
-        bottomNavigation.setOnClickMenuListener(new Function1<NafisBottomNavigation.Model, Unit>() {
-            @Override
-            public Unit invoke(NafisBottomNavigation.Model model) {
-                switch (model.getId()) {
-                    case mas:
-                        long currentTime = SystemClock.elapsedRealtime();
-                        if (currentTime - lastClickTimeMas < 500) { // Doble clic detectado (menos de 500ms)
-                            openMasActivity(); // Redirigir a la nueva vista
-                        } else {
-                            setCurrentFragment(new MasFragment()); // Cargar el fragmento normalmente
-                        }
-                        lastClickTimeMas = currentTime; // Actualizar el último tiempo de clic
-                        break;
-                    case configuracion:
-                        setCurrentFragment(new ConfiguracionFragment());
-                        break;
-                    case mis_bicis:
-                        setCurrentFragment(new MisBicisFragment());
-                        break;
-                    case mis_recorridos:
-                        setCurrentFragment(new MisRecorridosFragment());
-                        break;
-                    case perfil:
-                        setCurrentFragment(new PerfilFragment());
-                        break;
-                    default:
-                        Toast.makeText(Home.this, "Opción desconocida", Toast.LENGTH_SHORT).show();
-                }
-                return null;
+            if ("mas_fragment".equals(fragmentToLoad)) {
+                setCurrentFragment(new MasFragment()); // Cargar el fragmento "Más"
+            } else {
+                setCurrentFragment(new MisBicisFragment()); // Fragmento predeterminado
             }
+        }
+
+        bottomNavigation.setOnClickMenuListener(model -> {
+            switch (model.getId()) {
+                case mas:
+                    setCurrentFragment(new MasFragment());
+                    break;
+                case configuracion:
+                    setCurrentFragment(new ConfiguracionFragment());
+                    break;
+                case mis_bicis:
+                    setCurrentFragment(new MisBicisFragment());
+                    break;
+                case mis_recorridos:
+                    setCurrentFragment(new MisRecorridosFragment());
+                    break;
+                case perfil:
+                    setCurrentFragment(new PerfilFragment());
+                    break;
+                default:
+                    Toast.makeText(Home.this, "Opción desconocida", Toast.LENGTH_SHORT).show();
+            }
+            return null;
         });
     }
+
+    private void setCurrentFragment(Fragment fragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_containerr, fragment) // Usar el contenedor definido (fragment_containerr)
+                .commit();
+    }
+
+
 
     private void openMasActivity() {
         // Simplemente carga el fragmento en el contenedor
@@ -97,10 +103,5 @@ public class Home extends AppCompatActivity {
     }
 
 
-    private void setCurrentFragment(Fragment fragment) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .commit();
-    }
+
 }
