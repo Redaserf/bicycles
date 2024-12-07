@@ -1,10 +1,14 @@
 package com.example.bicycles.Responses;
 
-import java.util.List;
-
 public class SensoresResponse {
     private boolean success;
-    private List<SensorData> data;
+    private String message;
+    private double velocidad_actual;
+    private double velocidad_maxima;
+    private double velocidad_promedio;
+    private double distancia_recorrida;
+    private double calorias;
+    private double temperatura;
 
     public boolean isSuccess() {
         return success;
@@ -14,32 +18,59 @@ public class SensoresResponse {
         this.success = success;
     }
 
-    public List<SensorData> getData() {
-        return data;
+    public String getMessage() {
+        return message;
     }
 
-    public void setData(List<SensorData> data) {
-        this.data = data;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
-    public static class SensorData {
-        private String key;
-        private String last_value;
+    public double getVelocidadActual() {
+        return velocidad_actual;
+    }
 
-        public String getKey() {
-            return key;
-        }
+    public void setVelocidadActual(double velocidad_actual) {
+        this.velocidad_actual = velocidad_actual;
+    }
 
-        public void setKey(String key) {
-            this.key = key;
-        }
+    public double getVelocidadMaxima() {
+        return velocidad_maxima;
+    }
 
-        public String getLastValue() {
-            return last_value;
-        }
+    public void setVelocidadMaxima(double velocidad_maxima) {
+        this.velocidad_maxima = velocidad_maxima;
+    }
 
-        public void setLastValue(String last_value) {
-            this.last_value = last_value;
-        }
+    public double getVelocidadPromedio() {
+        return velocidad_promedio;
+    }
+
+    public void setVelocidadPromedio(double velocidad_promedio) {
+        this.velocidad_promedio = velocidad_promedio;
+    }
+
+    public double getDistanciaRecorrida() {
+        return distancia_recorrida;
+    }
+
+    public void setDistanciaRecorrida(double distancia_recorrida) {
+        this.distancia_recorrida = distancia_recorrida;
+    }
+
+    public double getCalorias() {
+        return calorias;
+    }
+
+    public void setCalorias(double calorias) {
+        this.calorias = calorias;
+    }
+
+    public double getTemperatura() {
+        return temperatura;
+    }
+
+    public void setTemperatura(double temperatura) {
+        this.temperatura = temperatura;
     }
 }

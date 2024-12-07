@@ -15,10 +15,14 @@ import com.example.bicycles.R;
 import java.util.List;
 
 public class MisBicisAdapter extends RecyclerView.Adapter<MisBicisAdapter.ViewHolder> {
-    private List<Bicicleta> bicicletas;
 
-    public MisBicisAdapter(List<Bicicleta> bicicletas) {
+    private List<Bicicleta> bicicletas;
+    private OnBicicletaClickListener listener;
+
+    // Constructor
+    public MisBicisAdapter(List<Bicicleta> bicicletas, OnBicicletaClickListener listener) {
         this.bicicletas = bicicletas;
+        this.listener = listener;
     }
 
     @NonNull
@@ -39,20 +43,17 @@ public class MisBicisAdapter extends RecyclerView.Adapter<MisBicisAdapter.ViewHo
         return bicicletas.size();
     }
 
-    // Método para actualizar la lista de bicicletas y refrescar el RecyclerView
-    public void setBicicletas(List<Bicicleta> bicicletas) {
-        this.bicicletas = bicicletas;
-        notifyDataSetChanged();
+    public interface OnBicicletaClickListener {
+        void onBicicletaClick(Bicicleta bicicleta);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView nombre;
-        public ConstraintLayout layout;
-        //maybew para cuando le de click a cualquier parte de el item que le pueda editar el nombre
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             this.nombre = itemView.findViewById(R.id.nombre_bicicleta);
+            itemView.setOnClickListener(this);
         }
 
         public void bind(Bicicleta bicicleta) {
@@ -61,7 +62,9 @@ public class MisBicisAdapter extends RecyclerView.Adapter<MisBicisAdapter.ViewHo
 
         @Override
         public void onClick(View v) {
-
+            if (listener != null) {
+                listener.onBicicletaClick(bicicletas.get(getAdapterPosition()));
+            }
         }
     }
 }
