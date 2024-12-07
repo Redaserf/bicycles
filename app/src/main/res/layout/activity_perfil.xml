@@ -11,7 +11,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Datos públicos"
-        android:fontFamily="sans-serif-smallcaps"
         android:textColor="@color/black"
         android:textStyle="bold"
         android:textSize="35sp"
@@ -37,7 +36,6 @@
         android:id="@+id/tv_label_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-smallcaps"
         android:text="Nombre:"
         android:textColor="@color/black"
         android:textStyle="bold"
@@ -51,7 +49,6 @@
         android:id="@+id/tv_username"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-smallcaps"
         android:text="nombre"
         android:textColor="@color/black"
         android:textSize="27sp"
@@ -67,7 +64,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Apellido:"
-        android:fontFamily="sans-serif-smallcaps"
         android:textColor="@color/black"
         android:textStyle="bold"
         android:textSize="30sp"
@@ -80,7 +76,6 @@
         android:id="@+id/tv_about_me"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-smallcaps"
         android:text="apellido"
         android:textColor="@color/black"
         android:textSize="27sp"
@@ -97,7 +92,6 @@
         android:layout_height="wrap_content"
         android:text="Peso:"
         android:textColor="@color/black"
-        android:fontFamily="sans-serif-smallcaps"
         android:textStyle="bold"
         android:textSize="30sp"
         app:layout_constraintTop_toBottomOf="@id/tv_about_me"
@@ -111,7 +105,6 @@
         android:layout_height="wrap_content"
         android:text="peso"
         android:textColor="@color/black"
-        android:fontFamily="sans-serif-smallcaps"
         android:textSize="27sp"
         app:layout_constraintTop_toBottomOf="@id/tv_label_peso"
         app:layout_constraintStart_toStartOf="parent"
@@ -127,7 +120,6 @@
         android:text="Correo:"
         android:textColor="@color/black"
         android:textStyle="bold"
-        android:fontFamily="sans-serif-smallcaps"
         android:textSize="30sp"
         app:layout_constraintTop_toBottomOf="@id/tv_peso"
         app:layout_constraintStart_toStartOf="parent"
@@ -145,7 +137,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/btn_edit_profile"
         app:layout_constraintEnd_toEndOf="parent"
-        android:fontFamily="sans-serif-smallcaps"
         android:layout_marginTop="8dp" />
 
     <!-- Recorridos -->
@@ -163,7 +154,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/btn_logout"
         app:layout_constraintEnd_toEndOf="parent"
-        android:fontFamily="sans-serif-smallcaps"
         android:layout_marginTop="24dp" />
 
     <!-- Botón Cerrar Sesión -->
@@ -173,7 +163,6 @@
         android:layout_height="wrap_content"
         android:text="Cerrar sesión"
         android:textColor="@color/white"
-        android:fontFamily="sans-serif-smallcaps"
         android:textSize="22sp"
         android:backgroundTint="@color/azul_300"
         app:layout_constraintTop_toBottomOf="@id/btn_edit_profile"

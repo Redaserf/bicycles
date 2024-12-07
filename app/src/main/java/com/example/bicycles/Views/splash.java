@@ -22,6 +22,7 @@ import com.example.bicycles.R;
 import com.example.bicycles.Responses.SensoresResponse;
 import com.example.bicycles.ViewModels.SensoresViewModel;
 import com.example.bicycles.Views.Fragments.MasFragment;
+import com.nafis.bottomnavigation.NafisBottomNavigation;
 
 import java.util.List;
 
@@ -54,6 +55,7 @@ public class splash extends AppCompatActivity {
 
             @Override
             public void onFinish() {
+
                 try {
                     SharedPreferences tokenPref = getSharedPreferences("token", MODE_PRIVATE);
                     String tokenStr = tokenPref.getString("token", null);

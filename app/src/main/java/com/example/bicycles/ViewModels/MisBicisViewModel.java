@@ -17,7 +17,6 @@ public class MisBicisViewModel extends ViewModel {
 
     public MisBicisViewModel(Context context) {
         repository = new MisBicicletasRepository(context);
-        bicicletas = new MutableLiveData<>();
     }
 
     public LiveData<List<Bicicleta>> getMisBicicletas() {
@@ -25,6 +24,7 @@ public class MisBicisViewModel extends ViewModel {
     }
 
     public void fetchMisBicicletas() {
-        repository.getMisBicicletas().observeForever(bicicletas::setValue);
+        bicicletas = (MutableLiveData<List<Bicicleta>>) repository.getMisBicicletas();
     }
+
 }

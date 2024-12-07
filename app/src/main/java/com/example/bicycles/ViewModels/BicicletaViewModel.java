@@ -7,21 +7,35 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.bicycles.Repositories.BicicletaRepository;
+import com.example.bicycles.Responses.BicicletaResponse;
+import com.example.bicycles.Responses.EditarBicicletaResponse;
+import com.example.bicycles.Responses.EliminarBicicletaResponse;
 
 public class BicicletaViewModel extends ViewModel {
 
-    private MutableLiveData<String> bicicletaMessage;
+    private MutableLiveData<BicicletaResponse> bicicletaMessage;
+    private MutableLiveData<EliminarBicicletaResponse> eliminarResponse;
+    private MutableLiveData<EditarBicicletaResponse> editarResponse;
+
     private BicicletaRepository bicicletaRepository;
 
     public BicicletaViewModel(Context context) {
         this.bicicletaRepository = new BicicletaRepository(context);
     }
 
-    public void addBicicleta(String nombre, int usuario_id, Context context) {
-        bicicletaMessage = bicicletaRepository.addBicicleta(nombre, usuario_id, context);
+    public void addBicicleta(String nombre) {
+        bicicletaMessage = bicicletaRepository.addBicicleta(nombre);
     }
 
-    public LiveData<String> getBicicletaMessage() {
+    public LiveData<BicicletaResponse> getBicicletaResponse() {
         return bicicletaMessage;
+    }
+
+    public void eliminarBicicleta(int id){
+        eliminarResponse = bicicletaRepository.eliminarBicicleta(id);
+    }
+
+    public void editarBicicleta(int id){
+        editarResponse = bicicletaRepository.editarBicicleta(id);
     }
 }

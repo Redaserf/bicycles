@@ -1,22 +1,11 @@
 package com.example.bicycles.Responses;
 
 import com.example.bicycles.Models.Bicicleta;
-import com.example.bicycles.Models.Recorrido;;import java.util.List;
 
-public class BicicletaResponse {
+public class EliminarBicicletaResponse {
+    public String mensaje;
+    public Bicicleta bicicleta;
 
-    private String mensaje;
-    private Bicicleta bicicleta;
-
-    private List<Recorrido> recorridos;
-
-    public List<Recorrido> getRecorridos() {
-        return recorridos;
-    }
-
-    public void setRecorridos(List<Recorrido> recorridos) {
-        this.recorridos = recorridos;
-    }
 
     public String getMensaje() {
         return mensaje;
