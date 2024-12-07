@@ -8,9 +8,11 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.bicycles.ViewModels.AllRecorridosUsuarioViewModel;
 import com.example.bicycles.ViewModels.BicicletaViewModel;
+import com.example.bicycles.ViewModels.EliminarVelocidadViewModel;
 import com.example.bicycles.ViewModels.LoginViewModel;
 import com.example.bicycles.ViewModels.LogoutViewModel;
 import com.example.bicycles.ViewModels.MisBicisViewModel;
+import com.example.bicycles.ViewModels.RecorridoInicioViewModel;
 import com.example.bicycles.ViewModels.RegisterViewModel;
 import com.example.bicycles.ViewModels.SensoresViewModel;
 import com.example.bicycles.ViewModels.UsuarioEditViewModel;
@@ -44,6 +46,10 @@ public class Factory implements ViewModelProvider.Factory {
             return (T) new LogoutViewModel(context);
         } else if (modelClass.isAssignableFrom(BicicletaViewModel.class)) {
             return (T) new BicicletaViewModel(context);
+        } else if (modelClass.isAssignableFrom(RecorridoInicioViewModel.class)) {
+            return (T) new RecorridoInicioViewModel(context);
+        } else if (modelClass.isAssignableFrom(EliminarVelocidadViewModel.class)) {
+            return (T) new EliminarVelocidadViewModel(context);
         }
         //A qui ir agregando los viewModels
 

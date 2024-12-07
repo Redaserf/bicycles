@@ -34,7 +34,9 @@
             android:name=".Views.Home"
             android:exported="false"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"></activity>
+            tools:ignore="LockedOrientationActivity">
+
+        </activity>
         <activity
             android:name=".Views.register"
             android:exported="false"
@@ -55,11 +57,7 @@
             android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
-        <activity
-            android:name=".Views.IniciarRecorridoActivity"
-            android:exported="false"
-            android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity" />
+
     </application>
 
 </manifest>

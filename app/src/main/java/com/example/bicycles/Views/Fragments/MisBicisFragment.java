@@ -35,40 +35,33 @@ public class MisBicisFragment extends Fragment {
     public List<Bicicleta> bicicletas = new ArrayList<>();
     public Button agregar_bici;
 
-    public View onCreateView(@NonNull
-     LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_mis_bicis, container, false);
         agregar_bici = view.findViewById(R.id.agregar_bici);
 
-        agregar_bici.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(requireContext(), Agregar_bici.class);
-                startActivity(intent);
-            }
+        agregar_bici.setOnClickListener(v -> {
+            Intent intent = new Intent(requireContext(), Agregar_bici.class);
+            startActivity(intent);
         });
 
         recyclerMisBicis = view.findViewById(R.id.recycler_mis_bicis);
         Context context = requireContext();
         Factory factory = new Factory(context);
-        if (context != null) {
-            Log.e("Fragment", "Context exists");
-        } else {
-            Log.e("Fragment", "Context is null");
-        }
+
         MisBicisViewModel misBicisViewModel = new ViewModelProvider(
                 this, factory).get(MisBicisViewModel.class);
 
         misBicisViewModel.fetchMisBicicletas();
-        misBicisViewModel.getMisBicicletas().observe(getViewLifecycleOwner(), new Observer<List<Bicicleta>>() {
-            @Override
-            public void onChanged(List<Bicicleta> bicicletas) {
-                MisBicisAdapter adapter = new MisBicisAdapter(bicicletas);
-                recyclerMisBicis.setAdapter(adapter);
-                recyclerMisBicis.setLayoutManager(new LinearLayoutManager(getContext()));
-                recyclerMisBicis.setHasFixedSize(true);
-            }
+        misBicisViewModel.getMisBicicletas().observe(getViewLifecycleOwner(), bicicletas -> {
+            MisBicisAdapter adapter = new MisBicisAdapter(bicicletas, bicicleta -> {
+                // Aquí defines qué hacer cuando se selecciona una bicicleta
+//                Toast.makeText(getContext(), "Bicicleta seleccionada: " + bicicleta.getNombre(), Toast.LENGTH_SHORT).show();
+            });
+            recyclerMisBicis.setAdapter(adapter);
+            recyclerMisBicis.setLayoutManager(new LinearLayoutManager(getContext()));
+            recyclerMisBicis.setHasFixedSize(true);
         });
+
         return view;
     }
 }
