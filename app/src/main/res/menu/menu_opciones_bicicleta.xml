@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@+id/cambiar_nombre"
-        android:title="Cambiar Nombre"
-        android:icon="@drawable/baseline_edit_24" />
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/editar_bici"
+        android:icon="@drawable/baseline_edit_24"
+        android:title="Editar"
+        app:showAsAction="ifRoom"/>
+
+
+    <item android:id="@+id/eliminar_bici"
+        android:icon="@drawable/baseline_delete_24"
+        android:title="eliminar" />
 </menu>

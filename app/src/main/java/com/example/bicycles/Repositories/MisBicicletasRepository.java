@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.bicycles.Models.Bicicleta;
@@ -30,45 +31,26 @@ public class MisBicicletasRepository {
         this.apiService = RetrofitClient.getInstance(context).getApiService();
     }
 
-    public MutableLiveData<List<Bicicleta>> getMisBicicletas() {
-        MutableLiveData<List<Bicicleta>> bicicletas = new MutableLiveData<>();
-//        MutableLiveData<String> mensaje = new MutableLiveData<>();
-        Toast.makeText(context, "Trayendo las bicics", Toast.LENGTH_LONG).show();
-        Log.d("MisBicicletasRepository", "Antes de llamar a enqueue()");
+    public LiveData<List<Bicicleta>> getBicicletas() {
+        MutableLiveData<List<Bicicleta>> bicicletasLiveData = new MutableLiveData<>();
+
         apiService.getBicicletas().enqueue(new Callback<MisBicicletasResponse>() {
             @Override
             public void onResponse(Call<MisBicicletasResponse> call, Response<MisBicicletasResponse> response) {
-                if(response.isSuccessful()){
-                    if(response.body().getBicicletas() != null){
-                        List<Bicicleta> listabici = response.body().getBicicletas();
-
-                        if(listabici.size() <= 0){
-                            bicicletas.setValue(null);
-                        }else{
-                            Log.d("MIsBIcisi", "Existen biciccletas" + listabici.size());
-                            bicicletas.setValue(listabici);
-                        }
-                    }else{
-                        bicicletas.setValue(null);
-                    }
-                }else{
-                    Toast.makeText(context, "Algo salio mal en la respuesta", Toast.LENGTH_SHORT).show();
+                if (response.isSuccessful() && response.body() != null) {
+                    bicicletasLiveData.postValue(response.body().getBicicletas());
+                } else {
+                    bicicletasLiveData.postValue(new ArrayList<>()); // Vacía si hay error
                 }
-
-                Log.d("MisBicicletasRepository", "onResponse ejecutado");
             }
 
             @Override
             public void onFailure(Call<MisBicicletasResponse> call, Throwable throwable) {
-                bicicletas.setValue(null);
-                Toast.makeText(context, throwable.getMessage(), Toast.LENGTH_SHORT).show();
-                Log.e("MisBicicletasRepository", "onFailure ejecutado: " + throwable.getMessage());
+                bicicletasLiveData.postValue(new ArrayList<>()); // Vacía si falla la solicitud
             }
         });
-        Log.d("MisBicicletasRepository", "Después de llamar a enqueue()");
 
-
-        return bicicletas;
+        return bicicletasLiveData;
     }
 
 }
