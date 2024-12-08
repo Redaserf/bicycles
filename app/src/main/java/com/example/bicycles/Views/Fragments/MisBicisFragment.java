@@ -306,6 +306,8 @@ public class MisBicisFragment extends Fragment implements EliminarInterfaz {
                     requestPermissions(new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
                 } else {
                     abrirCamara();
+                    Log.d("DEBUG", "Se intenot abirr la camara");
+
                 }
             } else if (which == 1) {
 
@@ -335,6 +337,8 @@ public class MisBicisFragment extends Fragment implements EliminarInterfaz {
 
             Intent intentCamara = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             intentCamara.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+            Log.d("DEBUG", "Se intenot abirr la camara");
+
 
             startActivityForResult(intentCamara, REQUEST_CAMERA);
 
