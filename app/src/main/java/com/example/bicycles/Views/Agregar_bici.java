@@ -35,11 +35,11 @@ public class Agregar_bici extends AppCompatActivity {
             return insets;
         });
 
-        nombre = findViewById(R.id.nombre);
-        agregar_bici = findViewById(R.id.agg_bici);
-        Factory factory = new Factory(this);
-        BicicletaViewModel viewModel = new ViewModelProvider(this, factory)
-        .get(BicicletaViewModel.class);
+//        nombre = findViewById(R.id.nombre);
+//        agregar_bici = findViewById(R.id.agg_bici);
+//        Factory factory = new Factory(this);
+//        BicicletaViewModel viewModel = new ViewModelProvider(this, factory)
+//        .get(BicicletaViewModel.class);
 
 
 //        viewModel.getBicicletaResponse().observe(this, new Observer<BicicletaResponse>() {
@@ -51,17 +51,17 @@ public class Agregar_bici extends AppCompatActivity {
 
 
         //Logica para agregar bici OBSERVER y demas
-        agregar_bici.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String str_nombre = nombre.getText().toString();
-                if(str_nombre.isEmpty()){
-                    Toast.makeText(Agregar_bici.this, "Es requerido agregar el nombre", Toast.LENGTH_SHORT).show();
-                }else{
-                    viewModel.addBicicleta(str_nombre);
-                }
-            }
-        });
+//        agregar_bici.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                String str_nombre = nombre.getText().toString();
+//                if(str_nombre.isEmpty()){
+//                    Toast.makeText(Agregar_bici.this, "Es requerido agregar el nombre", Toast.LENGTH_SHORT).show();
+//                }else{
+//                    viewModel.addBicicleta(str_nombre);
+//                }
+//            }
+//        });
 
     }
 }

@@ -5,17 +5,27 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.example.bicycles.Factory.Factory;
 import com.example.bicycles.Models.Bicicleta;
+import com.example.bicycles.Models.BicicletaRequest;
 import com.example.bicycles.Networks.ApiService;
 import com.example.bicycles.Responses.BicicletaResponse;
 import com.example.bicycles.Responses.EditarBicicletaResponse;
 import com.example.bicycles.Responses.EliminarBicicletaResponse;
 import com.example.bicycles.Singleton.RetrofitClient;
+import com.example.bicycles.ViewModels.BicicletaViewModel;
+import com.example.bicycles.ViewModels.MisBicisViewModel;
 import com.example.bicycles.Views.Fragments.MisBicisFragment;
 import com.example.bicycles.Views.Home;
 
+import java.io.IOException;
+
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -26,32 +36,38 @@ public class BicicletaRepository {
     private Context context;
 
     public BicicletaRepository(Context context) {
-        this.context = context.getApplicationContext();
+        this.context = context;
         this.apiService = RetrofitClient.getInstance(context).getApiService();
     }
 
-    public MutableLiveData<BicicletaResponse> addBicicleta(String nombre) {
-        MutableLiveData<BicicletaResponse> bicicletaResponse = new MutableLiveData<>();
-        Bicicleta bicicleta = new Bicicleta(nombre);
-        apiService.addBicicleta(bicicleta).enqueue(new Callback<BicicletaResponse>() {
+    public MutableLiveData<Bicicleta> addBicicleta(MultipartBody.Part imagen, RequestBody nombre) {
+        MutableLiveData<Bicicleta> bicicletaResponse = new MutableLiveData<>();
+
+        apiService.addBicicleta(imagen, nombre).enqueue(new Callback<BicicletaResponse>() {
             @Override
             public void onResponse(Call<BicicletaResponse> call, Response<BicicletaResponse> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    bicicletaResponse.setValue(response.body());
-                    Toast.makeText(context, response.body().getMensaje(), Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent( context, Home.class);
-                    context.startActivity(intent);
-                } else {
-                    Toast.makeText(context, "Error al agregar bicicleta", Toast.LENGTH_SHORT).show();
+                if(response.isSuccessful()){
+
+                    bicicletaResponse.postValue(response.body().getBicicleta());
+                    Log.d("DEBUG", "Se trajo correctamente la bicicleta");
+
                 }
+                bicicletaResponse.postValue(null);
+                int code = response.code();
+                if (response.errorBody() != null) {
+                    try {
+                        String errorJson = response.errorBody().string();
+                        Log.e("DEBUG", "ErrorBody: " + errorJson);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
             }
 
             @Override
-            public void onFailure(Call<BicicletaResponse> call, Throwable t) {
-                Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
-                BicicletaResponse response = new BicicletaResponse();
-                response.setMensaje(t.getMessage());
-                bicicletaResponse.setValue(response);
+            public void onFailure(Call<BicicletaResponse> call, Throwable throwable) {
+
             }
         });
         return bicicletaResponse;
@@ -65,6 +81,7 @@ public class BicicletaRepository {
             public void onResponse(Call<EliminarBicicletaResponse> call, Response<EliminarBicicletaResponse> response) {
                 if(response.isSuccessful()){
                     Log.d("BicicletaRepository", response.body().getMensaje());
+
                     liveData.setValue(response.body());
                 }else{
                     Log.d("BicicletaRepository", response.body().getMensaje());
@@ -80,13 +97,29 @@ public class BicicletaRepository {
         return liveData;
     }
 
-    public MutableLiveData<EditarBicicletaResponse> editarBicicleta(int id){
+    public MutableLiveData<EditarBicicletaResponse> editarBicicleta(int id, MultipartBody.Part imagen, RequestBody nombre){
         MutableLiveData<EditarBicicletaResponse> editarResponse = new MutableLiveData<>();
+        Log.d("DEBUG", "Nombre de la bici que remplaza el anterior: " + nombre);
 
-        apiService.editarBicicleta(id).enqueue(new Callback<EditarBicicletaResponse>() {
+        apiService.editarBicicleta(id, imagen, nombre).enqueue(new Callback<EditarBicicletaResponse>() {
             @Override
             public void onResponse(Call<EditarBicicletaResponse> call, Response<EditarBicicletaResponse> response) {
-                editarResponse.setValue(response.body());
+                if(response.isSuccessful()){
+
+                    editarResponse.postValue(response.body());
+                    Log.d("DEBUG", "Se trajo correctamente la bicicleta" + response.body().getBicicleta().getNombre());
+
+                }
+                editarResponse.postValue(null);
+                int code = response.code();
+                if (response.errorBody() != null) {
+                    try {
+                        String errorJson = response.errorBody().string();
+                        Log.e("DEBUG", "ErrorBody: " + errorJson);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
 
             @Override

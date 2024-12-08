@@ -7,8 +7,20 @@ public class Bicicleta {
     private int id;
     private String nombre;
     private int usuario_id;
+
+    private String imagen;
     private Date created_at;
     private Date updated_at;
+
+    public Bicicleta(int id, String nombre, int usuario_id, String imagen, Date created_at, Date updated_at){
+        this.id = id;
+        this.nombre = nombre;
+        this.usuario_id = usuario_id;
+        this. imagen = imagen;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+    }
+
 
     public Bicicleta(String nombre, int usuario_id) {
         this.nombre = nombre;
@@ -54,8 +66,16 @@ public class Bicicleta {
     public Date getUpdated_at() {
         return updated_at;
     }
-
     public void setUpdated_at(Date updated_at) {
         this.updated_at = updated_at;
     }
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.example.bicycles.Networks;
 
 import com.example.bicycles.Models.Bicicleta;
+import com.example.bicycles.Models.BicicletaRequest;
 import com.example.bicycles.Models.LoginRequest;
 import com.example.bicycles.Models.Recorrido;
 import com.example.bicycles.Models.Usuario;
@@ -20,14 +21,18 @@ import com.example.bicycles.Responses.UsuarioEditResponse;
 import com.example.bicycles.Responses.UsuarioResponse;
 import com.google.gson.JsonObject;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -56,8 +61,12 @@ public interface ApiService {
 
     // =====[ Bicicletas ]=====
 
+    @Multipart
     @POST("bicicleta")
-    Call<BicicletaResponse> addBicicleta(@Body Bicicleta bicicleta);
+    Call<BicicletaResponse> addBicicleta(
+            @Part MultipartBody.Part imagen,
+            @Part("nombre") RequestBody nombre
+            );
 
     @GET("bicicleta")
     Call<MisBicicletasResponse> getBicicletas();
@@ -65,8 +74,10 @@ public interface ApiService {
     @DELETE("bicicleta/{id}")
     Call<EliminarBicicletaResponse> eliminarBicicleta(@Path("id") int id);
 
-    @PUT("bicicleta/{id}")
-    Call<EditarBicicletaResponse> editarBicicleta(@Path("id") int id);
+    @Multipart
+    @POST("bicicleta/{id}")
+    Call<EditarBicicletaResponse> editarBicicleta(@Path("id") int id,
+              @Part MultipartBody.Part imagen, @Part ("nombre") RequestBody nombre);
 
 //    @GET("bicicleta/{id}")
 //    Call<BicicletaResponse> getBicicleta(@Body Bicicleta bicicleta);

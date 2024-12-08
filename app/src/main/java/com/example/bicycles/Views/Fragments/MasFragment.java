@@ -108,21 +108,21 @@ public class MasFragment extends Fragment {
                 .setNegativeButton("Cancelar", (d, which) -> d.dismiss())
                 .create();
 
-        misBicisViewModel.fetchMisBicicletas();
-        misBicisViewModel.getMisBicicletas().observe(getViewLifecycleOwner(), bicicletas -> {
-            if (bicicletas != null && !bicicletas.isEmpty()) {
-                MisBicisDialogAdapter adapter = new MisBicisDialogAdapter(bicicletas, bicicleta -> {
-                    bicicletaSeleccionadaId = (long) bicicleta.getId();
-                    playPauseButton.setImageResource(R.drawable.ic_pause);
-                    isPlaying = true;
-                    iniciarRecorrido(bicicleta.getId());
-                    dialog.dismiss();
-                });
-                recyclerView.setAdapter(adapter);
-            } else {
-                Toast.makeText(requireContext(), "No tienes bicicletas registradas.", Toast.LENGTH_SHORT).show();
-            }
-        });
+        misBicisViewModel.fetchBicicletas();
+//        misBicisViewModel.getBicicletasLiveData().observe(getViewLifecycleOwner(), bicicletas -> {
+//            if (bicicletas != null && !bicicletas.isEmpty()) {
+//                MisBicisDialogAdapter adapter = new MisBicisDialogAdapter(bicicletas, bicicleta -> {
+//                    bicicletaSeleccionadaId = (long) bicicleta.getId();
+//                    playPauseButton.setImageResource(R.drawable.ic_pause);
+//                    isPlaying = true;
+//                    iniciarRecorrido(bicicleta.getId());
+//                    dialog.dismiss();
+//                });
+//                recyclerView.setAdapter(adapter);
+//            } else {
+//                Toast.makeText(requireContext(), "No tienes bicicletas registradas.", Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
         dialog.show();
     }
