@@ -19,6 +19,9 @@
         tools:ignore="DiscouragedApi"
         tools:targetApi="31">
         <activity
+            android:name=".code_verify"
+            android:exported="false" />
+        <activity
             android:name=".Views.Agregar_bici"
             android:exported="false" />
         <activity
@@ -34,9 +37,7 @@
             android:name=".Views.Home"
             android:exported="false"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity">
-
-        </activity>
+            tools:ignore="LockedOrientationActivity"></activity>
         <activity
             android:name=".Views.register"
             android:exported="false"
@@ -57,7 +58,6 @@
             android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
-
     </application>
 
 </manifest>
