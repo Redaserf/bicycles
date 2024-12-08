@@ -44,6 +44,7 @@ import com.example.bicycles.R;
 import com.example.bicycles.Responses.BicicletaResponse;
 import com.example.bicycles.Responses.EditarBicicletaResponse;
 import com.example.bicycles.Responses.EliminarBicicletaResponse;
+import com.example.bicycles.Responses.MisBicicletasResponse;
 import com.example.bicycles.ViewModels.BicicletaViewModel;
 import com.example.bicycles.ViewModels.MisBicisViewModel;
 import com.example.bicycles.Views.Agregar_bici;
@@ -120,6 +121,11 @@ public class MisBicisFragment extends Fragment implements EliminarInterfaz {
 
         Context context = requireContext();
         Factory factory = new Factory(context);
+        if (context != null) {
+            Log.e("Fragment", "Context exists");
+        } else {
+            Log.e("Fragment", "Context is null");
+        }
         misBicisViewModel = new ViewModelProvider(
                 this, factory).get(MisBicisViewModel.class);
 
@@ -136,14 +142,15 @@ public class MisBicisFragment extends Fragment implements EliminarInterfaz {
         progressDialog.show();
 
 
-        misBicisViewModel.getBicicletasLiveData().observe(getViewLifecycleOwner(), new Observer<List<Bicicleta>>() {
+        misBicisViewModel.getBicicletasLiveData().observe(getViewLifecycleOwner(), new Observer<MisBicicletasResponse>() {
             @Override
-            public void onChanged(List<Bicicleta> bicicletas) {
-                adapter.actualizarLista(bicicletas);
-                bicicletaList = bicicletas;
+            public void onChanged(MisBicicletasResponse misBicicletasResponse) {
+                if (misBicicletasResponse != null && misBicicletasResponse.getBicicletas() != null) {
+                    adapter.actualizarLista(misBicicletasResponse.getBicicletas());
+                } else {
+                    Log.e("ERROR", "Respuesta nula o lista de bicicletas vacía.");
+                }
                 progressDialog.dismiss();
-
-                Log.d("DEBUG", "Cargaron las bicicletas del recycler view");
             }
         });
 
@@ -172,45 +179,47 @@ public class MisBicisFragment extends Fragment implements EliminarInterfaz {
             }
         });
 
-          viewModel.getBicicletaCreated().observe(getViewLifecycleOwner(), new Observer<BicicletaResponse>() {
-              @Override
-              public void onChanged(BicicletaResponse bicicletaResponse) {
-                  if(bicicletaResponse != null){
-                      if(bicicletaResponse.getBicicleta() != null){
-                          bicicletas.add(bicicletaResponse.getBicicleta());
-                          int position = findBicicletaPosition(bicicletaResponse.getBicicleta().getId());
-                          if(position == -1){
-                              Log.d("DEBUG", "No se enconntro la bici");
-                          }else{
+        viewModel.getBicicletaCreated().observe(getViewLifecycleOwner(), new Observer<BicicletaResponse>() {
+            @Override
+            public void onChanged(BicicletaResponse bicicletaResponse) {
+                if(bicicletaResponse != null){
+                    if(bicicletaResponse.getBicicleta() != null){
+                        bicicletas.add(bicicletaResponse.getBicicleta());
+                        int position = findBicicletaPosition(bicicletaResponse.getBicicleta().getId());
+                        if(position == -1){
+                            Log.d("DEBUG", "No se enconntro la bici");
+                        }else{
                             adapter.insertarElemento(position, bicicletaResponse.getBicicleta());
-                          }
-                      }else{
-                          Log.d("DEBUG", "La bicicleta viene nula");
-                          Toast.makeText(requireContext(), "No se pudo crear la bicicleta", Toast.LENGTH_LONG).show();
+                        }
+                    }else{
+                        Log.d("DEBUG", "La bicicleta viene nula");
+                        Toast.makeText(requireContext(), "No se pudo crear la bicicleta", Toast.LENGTH_LONG).show();
 
-                      }
-                  }
-                  btnAgregar.setEnabled(true);
-                  progressDialog.dismiss();
-              }
-          });
+                    }
+                }
+                btnAgregar.setEnabled(true);
+                progressDialog.dismiss();
+            }
+        });
 
-          viewModel.getElimnarBicicleta().observe(getViewLifecycleOwner(), new Observer<EliminarBicicletaResponse>() {
-              @Override
-              public void onChanged(EliminarBicicletaResponse eliminarBicicletaResponse) {
+        viewModel.getElimnarBicicleta().observe(getViewLifecycleOwner(), new Observer<EliminarBicicletaResponse>() {
+            @Override
+            public void onChanged(EliminarBicicletaResponse eliminarBicicletaResponse) {
 
-                  int position = findBicicletaPosition(eliminarBicicletaResponse.getBicicleta().getId());
-                  if(position != -1){
-                    adapter.eliminarElemento(position);
-                    progressDialog.dismiss();
-                  }else{
-                      Toast.makeText(requireContext(), "No se encontro la bicicleta por eliminar", Toast.LENGTH_LONG).show();
-                  }
+                    if(eliminarBicicletaResponse.getBicicleta() != null){
+                        int position = findBicicletaPosition(eliminarBicicletaResponse.getBicicleta().getId());
+                        if(position != -1) {
+                            adapter.eliminarElemento(position);
+                        }else{
+                         Toast.makeText(requireContext(), "No se encontro la bicicleta por eliminar", Toast.LENGTH_LONG).show();
+                        }
+                    }else{
+                        Toast.makeText(requireContext(), "No se pudo eliminar la bicicleta", Toast.LENGTH_SHORT).show();
+                    }
+                progressDialog.dismiss();
 
-              }
-          });
-
-
+            }
+        });
         return view;
     }
 

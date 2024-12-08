@@ -24,7 +24,7 @@ import retrofit2.Response;
 
 public class MisBicisViewModel extends ViewModel {
 
-    private final MutableLiveData<List<Bicicleta>> bicicletasLiveData = new MutableLiveData<>();
+    private final MutableLiveData<MisBicicletasResponse> bicicletasLiveData = new MutableLiveData<>();
 
     private Context context;
     private ApiService apiService;
@@ -36,7 +36,7 @@ public class MisBicisViewModel extends ViewModel {
 
     }
 
-    public LiveData<List<Bicicleta>> getBicicletasLiveData() {
+    public LiveData<MisBicicletasResponse> getBicicletasLiveData() {
         return bicicletasLiveData;
     }
     
@@ -47,7 +47,8 @@ public class MisBicisViewModel extends ViewModel {
             public void onResponse(Call<MisBicicletasResponse> call, Response<MisBicicletasResponse> response) {
                 if(response.isSuccessful()){
                     if(response.body().getBicicletas() != null){
-                        bicicletasLiveData.setValue(new ArrayList<>(response.body().getBicicletas()));
+                        bicicletasLiveData.setValue(response.body());
+                        Log.d("DEBUG", "Se actualizaron las bicicletas");
                     }
                 }
 
@@ -56,7 +57,7 @@ public class MisBicisViewModel extends ViewModel {
             @Override
             public void onFailure(Call<MisBicicletasResponse> call, Throwable throwable) {
                 Toast.makeText(context, "NO Respondio la api", Toast.LENGTH_SHORT).show();
-
+                Log.d("DEBUG", throwable.getMessage().toString());
             }
         });
     }

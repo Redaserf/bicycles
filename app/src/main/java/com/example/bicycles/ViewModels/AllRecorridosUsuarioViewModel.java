@@ -17,10 +17,22 @@ public class AllRecorridosUsuarioViewModel extends ViewModel {
         recorridosRepository = new AllRecorridosUsuarioRepository(context);
     }
 
+    // Cargar todos los recorridos
     public void cargarRecorridos() {
         recorridosLiveData = recorridosRepository.obtenerRecorridos();
     }
 
+    // Cargar recorridos de la última semana
+    public void cargarRecorridosSemana() {
+        recorridosLiveData = recorridosRepository.obtenerRecorridosSemana();
+    }
+
+    // Cargar recorridos del último mes
+    public void cargarRecorridosMes() {
+        recorridosLiveData = recorridosRepository.obtenerRecorridosMes();
+    }
+
+    // Obtener LiveData de los recorridos
     public LiveData<AllRecorridosUsuarioResponse> getRecorridosLiveData() {
         return recorridosLiveData;
     }

@@ -87,11 +87,11 @@ public class BicicletaViewModel extends ViewModel {
             @Override
             public void onResponse(Call<EliminarBicicletaResponse> call, Response<EliminarBicicletaResponse> response) {
                 if(response.isSuccessful() && response.body() != null){
-                    Log.d("BicicletaRepository", response.body().getMensaje());
+//                    Log.d("BicicletaRepository", response.body().getMensaje());
 
                     eliminarResponse.setValue(response.body());
                 }else{
-                    Log.d("BicicletaRepository", response.body().getMensaje());
+//                    Log.d("BicicletaRepository", response.body().getMensaje());
                     eliminarResponse.setValue(null);
                 }
             }

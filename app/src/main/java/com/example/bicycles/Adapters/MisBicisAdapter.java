@@ -62,13 +62,13 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
 public class MisBicisAdapter extends RecyclerView.Adapter<MisBicisAdapter.ViewHolder> {
-    private List<Bicicleta> bicicletas;
-    private Context context;
     public Activity activity;
+    public Context context;
+    private List<Bicicleta> bicicletas;
     public MultipartBody.Part imagenEdit;
+
     public RequestBody nombreEdit;
     public EliminarInterfaz listener;
-
 
     public MisBicisAdapter(List<Bicicleta> bicicletas, Context context, Activity activity, EliminarInterfaz listener){
         this(bicicletas, context, activity, null, null, listener);
@@ -141,6 +141,7 @@ public class MisBicisAdapter extends RecyclerView.Adapter<MisBicisAdapter.ViewHo
         holder.imagen.setImageDrawable(null);
         Picasso.get()
                 .load(bicicleta.getImagen())
+                .resize(1024, 1024)
                 .error(R.drawable.bicicletatarjeta)
                 .into(holder.imagen);
     }
@@ -150,19 +151,19 @@ public class MisBicisAdapter extends RecyclerView.Adapter<MisBicisAdapter.ViewHo
         return bicicletas.size();
     }
 
+//    public void setBicicletas(List<Bicicleta> bicicletas) {
+//        this.bicicletas = bicicletas;
+//        notifyDataSetChanged();
+//    }
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView nombre;
+        public ConstraintLayout layout;
         public ImageView imagen;
         public ImageButton menu;
-        public CardView all_item;
-        public ConstraintLayout layout;
         public Context context;
         public Bicicleta bici;
         private int position;
-        public BicicletaViewModel biciviewModel;
-
-        public ImageView viewImagen;
-        EditText viewNombre;
 
         //maybew para cuando le de click a cualquier parte de el item que le pueda editar el nombre
 
@@ -170,8 +171,9 @@ public class MisBicisAdapter extends RecyclerView.Adapter<MisBicisAdapter.ViewHo
             super(itemView);
             this.context = context;
             this.nombre = itemView.findViewById(R.id.nombre_bicicleta);
-            this.menu = itemView.findViewById(R.id.menu_opciones);
             this.imagen = itemView.findViewById(R.id.imagen_bicicleta);
+            this.menu = itemView.findViewById(R.id.menu_opciones);
+            menu.setOnClickListener(this);
         }
 
 
@@ -187,11 +189,9 @@ public class MisBicisAdapter extends RecyclerView.Adapter<MisBicisAdapter.ViewHo
         @Override
         public void onClick(View v) {
             if(v.getId() == menu.getId()){
-
-                Toast.makeText(context, "Se clickeo el menu", Toast.LENGTH_SHORT).show();
                 listener.eliminarBicicleta(bici, position);
-
             }
+
         }
 
 
