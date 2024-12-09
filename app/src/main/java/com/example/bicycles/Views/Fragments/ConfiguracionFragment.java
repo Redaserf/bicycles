@@ -55,4 +55,5 @@ public class ConfiguracionFragment extends Fragment {
             Toast.makeText(getContext(), "No hay clientes de correo instalados.", Toast.LENGTH_SHORT).show();
         }
     }
+
 }

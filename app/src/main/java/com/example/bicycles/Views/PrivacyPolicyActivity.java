@@ -1,6 +1,7 @@
 package com.example.bicycles.Views;
 
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,9 +32,11 @@ public class PrivacyPolicyActivity extends AppCompatActivity {
                 "6. Cambios en la política:\n" +
                 "Nos reservamos el derecho de actualizar estas políticas en cualquier momento. Por favor, revíselas periódicamente para mantenerse informado de cualquier cambio.\n\n" +
                 "7. Contacto:\n" +
-                "Si tiene preguntas o inquietudes sobre esta política de privacidad, puede contactarnos a través de soporte tecnico.";
+                "Si tiene preguntas o inquietudes sobre esta política de privacidad, puede contactarnos a través de soporte técnico.";
         textViewPrivacy.setText(privacyText);
 
+        // Configurar el botón de regreso
+        Button btnBack = findViewById(R.id.btn_back);
+        btnBack.setOnClickListener(v -> finish());
     }
 }
-
