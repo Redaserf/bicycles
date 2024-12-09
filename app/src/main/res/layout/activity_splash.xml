@@ -24,7 +24,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:fontFamily="sans-serif"
+        android:fontFamily="sans-serif-smallcaps"
         android:textColor="@color/azul_400"
         android:textSize="66sp"
         android:textStyle="bold" />
