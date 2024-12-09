@@ -48,6 +48,7 @@ import com.example.bicycles.R;
 import com.example.bicycles.ViewModels.BicicletaViewModel;
 import com.example.bicycles.ViewModels.MisBicisViewModel;
 import com.example.bicycles.Views.EliminarInterfaz;
+import com.example.bicycles.Views.Fragments.MasFragment;
 import com.example.bicycles.Views.Fragments.MisBicisFragment;
 import com.example.bicycles.Views.OnImageResultListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -89,16 +90,19 @@ public class MisBicisAdapter extends RecyclerView.Adapter<MisBicisAdapter.ViewHo
     }
 
     public void eliminarElemento(int position) {
-        this.bicicletas.remove(position);
+        if (position > 0 && position < bicicletas.size() && position < filteredBicicletas.size()) {
+            this.bicicletas.remove(position);
+            this.filteredBicicletas.remove(position);
 
-        notifyItemRemoved(position);//Puede fallar al eliminar una cita se duplica esa misma y al querer volver a elimnarla truena
-//        notifyItemRemoved(position); // Actualiza las posiciones del resto de elementos
-
+            notifyItemRemoved(position);
+        }
     }
+
 
     public void insertarElemento(int position, Bicicleta nuevaBicicleta) {
         if (nuevaBicicleta != null) {
-//            bicicletas.add(position ,nuevaBicicleta);
+            bicicletas.add(position ,nuevaBicicleta);
+            filteredBicicletas.add(position, nuevaBicicleta);
             notifyItemInserted(position);
             Log.d("DEBUG", "Elemento insertado en posición " + position + ": " + nuevaBicicleta.getNombre());
         }
@@ -110,9 +114,11 @@ public class MisBicisAdapter extends RecyclerView.Adapter<MisBicisAdapter.ViewHo
             bici.setImagen(nuevaImagen);
         }
 
-
         bicicletas.remove(position);
         bicicletas.add(position, bici);
+
+        filteredBicicletas.remove(position);
+        filteredBicicletas.add(position, bici);
 
         notifyItemChanged(position);
         Log.d("DEBUG", "Se notificó al adaptador que cambió un elemento en la posición: " + position);
@@ -196,7 +202,7 @@ public class MisBicisAdapter extends RecyclerView.Adapter<MisBicisAdapter.ViewHo
             this.position = position;
             nombre.setText(bicicleta.getNombre());
             Picasso.get().load(bici.getImagen())
-                    .resize(900, 900)
+                    .resize(1200, 720)
                     .into(imagen);
             menu.setOnClickListener(this);
         }

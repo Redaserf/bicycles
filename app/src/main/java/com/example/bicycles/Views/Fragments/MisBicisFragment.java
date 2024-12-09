@@ -221,6 +221,11 @@ public class MisBicisFragment extends Fragment implements EliminarInterfaz {
                         int position = findBicicletaPosition(eliminarBicicletaResponse.getBicicleta().getId());
                         if(position != -1) {
                             adapter.eliminarElemento(position);
+
+                            requireActivity().getSupportFragmentManager()
+                                    .beginTransaction()
+                                    .replace(R.id.fragment_container, new MasFragment())
+                                    .commit();
                         }else{
                          Toast.makeText(requireContext(), "No se encontro la bicicleta por eliminar", Toast.LENGTH_LONG).show();
                         }
@@ -228,6 +233,11 @@ public class MisBicisFragment extends Fragment implements EliminarInterfaz {
                         Toast.makeText(requireContext(), "No se pudo eliminar la bicicleta", Toast.LENGTH_SHORT).show();
                     }
                 progressDialog.dismiss();
+                requireActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new MisBicisFragment())
+                        .commit();
+
 
             }
         });
@@ -264,7 +274,6 @@ public class MisBicisFragment extends Fragment implements EliminarInterfaz {
 
 
         btnAgregar.setOnClickListener(v -> {
-            btnAgregar.setEnabled(false);
             nombre = edtxtNombre.getText().toString().trim();
             if (!nombre.isEmpty()) {
 
@@ -510,7 +519,9 @@ public class MisBicisFragment extends Fragment implements EliminarInterfaz {
         ImageView imagenEliminar = view.findViewById(R.id.imagen);
 
         nombre.setText(bici.getNombre());
-        Picasso.get().load(bici.getImagen()).into(imagenEliminar);
+        Picasso.get().load(bici.getImagen())
+                .resize(1200, 720)
+                .error(R.drawable.bicicletatarjeta).into(imagenEliminar);
         AppCompatActivity activity = (AppCompatActivity) requireContext();
 
         btnDelete.setOnClickListener(v -> {
@@ -519,10 +530,13 @@ public class MisBicisFragment extends Fragment implements EliminarInterfaz {
                 viewModel.eliminarBicicleta(bici.getId());
                 bottomSheetDialog.dismiss();
 
+
+
                 progressDialog = new ProgressDialog(requireContext());
                 progressDialog.setMessage("Eliminando bicicleta...");
                 progressDialog.setCancelable(false);
                 progressDialog.show();
+
 
                 Toast.makeText(requireContext(), "Bicicleta eliminada", Toast.LENGTH_SHORT).show();
             } else {
