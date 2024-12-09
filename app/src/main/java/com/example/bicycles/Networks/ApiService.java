@@ -1,10 +1,10 @@
 package com.example.bicycles.Networks;
 
-import com.example.bicycles.Models.Bicicleta;
-import com.example.bicycles.Models.BicicletaRequest;
 import com.example.bicycles.Models.LoginRequest;
 import com.example.bicycles.Models.Recorrido;
+import com.example.bicycles.Models.ReenviarRequest;
 import com.example.bicycles.Models.Usuario;
+import com.example.bicycles.Models.VerifyCodeRequest;
 import com.example.bicycles.Responses.AllRecorridosUsuarioResponse;
 import com.example.bicycles.Responses.BicicletaResponse;
 import com.example.bicycles.Responses.EditarBicicletaResponse;
@@ -15,10 +15,12 @@ import com.example.bicycles.Responses.LogoutResponse;
 import com.example.bicycles.Responses.MisBicicletasResponse;
 import com.example.bicycles.Responses.RecorridoInicioResponse;
 import com.example.bicycles.Responses.RecorridoResponse;
+import com.example.bicycles.Responses.ReenviarResponse;
 import com.example.bicycles.Responses.RegisterResponse;
 import com.example.bicycles.Responses.SensoresResponse;
 import com.example.bicycles.Responses.UsuarioEditResponse;
 import com.example.bicycles.Responses.UsuarioResponse;
+import com.example.bicycles.Responses.VerifyCodeResponse;
 import com.google.gson.JsonObject;
 
 import okhttp3.MultipartBody;
@@ -34,7 +36,6 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
 
 public interface ApiService {
 
@@ -48,6 +49,12 @@ public interface ApiService {
 
     @POST("logout")
     Call<LogoutResponse> logout();
+
+    @POST("send")
+    Call<VerifyCodeResponse> verifyCode(@Body VerifyCodeRequest request);
+
+    @POST("reenviar")
+    Call<ReenviarResponse> reenviar(@Body ReenviarRequest request);
 
 
     // =====[ Usuarios ]=====

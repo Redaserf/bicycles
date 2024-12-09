@@ -60,6 +60,9 @@
           android:textStyle="bold" />
 
       <EditText
+          android:scrollHorizontally="true"
+          android:singleLine="true"
+          android:maxLines="1"
           android:id="@+id/et_correo"
           android:layout_width="match_parent"
           android:layout_height="50dp"
@@ -75,6 +78,9 @@
           android:textColorHighlight="@color/cardview_dark_background" />
 
       <EditText
+          android:scrollHorizontally="true"
+          android:singleLine="true"
+          android:maxLines="1"
           android:id="@+id/et_contrasena"
           android:layout_width="match_parent"
           android:layout_height="50dp"
@@ -103,6 +109,19 @@
           android:textStyle="bold"
           android:textSize="18sp"
           app:cornerRadius="20dp" />
+
+<!--Para los errores-->
+      <TextView
+          android:id="@+id/tv_login_errors"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:visibility="gone"
+          android:textAlignment="center"
+          android:textColor="#FF0000"
+          android:padding="8dp"
+          android:textSize="14sp" />
+
+
       <TextView
           android:id="@+id/tv_crear_cuenta"
           android:layout_width="match_parent"

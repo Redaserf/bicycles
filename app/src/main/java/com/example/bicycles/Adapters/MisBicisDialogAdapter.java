@@ -96,7 +96,7 @@ public class MisBicisDialogAdapter extends RecyclerView.Adapter<MisBicisDialogAd
         @Override
         public void onClick(View v) {
             if (listener != null) {
-                listener.onBicicletaClick(bicicletas.get(position));
+                listener.onBicicletaClick(bicicletas.get(getAdapterPosition()));
             }
         }
     }

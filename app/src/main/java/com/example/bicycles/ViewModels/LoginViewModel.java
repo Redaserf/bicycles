@@ -14,16 +14,17 @@ public class LoginViewModel extends ViewModel {
 
     public LoginViewModel(Context context) {
         this.loginRepository = new LoginRepository(context);
+        loginMessage = new MutableLiveData<>();
     }
 
     public void login(String email, String password) {
-        if (loginMessage == null) {
-            loginMessage = new MutableLiveData<>();
-        }
         loginMessage = loginRepository.login(email, password);
     }
 
     public LiveData<String> getLoginMessage() {
+        if (loginMessage == null) {
+            loginMessage = new MutableLiveData<>();
+        }
         return loginMessage;
     }
 }
