@@ -456,7 +456,8 @@ public class MisBicisFragment extends Fragment implements EliminarInterfaz {
         Button btnCancel = view.findViewById(R.id.btnCancel);
 
 
-        Picasso.get().load(bici.getImagen()).into(prevImagen);
+        Picasso.get().load(bici.getImagen()).resize(1200, 720)
+                .error(R.drawable.bicicletatarjeta).into(prevImagen);
         viewNombre.setText(bici.getNombre());
 
         dialog = builder.create();

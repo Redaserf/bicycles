@@ -1,8 +1,10 @@
 package com.example.bicycles.Adapters;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -10,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bicycles.Models.Bicicleta;
 import com.example.bicycles.R;
+import com.example.bicycles.Views.OnBicicletaClickListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,13 +29,14 @@ public class MisBicisDialogAdapter extends RecyclerView.Adapter<MisBicisDialogAd
         this.listener = listener;
     }
 
-    public  void actualizarLista(List<Bicicleta> bicicletas){
+    public void actualizarLista(List<Bicicleta> bicicletas){
         this.bicicletas.clear();
         this.bicicletas.addAll(bicicletas);
 
         this.filteredBicicletas.clear();
         this.filteredBicicletas.addAll(bicicletas);
         notifyDataSetChanged();
+        Log.d("DEBUG", "Se notifico al adaptador que las bicicletas se actualizaron");
     }
 
     @NonNull
@@ -43,7 +48,7 @@ public class MisBicisDialogAdapter extends RecyclerView.Adapter<MisBicisDialogAd
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bind(filteredBicicletas.get(position));
+        holder.bind(filteredBicicletas.get(position), position);
     }
 
     public void filter(String text) {
@@ -66,26 +71,34 @@ public class MisBicisDialogAdapter extends RecyclerView.Adapter<MisBicisDialogAd
         return filteredBicicletas.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView nombreBicicleta;
+        private ImageView imagen;
+        private int position;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             nombreBicicleta = itemView.findViewById(R.id.nombre_bicicleta);
+            imagen = itemView.findViewById(R.id.imagen_bicicleta);
 
-            itemView.setOnClickListener(v -> {
-                if (listener != null) {
-                    listener.onBicicletaClick(bicicletas.get(getAdapterPosition()));
-                }
-            });
+            itemView.setOnClickListener(this);
         }
 
-        public void bind(Bicicleta bicicleta) {
+        public void bind(Bicicleta bicicleta, int position) {
+            this.position = position;
             nombreBicicleta.setText(bicicleta.getNombre());
+            Picasso.get().load(bicicleta.getImagen()).resize(1200, 720)
+                    .error(R.drawable.bicicletatarjeta).into(imagen);
+
+            Log.d("DEBUG", "Se esta llenando el recycler view");
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (listener != null) {
+                listener.onBicicletaClick(bicicletas.get(position));
+            }
         }
     }
 
-    public interface OnBicicletaClickListener {
-        void onBicicletaClick(Bicicleta bicicleta);
-    }
 }

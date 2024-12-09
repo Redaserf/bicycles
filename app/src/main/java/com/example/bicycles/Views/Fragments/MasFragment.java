@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,12 +25,17 @@ import com.example.bicycles.Adapters.MisBicisDialogAdapter;
 import com.example.bicycles.Factory.Factory;
 import com.example.bicycles.Models.Bicicleta;
 import com.example.bicycles.R;
+import com.example.bicycles.Responses.MisBicicletasResponse;
 import com.example.bicycles.ViewModels.EliminarVelocidadViewModel;
 import com.example.bicycles.ViewModels.MisBicisViewModel;
 import com.example.bicycles.ViewModels.RecorridoInicioViewModel;
 import com.example.bicycles.ViewModels.SensoresViewModel;
+import com.example.bicycles.Views.OnBicicletaClickListener;
 
-public class MasFragment extends Fragment {
+import java.util.ArrayList;
+import java.util.List;
+
+public class MasFragment extends Fragment implements OnBicicletaClickListener {
 
     private boolean isPlaying = false; // Estado inicial para el botón de play/pause
     private MisBicisViewModel misBicisViewModel;
@@ -48,8 +54,13 @@ public class MasFragment extends Fragment {
     private Handler tiempoHandler = new Handler();
     private Runnable tiempoRunnable;
     private OnFragmentInteractionListener listener; // Callback para interactuar con la actividad principal
+    private RecyclerView recyclerView;
+    private MisBicisDialogAdapter adapter;
+    private List<Bicicleta> bicicletas = new ArrayList<>();
 
     private SearchView buscar;
+    private View dialogView;
+    private AlertDialog dialog;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -96,52 +107,43 @@ public class MasFragment extends Fragment {
             }
         });
 
+        LayoutInflater inflaterLyt = LayoutInflater.from(requireContext());
+        dialogView = inflaterLyt.inflate(R.layout.dialog_bicycle_selection, null);
+
+        recyclerView = dialogView.findViewById(R.id.recycler_bicycles);
+        adapter = new MisBicisDialogAdapter(bicicletas, this);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        recyclerView.setHasFixedSize(true);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        builder.setTitle("Selecciona una bicicleta");
+        builder.setView(dialogView)
+                .setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss());
+
+        dialog = builder.create();
+        misBicisViewModel.getBicicletasLiveData().observe(getViewLifecycleOwner(), new Observer<MisBicicletasResponse>() {
+            @Override
+            public void onChanged(MisBicicletasResponse misBicicletasResponse) {
+                if(misBicicletasResponse.getBicicletas() != null){
+                    bicicletas = misBicicletasResponse.getBicicletas();
+                    adapter.actualizarLista(misBicicletasResponse.getBicicletas());
+                    Log.d("DEBUG", "Se actualizo el adapter de las bicicletas dialog");
+                }else{
+                    Toast.makeText(requireContext(), "No hay bicicletas para los recorridos", Toast.LENGTH_LONG).show();
+                }
+                Log.d("DEBUG", "Cantidad de bicics: " + misBicicletasResponse.getBicicletas().size());
+            }
+        });
+//        misBicisViewModel.fetchBicicletas();
+
         return view;
     }
 
     private void showBicycleSelectionDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-        builder.setTitle("Selecciona una bicicleta");
-
-        View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_bicycle_selection, null);
-        RecyclerView recyclerView = dialogView.findViewById(R.id.recycler_bicycles);
-        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        buscar = dialogView.findViewById(R.id.edTxtBuscar);
-
-        AlertDialog dialog = builder.setView(dialogView)
-                .setNegativeButton("Cancelar", (d, which) -> d.dismiss())
-                .create();
+        // Mostrar el diálogo (datos ya actualizados por el LiveData)
 
         misBicisViewModel.fetchBicicletas();
-        misBicisViewModel.getBicicletasLiveData().observe(getViewLifecycleOwner(), bicicletas -> {
-            if (bicicletas != null) {
-                MisBicisDialogAdapter adapter = new MisBicisDialogAdapter(bicicletas.getBicicletas(), bicicleta -> {
-                    bicicletaSeleccionadaId = (long) bicicleta.getId();
-                    playPauseButton.setImageResource(R.drawable.ic_pause);
-                    isPlaying = true;
-                    iniciarRecorrido(bicicleta.getId());
-                    dialog.dismiss();
-                });
-                recyclerView.setAdapter(adapter);
-                //buscador
-                buscar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                    @Override
-                    public boolean onQueryTextSubmit(String query) {
-                        adapter.filter(query);
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onQueryTextChange(String newText) {
-                        adapter.filter(newText);
-                        return false;
-                    }
-                });
-            } else {
-                Toast.makeText(requireContext(), "No tienes bicicletas registradas.", Toast.LENGTH_SHORT).show();
-            }
-        });
-
         dialog.show();
     }
 
@@ -260,6 +262,11 @@ public class MasFragment extends Fragment {
             }
         };
         tiempoHandler.post(tiempoRunnable);
+    }
+
+    @Override
+    public void onBicicletaClick(Bicicleta bicicleta) {
+
     }
 
     public interface OnFragmentInteractionListener {
