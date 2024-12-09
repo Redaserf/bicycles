@@ -150,6 +150,7 @@ public class MasFragment extends Fragment implements OnBicicletaClickListener {
     private void iniciarRecorrido(int bicicletaId) {
         recorridoInicioViewModel.iniciarRecorrido(bicicletaId).observe(getViewLifecycleOwner(), response -> {
             if (response != null) {
+                Log.d("DEBUG", "Recorrido iniciado: ID " + response.getRecorridoId());
                 recorridoId = response.getRecorridoId();
                 iniciarActualizacionesPeriodicas(recorridoId);
                 iniciarTemporizador();
@@ -266,7 +267,12 @@ public class MasFragment extends Fragment implements OnBicicletaClickListener {
 
     @Override
     public void onBicicletaClick(Bicicleta bicicleta) {
-
+        Log.d("DEBUG", "Bicicleta seleccionada: " + bicicleta.getNombre());
+        bicicletaSeleccionadaId = (long) bicicleta.getId();
+        playPauseButton.setImageResource(R.drawable.ic_pause);
+        isPlaying = true;
+        iniciarRecorrido(bicicleta.getId());
+        dialog.dismiss();
     }
 
     public interface OnFragmentInteractionListener {

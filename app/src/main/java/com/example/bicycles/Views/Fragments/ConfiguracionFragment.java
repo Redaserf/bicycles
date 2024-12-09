@@ -14,7 +14,6 @@ import androidx.fragment.app.Fragment;
 
 import com.example.bicycles.R;
 import com.example.bicycles.Views.PrivacyPolicyActivity;
-
 public class ConfiguracionFragment extends Fragment {
 
     private Button btnPrivacyPolicy, btnSupport;

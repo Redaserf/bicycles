@@ -1,10 +1,12 @@
 package com.example.bicycles.Views;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -16,11 +18,13 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.bicycles.Factory.Factory;
 import com.example.bicycles.R;
 import com.example.bicycles.ViewModels.LoginViewModel;
+import com.example.bicycles.code_verify;
 
 public class login extends AppCompatActivity {
     private EditText etCorreo, etContrasena;
     private Button btnIniciarSesion;
     private boolean isPasswordVisible = false; // Controlar visibilidad de la contraseña
+    private ProgressDialog progressDialog; // Declaración del ProgressDialog
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -31,6 +35,11 @@ public class login extends AppCompatActivity {
         etCorreo = findViewById(R.id.et_correo);
         etContrasena = findViewById(R.id.et_contrasena);
         btnIniciarSesion = findViewById(R.id.btn_iniciar_sesion);
+
+        // Inicialización del ProgressDialog
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Iniciando sesión...");
+        progressDialog.setCancelable(false);
 
         // Configurar funcionalidad del ícono del ojo
         etContrasena.setOnTouchListener((v, event) -> {
@@ -73,16 +82,27 @@ public class login extends AppCompatActivity {
             String contrasena = etContrasena.getText().toString().trim();
 
             if (correo.isEmpty() || contrasena.isEmpty()) {
-                Toast.makeText(this, "Completa todos los campos", Toast.LENGTH_SHORT).show();
+                mostrarErrores("Completa todos los campos.");
             } else {
+                // Mostrar el ProgressDialog al iniciar sesión
+                progressDialog.show();
+
                 loginViewModel.login(correo, contrasena);
                 loginViewModel.getLoginMessage().observe(this, message -> {
+                    // Ocultar el ProgressDialog cuando se recibe respuesta
+                    progressDialog.dismiss();
+
                     if ("REDIRECT".equals(message)) {
                         Intent intent = new Intent(this, Home.class);
                         startActivity(intent);
                         finish();
+                    } else if ("VERIFY_CODE".equals(message)) {
+                        Intent intent = new Intent(this, code_verify.class);
+                        intent.putExtra("email", etCorreo.getText().toString().trim());
+                        startActivity(intent);
+                        finish();
                     } else if (message != null) {
-                        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+                        mostrarErrores(message);
                     }
                 });
             }
@@ -93,5 +113,12 @@ public class login extends AppCompatActivity {
             Intent intent = new Intent(login.this, register.class);
             startActivity(intent);
         });
+    }
+
+    // Método para mostrar errores
+    private void mostrarErrores(String mensaje) {
+        TextView tvLoginErrors = findViewById(R.id.tv_login_errors);
+        tvLoginErrors.setVisibility(View.VISIBLE);
+        tvLoginErrors.setText(mensaje);
     }
 }
