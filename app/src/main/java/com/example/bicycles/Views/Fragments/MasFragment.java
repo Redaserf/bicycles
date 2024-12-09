@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -116,6 +117,12 @@ public class MasFragment extends Fragment implements OnBicicletaClickListener {
         LayoutInflater inflaterLyt = LayoutInflater.from(requireContext());
         dialogView = inflaterLyt.inflate(R.layout.dialog_bicycle_selection, null);
         buscar = dialogView.findViewById(R.id.edTxtBuscar);
+        SearchView buscar = dialogView.findViewById(R.id.edTxtBuscar);
+        ImageView searchIcon = buscar.findViewById(androidx.appcompat.R.id.search_mag_icon);
+        searchIcon.setVisibility(View.GONE);
+        buscar.setIconified(false);
+
+
 
         buscar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -130,6 +137,14 @@ public class MasFragment extends Fragment implements OnBicicletaClickListener {
                 return false;
             }
         });
+        buscar.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                buscar.setQuery("", false);
+                return true;
+            }
+        });
+
 
         recyclerView = dialogView.findViewById(R.id.recycler_bicycles);
         adapter = new MisBicisDialogAdapter(bicicletas, this);

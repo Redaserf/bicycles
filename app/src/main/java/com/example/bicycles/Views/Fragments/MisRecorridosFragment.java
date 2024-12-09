@@ -2,12 +2,14 @@ package com.example.bicycles.Views.Fragments;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
@@ -58,6 +60,9 @@ public class MisRecorridosFragment extends Fragment {
         observarCambiosDeRecorridos();
 
         filtroButton.setOnClickListener(v -> mostrarMenuDeFiltro());
+        ImageView searchIcon = buscar.findViewById(androidx.appcompat.R.id.search_mag_icon);
+        searchIcon.setVisibility(View.GONE);
+        buscar.setIconified(false);
 
         buscar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -76,6 +81,16 @@ public class MisRecorridosFragment extends Fragment {
                 return false;
             }
         });
+        buscar.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                // Retornar true significa que se consume el evento y NO se cierra
+                // Si quieres que la "X" solo limpie el texto, hazlo aquí manualmente
+                buscar.setQuery("", false);
+                return true;
+            }
+        });
+
 
         return view;
     }
