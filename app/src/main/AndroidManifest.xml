@@ -37,8 +37,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Views.Home"
+        <activity android:name=".Views.Home"
             android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
@@ -63,7 +62,13 @@
             android:name=".Views.EditProfileActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity" />
+            tools:ignore="LockedOrientationActivity"/>
+
+        <activity
+            android:name=".Views.PrivacyPolicyActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"/>
 
         <provider
             android:name="androidx.core.content.FileProvider"
