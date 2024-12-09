@@ -41,9 +41,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MasFragment extends Fragment implements OnBicicletaClickListener {
+
+    private boolean isPlaying = false;
+    private boolean isPaused = false; // Indica si el recorrido está en pausa
     private static final String CHANNEL_ID = "recorrido_channel";
     private NotificationManager notificationManager;
-    private boolean isPlaying = false; // Estado inicial para el botón de play/pause
     private MisBicisViewModel misBicisViewModel;
     private RecorridoInicioViewModel recorridoInicioViewModel;
     private SensoresViewModel sensoresViewModel;
@@ -52,21 +54,22 @@ public class MasFragment extends Fragment implements OnBicicletaClickListener {
     private Bicicleta bicicletaSeleccionada;
     private Long bicicletaSeleccionadaId;
     private Integer recorridoId;
-    private ImageButton playPauseButton;
+    private ImageButton playPauseButton, pauseButton; // Botón de pausa
     private Handler handler = new Handler();
     private Runnable dataFetcher;
     private TextView tiempoTranscurrido;
     private long tiempoInicio = 0;
+    private long tiempoPausado = 0;
     private Handler tiempoHandler = new Handler();
     private Runnable tiempoRunnable;
-    private OnFragmentInteractionListener listener; // Callback para interactuar con la actividad principal
+    private OnFragmentInteractionListener listener;
     private RecyclerView recyclerView;
     private MisBicisDialogAdapter adapter;
     private List<Bicicleta> bicicletas = new ArrayList<>();
-
     private SearchView buscar;
     private View dialogView;
     private AlertDialog dialog;
+    private TextView tvPausado;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -175,6 +178,7 @@ public class MasFragment extends Fragment implements OnBicicletaClickListener {
 
         // Inicializar vistas
         playPauseButton = view.findViewById(R.id.play_pause_button);
+        pauseButton = view.findViewById(R.id.pause_button); // Botón de pausa/reanudar
         velocidadActual = view.findViewById(R.id.velocidad_actual);
         velocidadMaxima = view.findViewById(R.id.velocidad_maxima);
         velocidadPromedio = view.findViewById(R.id.velocidad_promedio);
@@ -182,6 +186,7 @@ public class MasFragment extends Fragment implements OnBicicletaClickListener {
         distanciaRecorrida = view.findViewById(R.id.distancia_recorrida);
         caloriasQuemadas = view.findViewById(R.id.tv_calorias);
         temperaturaView = view.findViewById(R.id.tv_temperatura);
+        tvPausado = view.findViewById(R.id.tv_pausado);
 
         Factory factory = new Factory(requireContext());
         misBicisViewModel = new ViewModelProvider(this, factory).get(MisBicisViewModel.class);
@@ -197,6 +202,8 @@ public class MasFragment extends Fragment implements OnBicicletaClickListener {
                 mostrarAlertaDetenerRecorrido();
             }
         });
+
+        pauseButton.setOnClickListener(v -> togglePauseResumeRecorrido()); // Configurar botón de pausa/reanudar
 
         LayoutInflater inflaterLyt = LayoutInflater.from(requireContext());
         dialogView = inflaterLyt.inflate(R.layout.dialog_bicycle_selection, null);
@@ -228,32 +235,66 @@ public class MasFragment extends Fragment implements OnBicicletaClickListener {
                 .setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss());
 
         dialog = builder.create();
-        misBicisViewModel.getBicicletasLiveData().observe(getViewLifecycleOwner(), new Observer<MisBicicletasResponse>() {
-            @Override
-            public void onChanged(MisBicicletasResponse misBicicletasResponse) {
-                if(misBicicletasResponse.getBicicletas() != null){
-                    bicicletas = misBicicletasResponse.getBicicletas();
-                    adapter.actualizarLista(misBicicletasResponse.getBicicletas());
-                    Log.d("DEBUG", "Se actualizo el adapter de las bicicletas dialog");
-                }else{
-                    Toast.makeText(requireContext(), "No hay bicicletas para los recorridos", Toast.LENGTH_LONG).show();
-                }
-                Log.d("DEBUG", "Cantidad de bicics: " + misBicicletasResponse.getBicicletas().size());
+        misBicisViewModel.getBicicletasLiveData().observe(getViewLifecycleOwner(), misBicicletasResponse -> {
+            if (misBicicletasResponse.getBicicletas() != null) {
+                bicicletas = misBicicletasResponse.getBicicletas();
+                adapter.actualizarLista(misBicicletasResponse.getBicicletas());
+                Log.d("DEBUG", "Se actualizó el adapter de las bicicletas dialog");
+            } else {
+                Toast.makeText(requireContext(), "No hay bicicletas para los recorridos", Toast.LENGTH_LONG).show();
             }
+            Log.d("DEBUG", "Cantidad de bicis: " + misBicicletasResponse.getBicicletas().size());
         });
-//        misBicisViewModel.fetchBicicletas();
 
         return view;
     }
 
-    private void showBicycleSelectionDialog() {
-        // Mostrar el diálogo (datos ya actualizados por el LiveData)
+    private void togglePauseResumeRecorrido() {
+        if (isPaused) {
+            // Reanudar el recorrido
+            Log.d("DEBUG", "Reanudando recorrido...");
+            tiempoInicio = System.currentTimeMillis() - tiempoPausado; // Ajustar tiempo de inicio correctamente
+            iniciarActualizacionesPeriodicas(recorridoId);
+            iniciarTemporizador();
+            pauseButton.setImageResource(R.drawable.ic_pause); // Cambiar icono a pausa
+            tvPausado.setVisibility(View.GONE); // Ocultar el texto de "Pausado..."
+            isPaused = false;
+        } else {
+            // Pausar el recorrido
+            Log.d("DEBUG", "Pausando recorrido...");
+            detenerActualizacionesPeriodicas();
+            detenerTemporizador();
+            tiempoPausado = System.currentTimeMillis() - tiempoInicio; // Almacenar tiempo pausado
+            pauseButton.setImageResource(R.drawable.ic_play); // Cambiar icono a reanudar
+            tvPausado.setVisibility(View.VISIBLE); // Mostrar el texto de "Pausado..."
+            isPaused = true;
+        }
+    }
 
+    private void showBicycleSelectionDialog() {
         misBicisViewModel.fetchBicicletas();
         dialog.show();
     }
 
+    private void iniciarRecorrido(int bicicletaId) {
+        recorridoInicioViewModel.iniciarRecorrido(bicicletaId).observe(getViewLifecycleOwner(), response -> {
+            if (response != null) {
+                recorridoId = response.getRecorridoId();
+                tiempoInicio = System.currentTimeMillis();
+                iniciarActualizacionesPeriodicas(recorridoId);
+                iniciarTemporizador();
 
+                pauseButton.setVisibility(View.VISIBLE); // Mostrar botón de pausa/reanudar
+                isPaused = false;
+
+                if (listener != null) {
+                    listener.onHideBottomNavigation();
+                }
+            } else {
+                Toast.makeText(requireContext(), "Error al iniciar recorrido", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
     private void mostrarAlertaDetenerRecorrido() {
         new AlertDialog.Builder(requireContext())
@@ -264,7 +305,24 @@ public class MasFragment extends Fragment implements OnBicicletaClickListener {
                 .show();
     }
 
+    private void detenerRecorrido() {
+        detenerActualizacionesPeriodicas();
+        detenerTemporizador();
+        eliminarVelocidadesDelRecorrido();
+        reiniciarTextViews();
+        isPlaying = false;
 
+        playPauseButton.setImageResource(R.drawable.ic_play);
+        pauseButton.setVisibility(View.GONE);
+        tvPausado.setVisibility(View.GONE);
+        isPaused = false;
+
+        tiempoInicio = 0;
+        tiempoPausado = 0;
+
+        requireActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, new MasFragment()).commit();
 
     private void iniciarActualizacionesPeriodicas(int recorridoId) {
         dataFetcher = new Runnable() {
@@ -282,8 +340,8 @@ public class MasFragment extends Fragment implements OnBicicletaClickListener {
                     }
                 });
 
-                // Tiempo de las consultas
-                handler.postDelayed(this, 3000);
+                // Handler para el Adafruit
+                handler.postDelayed(this, 1800);
             }
         };
 
@@ -298,7 +356,6 @@ public class MasFragment extends Fragment implements OnBicicletaClickListener {
 
     private void detenerTemporizador() {
         tiempoHandler.removeCallbacks(tiempoRunnable);
-        tiempoTranscurrido.setText("00:00:00");
     }
 
     private void eliminarVelocidadesDelRecorrido() {
@@ -326,12 +383,16 @@ public class MasFragment extends Fragment implements OnBicicletaClickListener {
     }
 
     private void iniciarTemporizador() {
-        tiempoInicio = System.currentTimeMillis();
         tiempoRunnable = new Runnable() {
             @Override
             public void run() {
                 long tiempoActual = System.currentTimeMillis();
                 long tiempoTranscurridoMillis = tiempoActual - tiempoInicio;
+
+                if (isPaused) {
+                    tiempoHandler.removeCallbacks(this);
+                    return;
+                }
 
                 int segundos = (int) (tiempoTranscurridoMillis / 1000) % 60;
                 int minutos = (int) ((tiempoTranscurridoMillis / (1000 * 60)) % 60);
@@ -349,7 +410,7 @@ public class MasFragment extends Fragment implements OnBicicletaClickListener {
     public void onBicicletaClick(Bicicleta bicicleta) {
         Log.d("DEBUG", "Bicicleta seleccionada: " + bicicleta.getNombre());
         bicicletaSeleccionadaId = (long) bicicleta.getId();
-        playPauseButton.setImageResource(R.drawable.ic_pause);
+        playPauseButton.setImageResource(R.drawable.baseline_stop_24);
         isPlaying = true;
         iniciarRecorrido(bicicleta.getId());
         dialog.dismiss();

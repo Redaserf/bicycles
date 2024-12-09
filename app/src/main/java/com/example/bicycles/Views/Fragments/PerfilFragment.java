@@ -1,5 +1,6 @@
 package com.example.bicycles.Views.Fragments;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -27,13 +28,13 @@ public class PerfilFragment extends Fragment {
     private Button btnEditProfile, btnLogout;
     private UsuarioViewModel usuarioViewModel;
     private LogoutViewModel logoutViewModel;
+    private ProgressDialog progressDialogCarga;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_perfil, container, false);
 
-        // Inicializar vistas
         tvUsername = view.findViewById(R.id.tv_username);
         tvAboutMe = view.findViewById(R.id.tv_about_me);
         tvEmail = view.findViewById(R.id.tv_email);
@@ -41,18 +42,19 @@ public class PerfilFragment extends Fragment {
         btnEditProfile = view.findViewById(R.id.btn_edit_profile);
         btnLogout = view.findViewById(R.id.btn_logout);
 
-        // Configurar ViewModels con Factory
         Factory factory = new Factory(requireContext());
         usuarioViewModel = new ViewModelProvider(this, factory).get(UsuarioViewModel.class);
         logoutViewModel = new ViewModelProvider(this, factory).get(LogoutViewModel.class);
 
-        // Configurar botón para editar perfil
+        progressDialogCarga = new ProgressDialog(requireContext());
+        progressDialogCarga.setMessage("Cargando datos de perfil...");
+        progressDialogCarga.setCancelable(false);
+
         btnEditProfile.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), EditProfileActivity.class);
             startActivity(intent);
         });
 
-        // Configurar botón de logout
         btnLogout.setOnClickListener(v -> realizarLogout());
 
         return view;
@@ -65,9 +67,13 @@ public class PerfilFragment extends Fragment {
     }
 
     private void cargarDatosUsuario() {
+        progressDialogCarga.show();
+
         usuarioViewModel.cargarUsuario();
 
         usuarioViewModel.getUsuarioLiveData().observe(getViewLifecycleOwner(), usuario -> {
+            progressDialogCarga.dismiss();
+
             if (usuario != null) {
                 tvUsername.setText(usuario.getNombre());
                 tvAboutMe.setText(usuario.getApellido());
@@ -85,7 +91,6 @@ public class PerfilFragment extends Fragment {
             if ("Cierre de sesión exitoso.".equals(mensaje)) {
                 Toast.makeText(requireContext(), mensaje, Toast.LENGTH_SHORT).show();
 
-                // Redirigir al login
                 Intent intent = new Intent(requireContext(), login.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);

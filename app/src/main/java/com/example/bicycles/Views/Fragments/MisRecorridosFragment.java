@@ -1,5 +1,6 @@
 package com.example.bicycles.Views.Fragments;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,7 +12,7 @@ import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SearchView; // Asegúrate de usar esta clase
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -33,6 +34,7 @@ public class MisRecorridosFragment extends Fragment {
     private RecorridosAdapter adapter;
     private Button filtroButton;
     private SearchView buscar;
+    private ProgressDialog progressDialogCarga; // ProgressDialog para la carga de recorridos
     private static final String TAG = "MisRecorridosFragment";
 
     @Nullable
@@ -40,24 +42,23 @@ public class MisRecorridosFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_mis_recorridos, container, false);
 
-        // Inicializar vistas
         recyclerView = view.findViewById(R.id.recycler_recorridos);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         filtroButton = view.findViewById(R.id.filtro);
-        buscar = view.findViewById(R.id.search_view); // Asegúrate de que el ID sea correcto
+        buscar = view.findViewById(R.id.search_view);
 
-        // Configurar ViewModel
+        progressDialogCarga = new ProgressDialog(requireContext());
+        progressDialogCarga.setMessage("Cargando recorridos...");
+        progressDialogCarga.setCancelable(false);
+
         Factory factory = new Factory(requireContext());
         allRecorridosUsuarioViewModel = new ViewModelProvider(this, factory).get(AllRecorridosUsuarioViewModel.class);
 
-        // Cargar y observar datos
         cargarRecorridos();
         observarCambiosDeRecorridos();
 
-        // Configurar botón de filtro
         filtroButton.setOnClickListener(v -> mostrarMenuDeFiltro());
 
-        // Configurar búsqueda
         buscar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -106,19 +107,24 @@ public class MisRecorridosFragment extends Fragment {
     }
 
     private void cargarRecorridos() {
+        progressDialogCarga.show();
         allRecorridosUsuarioViewModel.cargarRecorridos();
     }
 
     private void cargarRecorridosSemana() {
+        progressDialogCarga.show();
         allRecorridosUsuarioViewModel.cargarRecorridosSemana();
     }
 
     private void cargarRecorridosMes() {
+        progressDialogCarga.show();
         allRecorridosUsuarioViewModel.cargarRecorridosMes();
     }
 
     private void observarCambiosDeRecorridos() {
         allRecorridosUsuarioViewModel.getRecorridosLiveData().observe(getViewLifecycleOwner(), response -> {
+            progressDialogCarga.dismiss();
+
             if (response != null && response.getRecorridos() != null) {
                 Log.d(TAG, "Recorridos obtenidos con éxito: " + response.getRecorridos().size());
                 adapter = new RecorridosAdapter(response.getRecorridos());

@@ -8,6 +8,25 @@
 
     <!-- Botón de Volver -->
 
+    <TextView
+        android:id="@+id/tv_pausado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/border_card"
+        android:padding="8dp"
+        android:text="Pausado..."
+        android:textColor="@color/yellow"
+        android:textSize="26sp"
+        android:visibility="gone"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/animation2"/>
+
+
+
     <!-- Imagen ciclista y velocímetro -->
     
     <com.airbnb.lottie.LottieAnimationView
@@ -221,6 +240,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_temperatura" />
+
+    <ImageButton
+        android:id="@+id/pause_button"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/rounded_background"
+        android:backgroundTint="@color/azul_300"
+        android:contentDescription="Botón de pausa"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_pause"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_calorias"
+        app:layout_constraintEnd_toStartOf="@id/play_pause_button"/>
 
     <!-- Botón Estilo Spotify -->
     <ImageButton
