@@ -91,7 +91,7 @@ public class BicicletaViewModel extends ViewModel {
 
                     eliminarResponse.setValue(response.body());
                 }else{
-//                    Log.d("BicicletaRepository", response.body().getMensaje());
+                    Log.d("BicicletaRepository", String.valueOf(response.code()));
                     eliminarResponse.setValue(null);
                 }
             }
