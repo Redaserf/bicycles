@@ -11,6 +11,7 @@ import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView; // Asegúrate de usar esta clase
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,7 +20,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.bicycles.Adapters.RecorridosAdapter;
 import com.example.bicycles.Factory.Factory;
 import com.example.bicycles.R;
-import com.example.bicycles.Responses.AllRecorridosUsuarioResponse;
 import com.example.bicycles.ViewModels.AllRecorridosUsuarioViewModel;
 
 public class MisRecorridosFragment extends Fragment {
@@ -29,30 +29,52 @@ public class MisRecorridosFragment extends Fragment {
     private static final int FILTRO_MES = 3;
 
     private AllRecorridosUsuarioViewModel allRecorridosUsuarioViewModel;
-    private static final String TAG = "MisRecorridosFragment";
     private RecyclerView recyclerView;
     private RecorridosAdapter adapter;
     private Button filtroButton;
+    private SearchView buscar;
+    private static final String TAG = "MisRecorridosFragment";
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_mis_recorridos, container, false);
 
-        // Configura el RecyclerView
+        // Inicializar vistas
         recyclerView = view.findViewById(R.id.recycler_recorridos);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-
-        // Configura el botón de filtro
         filtroButton = view.findViewById(R.id.filtro);
-        filtroButton.setOnClickListener(v -> mostrarMenuDeFiltro());
+        buscar = view.findViewById(R.id.search_view); // Asegúrate de que el ID sea correcto
 
-        // Configura el ViewModel
+        // Configurar ViewModel
         Factory factory = new Factory(requireContext());
         allRecorridosUsuarioViewModel = new ViewModelProvider(this, factory).get(AllRecorridosUsuarioViewModel.class);
 
-        // Cargar todos los recorridos por defecto
+        // Cargar y observar datos
         cargarRecorridos();
+        observarCambiosDeRecorridos();
+
+        // Configurar botón de filtro
+        filtroButton.setOnClickListener(v -> mostrarMenuDeFiltro());
+
+        // Configurar búsqueda
+        buscar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                if (adapter != null) {
+                    adapter.filter(query);
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (adapter != null) {
+                    adapter.filter(newText);
+                }
+                return false;
+            }
+        });
 
         return view;
     }
@@ -83,20 +105,16 @@ public class MisRecorridosFragment extends Fragment {
         popupMenu.show();
     }
 
-
     private void cargarRecorridos() {
         allRecorridosUsuarioViewModel.cargarRecorridos();
-        observarCambiosDeRecorridos();
     }
 
     private void cargarRecorridosSemana() {
         allRecorridosUsuarioViewModel.cargarRecorridosSemana();
-        observarCambiosDeRecorridos();
     }
 
     private void cargarRecorridosMes() {
         allRecorridosUsuarioViewModel.cargarRecorridosMes();
-        observarCambiosDeRecorridos();
     }
 
     private void observarCambiosDeRecorridos() {
