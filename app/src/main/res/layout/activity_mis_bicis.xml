@@ -6,17 +6,17 @@
     android:layout_height="match_parent">
 
 
-
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_mis_bicis"
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/edTxtBuscar"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="wrap_content"
+        android:queryHint="Buscar..."
+        app:layout_constraintEnd_toStartOf="@id/agregar_bici"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/agregar_bici"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/recycler_mis_bicis"
         />
+
 
     <Button
         android:id="@+id/agregar_bici"
@@ -26,9 +26,18 @@
         android:backgroundTint="@color/azul_800"
         android:text="Agregar Bici"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/recycler_mis_bicis"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/recycler_mis_bicis"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_mis_bicis"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/agregar_bici"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:drawableStart="@drawable/baseline_add_box_24"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

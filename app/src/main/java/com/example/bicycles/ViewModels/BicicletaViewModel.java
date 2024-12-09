@@ -52,11 +52,11 @@ public class BicicletaViewModel extends ViewModel {
 
                     bicicleta.postValue(response.body());
 
-                    Log.d("DEBUG", "Se trajo correctamente la bicicleta codigo: " + response.code());
+//                    Log.d("DEBUG", "Se trajo correctamente la bicicleta codigo: " + response.code());
 
                 }else{
                     bicicleta.postValue(null);
-                    Log.d("DEBUG", "No respondio satistactoriamente");
+//                    Log.d("DEBUG", "No respondio satistactoriamente");
 
                 }
                 int code = response.code();

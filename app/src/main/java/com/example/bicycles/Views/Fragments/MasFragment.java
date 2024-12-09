@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -47,6 +48,8 @@ public class MasFragment extends Fragment {
     private Handler tiempoHandler = new Handler();
     private Runnable tiempoRunnable;
     private OnFragmentInteractionListener listener; // Callback para interactuar con la actividad principal
+
+    private SearchView buscar;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -103,26 +106,41 @@ public class MasFragment extends Fragment {
         View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_bicycle_selection, null);
         RecyclerView recyclerView = dialogView.findViewById(R.id.recycler_bicycles);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        buscar = dialogView.findViewById(R.id.edTxtBuscar);
 
         AlertDialog dialog = builder.setView(dialogView)
                 .setNegativeButton("Cancelar", (d, which) -> d.dismiss())
                 .create();
 
         misBicisViewModel.fetchBicicletas();
-//        misBicisViewModel.getBicicletasLiveData().observe(getViewLifecycleOwner(), bicicletas -> {
-//            if (bicicletas != null && !bicicletas.isEmpty()) {
-//                MisBicisDialogAdapter adapter = new MisBicisDialogAdapter(bicicletas, bicicleta -> {
-//                    bicicletaSeleccionadaId = (long) bicicleta.getId();
-//                    playPauseButton.setImageResource(R.drawable.ic_pause);
-//                    isPlaying = true;
-//                    iniciarRecorrido(bicicleta.getId());
-//                    dialog.dismiss();
-//                });
-//                recyclerView.setAdapter(adapter);
-//            } else {
-//                Toast.makeText(requireContext(), "No tienes bicicletas registradas.", Toast.LENGTH_SHORT).show();
-//            }
-//        });
+        misBicisViewModel.getBicicletasLiveData().observe(getViewLifecycleOwner(), bicicletas -> {
+            if (bicicletas != null) {
+                MisBicisDialogAdapter adapter = new MisBicisDialogAdapter(bicicletas.getBicicletas(), bicicleta -> {
+                    bicicletaSeleccionadaId = (long) bicicleta.getId();
+                    playPauseButton.setImageResource(R.drawable.ic_pause);
+                    isPlaying = true;
+                    iniciarRecorrido(bicicleta.getId());
+                    dialog.dismiss();
+                });
+                recyclerView.setAdapter(adapter);
+                //buscador
+                buscar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        adapter.filter(query);
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+                        adapter.filter(newText);
+                        return false;
+                    }
+                });
+            } else {
+                Toast.makeText(requireContext(), "No tienes bicicletas registradas.", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         dialog.show();
     }

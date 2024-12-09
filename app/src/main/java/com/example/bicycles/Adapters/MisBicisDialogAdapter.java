@@ -11,15 +11,27 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.bicycles.Models.Bicicleta;
 import com.example.bicycles.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MisBicisDialogAdapter extends RecyclerView.Adapter<MisBicisDialogAdapter.ViewHolder> {
     private List<Bicicleta> bicicletas;
+    private List<Bicicleta> filteredBicicletas;
     private OnBicicletaClickListener listener; // Listener para manejar clics en el diálogo.
 
     public MisBicisDialogAdapter(List<Bicicleta> bicicletas, OnBicicletaClickListener listener) {
-        this.bicicletas = bicicletas;
+        this.bicicletas = new ArrayList<>(bicicletas);
+        this.filteredBicicletas = new ArrayList<>(bicicletas);
         this.listener = listener;
+    }
+
+    public  void actualizarLista(List<Bicicleta> bicicletas){
+        this.bicicletas.clear();
+        this.bicicletas.addAll(bicicletas);
+
+        this.filteredBicicletas.clear();
+        this.filteredBicicletas.addAll(bicicletas);
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -31,12 +43,27 @@ public class MisBicisDialogAdapter extends RecyclerView.Adapter<MisBicisDialogAd
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bind(bicicletas.get(position));
+        holder.bind(filteredBicicletas.get(position));
+    }
+
+    public void filter(String text) {
+        filteredBicicletas.clear();
+        if (text.isEmpty()) {
+            filteredBicicletas.addAll(bicicletas);
+        } else {
+            text = text.toLowerCase();
+            for (Bicicleta item : bicicletas) {
+                if (item.getNombre().toLowerCase().contains(text)) {
+                    filteredBicicletas.add(item);
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return bicicletas.size();
+        return filteredBicicletas.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

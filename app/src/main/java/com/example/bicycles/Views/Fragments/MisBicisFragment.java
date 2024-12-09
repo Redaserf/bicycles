@@ -15,6 +15,8 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +30,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -73,9 +76,6 @@ public class MisBicisFragment extends Fragment implements EliminarInterfaz {
     public RecyclerView recyclerMisBicis;
     public List<Bicicleta> bicicletas = new ArrayList<>();
     public Button agregar_bici;
-    private List<Bicicleta> listaAnterior = new ArrayList<>();
-
-
     //mostrar imagen y convertir
     private MultipartBody.Part imagen;
 
@@ -89,27 +89,23 @@ public class MisBicisFragment extends Fragment implements EliminarInterfaz {
     //constante del permiso de la camara
     private static final int REQUEST_CAMERA_PERMISSION = 100;
 
-    private BicicletaRequest request;
-
-    private Uri imageUri;
     public MisBicisAdapter adapter;
     public MisBicisViewModel misBicisViewModel;
 
-    public List<Bicicleta> bicicletaList;
     public BicicletaViewModel viewModel;
     public AlertDialog dialog;
 
     public Button btnEditar;
     public Button btnAgregar;
     public ProgressDialog progressDialog;
-
-
+    public SearchView buscar;
 
 
     public View onCreateView(@NonNull
      LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_mis_bicis, container, false);
         agregar_bici = view.findViewById(R.id.agregar_bici);
+        buscar = view.findViewById(R.id.edTxtBuscar);
 
         agregar_bici.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,14 +114,13 @@ public class MisBicisFragment extends Fragment implements EliminarInterfaz {
             }
         });
 
-
         Context context = requireContext();
         Factory factory = new Factory(context);
-        if (context != null) {
-            Log.e("Fragment", "Context exists");
-        } else {
-            Log.e("Fragment", "Context is null");
-        }
+//        if (context != null) {
+//            Log.e("Fragment", "Context exists");
+//        } else {
+//            Log.e("Fragment", "Context is null");
+//        }
         misBicisViewModel = new ViewModelProvider(
                 this, factory).get(MisBicisViewModel.class);
 
@@ -135,11 +130,24 @@ public class MisBicisFragment extends Fragment implements EliminarInterfaz {
         recyclerMisBicis.setLayoutManager(new LinearLayoutManager(requireContext()));
         recyclerMisBicis.setHasFixedSize(true);
 
-
         progressDialog = new ProgressDialog(requireContext());
         progressDialog.setMessage("Cargando bicicletas...");
         progressDialog.setCancelable(false);
         progressDialog.show();
+
+        buscar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                adapter.filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.filter(newText);
+                return false;
+            }
+        });
 
 
         misBicisViewModel.getBicicletasLiveData().observe(getViewLifecycleOwner(), new Observer<MisBicicletasResponse>() {
@@ -147,14 +155,17 @@ public class MisBicisFragment extends Fragment implements EliminarInterfaz {
             public void onChanged(MisBicicletasResponse misBicicletasResponse) {
                 if (misBicicletasResponse != null && misBicicletasResponse.getBicicletas() != null) {
                     adapter.actualizarLista(misBicicletasResponse.getBicicletas());
+                    bicicletas = misBicicletasResponse.getBicicletas();
+//                    Log.d("DEBUG","Se actualizo el adapter con las nuevas bicicletas");
                 } else {
-                    Log.e("ERROR", "Respuesta nula o lista de bicicletas vacía.");
+//                    Log.e("ERROR", "Respuesta nula o lista de bicicletas vacía.");
                 }
                 progressDialog.dismiss();
             }
         });
 
         misBicisViewModel.fetchBicicletas();
+
 
         Factory factory1 = new Factory(requireContext());
         viewModel = new ViewModelProvider(this, factory1).get(BicicletaViewModel.class);

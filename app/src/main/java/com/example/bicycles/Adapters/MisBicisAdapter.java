@@ -56,6 +56,7 @@ import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.MultipartBody;
@@ -65,6 +66,8 @@ public class MisBicisAdapter extends RecyclerView.Adapter<MisBicisAdapter.ViewHo
     public Activity activity;
     public Context context;
     private List<Bicicleta> bicicletas;
+
+    private List<Bicicleta> filteredBicicletas;
     public MultipartBody.Part imagenEdit;
 
     public RequestBody nombreEdit;
@@ -78,7 +81,8 @@ public class MisBicisAdapter extends RecyclerView.Adapter<MisBicisAdapter.ViewHo
                            MultipartBody.Part imagen, RequestBody nombre, EliminarInterfaz listener) {
         this.activity = activity;
         this.context = context;
-        this.bicicletas = bicicletas;
+        this.bicicletas = new ArrayList<>(bicicletas);
+        this.filteredBicicletas = new ArrayList<>(bicicletas);
         this.imagenEdit = imagen;
         this.nombreEdit = nombre;
         this.listener = listener;
@@ -104,14 +108,13 @@ public class MisBicisAdapter extends RecyclerView.Adapter<MisBicisAdapter.ViewHo
         bici.setNombre(nuevoNombre);
         if (nuevaImagen != null) {
             bici.setImagen(nuevaImagen);
-//            Picasso.get().load(nuevaImagen);
         }
 
 
         bicicletas.remove(position);
         bicicletas.add(position, bici);
 
-        notifyDataSetChanged();
+        notifyItemChanged(position);
         Log.d("DEBUG", "Se notificó al adaptador que cambió un elemento en la posición: " + position);
     }
 
@@ -119,7 +122,10 @@ public class MisBicisAdapter extends RecyclerView.Adapter<MisBicisAdapter.ViewHo
     public  void actualizarLista(List<Bicicleta> bicicletas){
         this.bicicletas.clear();
         this.bicicletas.addAll(bicicletas);
-        notifyItemRangeInserted(bicicletas.size() - 3, 4);
+
+        this.filteredBicicletas.clear();
+        this.filteredBicicletas.addAll(bicicletas);
+        notifyDataSetChanged();
     }
 
 
@@ -133,22 +139,29 @@ public class MisBicisAdapter extends RecyclerView.Adapter<MisBicisAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull MisBicisAdapter.ViewHolder holder, int position) {
-        Bicicleta bicicleta = bicicletas.get(position);
+        Bicicleta bicicleta = filteredBicicletas.get(position);
 
-        holder.bind(bicicletas.get(position), position);
-
-        Log.d("DEBUG", "URL de la imagen: " + bicicleta.getImagen());
-        holder.imagen.setImageDrawable(null);
-        Picasso.get()
-                .load(bicicleta.getImagen())
-                .resize(1024, 1024)
-                .error(R.drawable.bicicletatarjeta)
-                .into(holder.imagen);
+        holder.bind(bicicleta, position);
     }
 
     @Override
     public int getItemCount() {
-        return bicicletas.size();
+        return filteredBicicletas.size();
+    }
+
+    public void filter(String text) {
+        filteredBicicletas.clear();
+        if (text.isEmpty()) {
+            filteredBicicletas.addAll(bicicletas);
+        } else {
+            text = text.toLowerCase();
+            for (Bicicleta item : bicicletas) {
+                if (item.getNombre().toLowerCase().contains(text)) {
+                    filteredBicicletas.add(item);
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 
 //    public void setBicicletas(List<Bicicleta> bicicletas) {
@@ -178,11 +191,13 @@ public class MisBicisAdapter extends RecyclerView.Adapter<MisBicisAdapter.ViewHo
 
 
         public void bind(Bicicleta bicicleta, int position) {
-            Log.d("MisBicisAdapter", "Binding bicicleta: " + bicicleta.getNombre());
+//            Log.d("MisBicisAdapter", "Binding bicicleta: " + bicicleta.getNombre());
             this.bici = bicicleta;
             this.position = position;
             nombre.setText(bicicleta.getNombre());
-            Picasso.get().load(bici.getImagen()).into(imagen);
+            Picasso.get().load(bici.getImagen())
+                    .resize(900, 900)
+                    .into(imagen);
             menu.setOnClickListener(this);
         }
 
