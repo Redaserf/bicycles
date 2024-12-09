@@ -31,11 +31,6 @@ import com.example.bicycles.ViewModels.MisBicisViewModel;
 import com.example.bicycles.ViewModels.RecorridoInicioViewModel;
 import com.example.bicycles.ViewModels.SensoresViewModel;
 import com.example.bicycles.Views.OnBicicletaClickListener;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.os.Build;
-import androidx.core.app.NotificationCompat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,8 +39,6 @@ public class MasFragment extends Fragment implements OnBicicletaClickListener {
 
     private boolean isPlaying = false;
     private boolean isPaused = false; // Indica si el recorrido está en pausa
-    private static final String CHANNEL_ID = "recorrido_channel";
-    private NotificationManager notificationManager;
     private MisBicisViewModel misBicisViewModel;
     private RecorridoInicioViewModel recorridoInicioViewModel;
     private SensoresViewModel sensoresViewModel;
@@ -79,91 +72,7 @@ public class MasFragment extends Fragment implements OnBicicletaClickListener {
         } else {
             throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
         }
-        // Crear el canal de notificaciones
-        createNotificationChannel();
     }
-
-    private void createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(
-                    CHANNEL_ID,
-                    "Notificaciones de Recorrido",
-                    NotificationManager.IMPORTANCE_LOW
-            );
-            channel.setDescription("Notificaciones del estado del recorrido");
-
-            notificationManager = requireContext().getSystemService(NotificationManager.class);
-            if (notificationManager != null) {
-                notificationManager.createNotificationChannel(channel);
-            }
-        }
-    }
-
-
-    private void iniciarNotificacion(int recorridoId) {
-        notificationManager = (NotificationManager) requireContext().getSystemService(Context.NOTIFICATION_SERVICE);
-
-        Runnable notificationRunnable = new Runnable() {
-            @Override
-            public void run() {
-                String tiempoActual = tiempoTranscurrido.getText().toString();
-
-                Notification notification = new NotificationCompat.Builder(requireContext(), CHANNEL_ID)
-                        .setContentTitle("Recorrido en progreso")
-                        .setContentText("Tiempo transcurrido: " + tiempoActual)
-                        .setSmallIcon(R.drawable.mis_bicis) // Cambia por tu icono
-                        .setOngoing(true)
-                        .build();
-
-                notificationManager.notify(recorridoId, notification);
-
-                // Actualizar la notificación cada segundo
-                handler.postDelayed(this, 1000);
-            }
-        };
-
-        handler.post(notificationRunnable);
-    }
-
-    private void detenerNotificacion() {
-        if (notificationManager != null) {
-            notificationManager.cancelAll();
-        }
-    }
-
-    private void iniciarRecorrido(int bicicletaId) {
-        recorridoInicioViewModel.iniciarRecorrido(bicicletaId).observe(getViewLifecycleOwner(), response -> {
-            if (response != null) {
-                Log.d("DEBUG", "Recorrido iniciado: ID " + response.getRecorridoId());
-                recorridoId = response.getRecorridoId();
-                iniciarActualizacionesPeriodicas(recorridoId);
-                iniciarTemporizador();
-                iniciarNotificacion(recorridoId); // Mostrar notificación
-
-                if (listener != null) {
-                    listener.onHideBottomNavigation();
-                }
-            } else {
-                Toast.makeText(requireContext(), "Error al iniciar recorrido", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void detenerRecorrido() {
-        detenerActualizacionesPeriodicas();
-        detenerTemporizador();
-        detenerNotificacion(); // Detener notificación
-        eliminarVelocidadesDelRecorrido();
-        reiniciarTextViews();
-        isPlaying = false;
-        playPauseButton.setImageResource(R.drawable.ic_play);
-
-        if (listener != null) {
-            listener.onShowBottomNavigation();
-        }
-    }
-
-
 
     @Override
     public void onDetach() {
@@ -193,7 +102,6 @@ public class MasFragment extends Fragment implements OnBicicletaClickListener {
         recorridoInicioViewModel = new ViewModelProvider(this, factory).get(RecorridoInicioViewModel.class);
         sensoresViewModel = new ViewModelProvider(this, factory).get(SensoresViewModel.class);
         eliminarVelocidadViewModel = new ViewModelProvider(this, factory).get(EliminarVelocidadViewModel.class);
-
 
         playPauseButton.setOnClickListener(v -> {
             if (!isPlaying) {
@@ -323,6 +231,11 @@ public class MasFragment extends Fragment implements OnBicicletaClickListener {
         requireActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container, new MasFragment()).commit();
+
+        if (listener != null) {
+            listener.onShowBottomNavigation();
+        }
+    }
 
     private void iniciarActualizacionesPeriodicas(int recorridoId) {
         dataFetcher = new Runnable() {
