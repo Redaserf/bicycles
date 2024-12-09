@@ -16,7 +16,7 @@
       android:layout_height="wrap_content"
       android:text="BICYCLES"
       android:textAlignment="center"
-      android:fontFamily="sans-serif"
+      android:fontFamily="sans-serif-smallcaps"
       android:textColor="@color/azul_400"
       android:textSize="66sp"
       android:layout_marginBottom="20dp"
@@ -54,7 +54,7 @@
           android:layout_height="wrap_content"
           android:text="INICIA SESION"
           android:textAlignment="center"
-          android:fontFamily="sans-serif"
+          android:fontFamily="sans-serif-smallcaps"
           android:textColor="@color/black"
           android:textSize="36sp"
           android:textStyle="bold" />
@@ -63,7 +63,7 @@
           android:id="@+id/et_correo"
           android:layout_width="match_parent"
           android:layout_height="50dp"
-          android:fontFamily="sans-serif"
+          android:fontFamily="sans-serif-smallcaps"
           android:layout_marginTop="40dp"
           android:textColorHint="@color/gray"
           android:background="@drawable/custom_edittext"
@@ -84,7 +84,7 @@
           android:drawableEnd="@drawable/baseline_visibility_off_24"
           android:drawablePadding="3dp"
           android:hint="Contraseña"
-          android:fontFamily="sans-serif"
+          android:fontFamily="sans-serif-smallcaps"
           android:inputType="textPassword"
           android:textColorHint="@color/gray"
           android:padding="8dp"
@@ -96,20 +96,47 @@
           android:layout_width="match_parent"
           android:layout_height="60dp"
           android:layout_marginTop="30dp"
-          android:fontFamily="sans-serif"
+          android:fontFamily="sans-serif-smallcaps"
           android:backgroundTint="@color/azul_300"
           android:textColor="@color/gray"
           android:text="Login"
           android:textStyle="bold"
           android:textSize="18sp"
           app:cornerRadius="20dp" />
+
+      <TextView
+          android:id="@+id/tv_error_message"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="10dp"
+          android:visibility="gone"
+      android:text="Credenciales inválidas. Inténtalo de nuevo."
+      android:textAlignment="center"
+      android:textColor="@color/red"
+      android:textSize="14sp"
+      android:textStyle="bold" />
+
+
+      <TextView
+          android:id="@+id/tv_error_messages"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="10dp"
+          android:visibility="gone"
+      android:textAlignment="center"
+      android:textColor="@color/red"
+      android:textSize="14sp"
+      android:textStyle="bold" />
+
+
+
       <TextView
           android:id="@+id/tv_crear_cuenta"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:text="¿No tienes cuenta? ¡Registrate ahora!"
           android:textAlignment="center"
-          android:fontFamily="sans-serif"
+          android:fontFamily="sans-serif-smallcaps"
           android:textColor="@color/black"
           android:textSize="14dp"
           android:textStyle="bold"

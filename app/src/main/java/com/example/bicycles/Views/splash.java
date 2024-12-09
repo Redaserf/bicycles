@@ -44,18 +44,7 @@ public class splash extends AppCompatActivity {
 
         Log.d("Splash", "Intentando redirigir...");
 
-//        new CountDownTimer(3000, 1000) {
-//            @Override
-//            public void onTick(long millisUntilFinished) {
-//            }
-//
-//            @Override
-//            public void onFinish() {
-//                Intent intent = new Intent(splash.this, login.class);
-//                startActivity(intent);
-//                finish();
-//            }
-//        }.start();
+
 
         new CountDownTimer(2000, 1000){
 
@@ -71,25 +60,28 @@ public class splash extends AppCompatActivity {
                     SharedPreferences tokenPref = getSharedPreferences("token", MODE_PRIVATE);
                     String tokenStr = tokenPref.getString("token", null);
 
-                    Log.d("Splash", "Token encontrado: " + tokenStr);
+                    Intent intent;
 
                     if (tokenStr != null) {
-                        Intent intent = new Intent(splash.this, Home.class);
-                        startActivity(intent);
+                        // Si el token existe, redirigimos al Home con el fragmento "mas_fragment"
+                        intent = new Intent(splash.this, Home.class);
+                        intent.putExtra("load_fragment", "mas_fragment");
                     } else {
-                        Intent intent = new Intent(splash.this, login.class);
-                        startActivity(intent);
+                        // Si no hay token, redirigimos al login
+                        intent = new Intent(splash.this, login.class);
                     }
+
+                    startActivity(intent);
                 } catch (Exception e) {
                     Log.e("Splash", "Error en Splash: " + e.getMessage(), e);
-                    Toast.makeText(context,"Ha ocurrido un error. Redirigiendo a Login...", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(splash.this, login.class);
                     startActivity(intent);
                 } finally {
                     finish();
                 }
-
             }
+
+
         }.start();
 
     }

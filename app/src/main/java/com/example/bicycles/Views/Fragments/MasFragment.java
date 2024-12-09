@@ -97,6 +97,8 @@ public class MasFragment extends Fragment {
         });
 
         return view;
+
+
     }
 
     private void showBicycleSelectionDialog() {

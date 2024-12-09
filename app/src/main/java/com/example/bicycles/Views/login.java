@@ -3,12 +3,13 @@ package com.example.bicycles.Views;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.InputType;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -28,6 +29,7 @@ public class login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        TextView tvErrorMessage = findViewById(R.id.tv_error_messages); // Usar el nuevo ID
         etCorreo = findViewById(R.id.et_correo);
         etContrasena = findViewById(R.id.et_contrasena);
         btnIniciarSesion = findViewById(R.id.btn_iniciar_sesion);
@@ -72,20 +74,29 @@ public class login extends AppCompatActivity {
             String correo = etCorreo.getText().toString().trim();
             String contrasena = etContrasena.getText().toString().trim();
 
+            // Validación de campos vacíos
             if (correo.isEmpty() || contrasena.isEmpty()) {
-                Toast.makeText(this, "Completa todos los campos", Toast.LENGTH_SHORT).show();
-            } else {
-                loginViewModel.login(correo, contrasena);
-                loginViewModel.getLoginMessage().observe(this, message -> {
-                    if ("REDIRECT".equals(message)) {
-                        Intent intent = new Intent(this, Home.class);
-                        startActivity(intent);
-                        finish();
-                    } else if (message != null) {
-                        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-                    }
-                });
+                tvErrorMessage.setVisibility(View.VISIBLE);
+                tvErrorMessage.setText("Por favor, rellena todos los campos."); // Mensaje de error para campos vacíos
+                hideErrorMessageAfterDelay(tvErrorMessage, 5000); // Ocultar después de 10 segundos
+                return;
             }
+
+            // Intentar iniciar sesión
+            loginViewModel.login(correo, contrasena);
+            loginViewModel.getLoginMessage().observe(this, message -> {
+                if ("REDIRECT".equals(message)) {
+                    tvErrorMessage.setVisibility(View.GONE); // Ocultar mensaje de error si el login es exitoso
+                    Intent intent = new Intent(this, Home.class);
+                    intent.putExtra("load_fragment", "mas_fragment"); // Indicar que debe cargar MasFragment
+                    startActivity(intent);
+                    finish();
+                } else if (message != null) {
+                    tvErrorMessage.setVisibility(View.VISIBLE);
+                    tvErrorMessage.setText("Credenciales inválidas. Inténtalo de nuevo."); // Mensaje de error para credenciales inválidas
+                    hideErrorMessageAfterDelay(tvErrorMessage, 5000); // Ocultar después de 10 segundos
+                }
+            });
         });
 
         TextView crearCuentaTextView = findViewById(R.id.tv_crear_cuenta);
@@ -93,5 +104,10 @@ public class login extends AppCompatActivity {
             Intent intent = new Intent(login.this, register.class);
             startActivity(intent);
         });
+    }
+
+    // Método para ocultar el mensaje de error después de un retraso
+    private void hideErrorMessageAfterDelay(TextView tvErrorMessage, int delayMillis) {
+        new Handler().postDelayed(() -> tvErrorMessage.setVisibility(View.GONE), delayMillis);
     }
 }
