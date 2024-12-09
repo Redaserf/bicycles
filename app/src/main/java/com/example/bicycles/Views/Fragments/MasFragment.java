@@ -109,6 +109,21 @@ public class MasFragment extends Fragment implements OnBicicletaClickListener {
 
         LayoutInflater inflaterLyt = LayoutInflater.from(requireContext());
         dialogView = inflaterLyt.inflate(R.layout.dialog_bicycle_selection, null);
+        buscar = dialogView.findViewById(R.id.edTxtBuscar);
+
+        buscar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                adapter.filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.filter(newText);
+                return false;
+            }
+        });
 
         recyclerView = dialogView.findViewById(R.id.recycler_bicycles);
         adapter = new MisBicisDialogAdapter(bicicletas, this);

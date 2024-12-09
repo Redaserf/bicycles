@@ -473,7 +473,6 @@ public class MisBicisFragment extends Fragment implements EliminarInterfaz {
         });
 
 
-
         btnEditar.setOnClickListener(v -> {
             btnEditar.setEnabled(false);
             nombre = viewNombre.getText().toString();
