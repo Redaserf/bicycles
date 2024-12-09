@@ -1,60 +1,51 @@
 package com.example.bicycles.ViewModels;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.bicycles.Models.Usuario;
-import com.example.bicycles.Networks.ApiService;
-import com.example.bicycles.Responses.RegisterResponse;
-import com.example.bicycles.Singleton.RetrofitClient;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import com.example.bicycles.Repositories.LoginRepository;
+import com.example.bicycles.Repositories.RegisterRepository;
 
 public class RegisterViewModel extends ViewModel {
     private MutableLiveData<String> registerMessage = new MutableLiveData<>();
-    private ApiService apiService;
+    private MutableLiveData<String> verifyResponse = new MutableLiveData<>();
+    private MutableLiveData<String> loginMessage = new MutableLiveData<>();
+    private RegisterRepository registerRepository;
+    private LoginRepository loginRepository;
 
     public RegisterViewModel(Context context) {
-        this.apiService = RetrofitClient.getInstance(context).getApiService();
+        this.registerRepository = new RegisterRepository(context);
+        this.loginRepository = new LoginRepository(context);
     }
 
-    public void register(String name, String lastName, Double peso, String email, String password, Context context) {
-        Usuario usuario = new Usuario(name, lastName, peso, email, password);
-
-        apiService.register(usuario).enqueue(new Callback<RegisterResponse>() {
-            @Override
-            public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    // Guardar el token en SharedPreferences
-                    String token = response.body().getToken();
-                    SharedPreferences preferences = context.getSharedPreferences("token", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = preferences.edit();
-                    editor.putString("token", token);
-                    editor.apply();
-
-                    // Actualizar mensaje de éxito
-                    registerMessage.setValue("Registro exitoso");
-
-                } else {
-                    registerMessage.setValue("Error en el registro: " + response.code());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<RegisterResponse> call, Throwable t) {
-                registerMessage.setValue("Error de red: " + t.getMessage());
-            }
-        });
+    // Registrar usuario
+    public void register(String name, String lastName, Double peso, String email, String password) {
+        registerMessage = registerRepository.register(name, lastName, peso, email, password);
     }
 
+    // Verificar código
+    public void verifyCode(String email, String codigo) {
+        verifyResponse = registerRepository.verifyCode(email, codigo);
+    }
+
+    // Login después de la verificación
+    public void login(String email, String password) {
+        loginMessage = loginRepository.login(email, password);
+    }
+
+    // Obtener mensajes de respuesta
     public LiveData<String> getRegisterMessage() {
         return registerMessage;
+    }
+
+    public LiveData<String> getVerifyResponse() {
+        return verifyResponse;
+    }
+
+    public LiveData<String> getLoginMessage() {
+        return loginMessage;
     }
 }

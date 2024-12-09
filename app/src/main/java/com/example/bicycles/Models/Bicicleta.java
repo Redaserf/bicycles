@@ -21,7 +21,6 @@ public class Bicicleta {
         this.updated_at = updated_at;
     }
 
-
     public Bicicleta(String nombre, int usuario_id) {
         this.nombre = nombre;
         this.usuario_id = usuario_id;
