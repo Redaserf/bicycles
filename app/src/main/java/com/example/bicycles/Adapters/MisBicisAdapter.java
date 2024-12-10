@@ -107,12 +107,12 @@ public class MisBicisAdapter extends RecyclerView.Adapter<MisBicisAdapter.ViewHo
             Log.d("DEBUG", "Elemento insertado en posición " + position + ": " + nuevaBicicleta.getNombre());
         }
     }
-    public void editarElemento(int position, String nuevoNombre, String nuevaImagen) {
+    public void editarElemento(int position, String nuevoNombre) {
         Bicicleta bici = bicicletas.get(position);
         bici.setNombre(nuevoNombre);
-        if (nuevaImagen != null) {
-            bici.setImagen(nuevaImagen);
-        }
+//        if (nuevaImagen != null) {
+//            bici.setImagen(nuevaImagen);
+//        }
 
         bicicletas.remove(position);
         bicicletas.add(position, bici);
@@ -201,7 +201,7 @@ public class MisBicisAdapter extends RecyclerView.Adapter<MisBicisAdapter.ViewHo
             this.bici = bicicleta;
             this.position = position;
             nombre.setText(bicicleta.getNombre());
-            Picasso.get().load(bici.getImagen())
+            Picasso.get().load(R.drawable.bicicletatarjeta)
                     .resize(1200, 720)
                     .into(imagen);
             menu.setOnClickListener(this);

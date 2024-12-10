@@ -43,8 +43,8 @@ public class BicicletaViewModel extends ViewModel {
         this.apiService = RetrofitClient.getInstance(context).getApiService();
     }
 
-    public void addBicicleta(MultipartBody.Part imagen, RequestBody nombre) {
-        apiService.addBicicleta(imagen, nombre).enqueue(new Callback<BicicletaResponse>() {
+    public void addBicicleta(BicicletaRequest nombre) {
+        apiService.addBicicleta(nombre).enqueue(new Callback<BicicletaResponse>() {
             @Override
             public void onResponse(Call<BicicletaResponse> call, Response<BicicletaResponse> response) {
                 if(response.isSuccessful()){
@@ -110,9 +110,9 @@ public class BicicletaViewModel extends ViewModel {
     public LiveData<EditarBicicletaResponse> getEditarResponse(){
         return editarResponse;
     }
-    public void editarBicicleta(int id, MultipartBody.Part imagen, RequestBody nombre){
+    public void editarBicicleta(int id, BicicletaRequest nombre){
         Log.d("DEBUG", "se intento editar la bici " +  nombre.toString());
-        apiService.editarBicicleta(id, imagen, nombre).enqueue(new Callback<EditarBicicletaResponse>() {
+        apiService.editarBicicleta(id, nombre).enqueue(new Callback<EditarBicicletaResponse>() {
             @Override
             public void onResponse(Call<EditarBicicletaResponse> call, Response<EditarBicicletaResponse> response) {
                 if (response.isSuccessful()) {

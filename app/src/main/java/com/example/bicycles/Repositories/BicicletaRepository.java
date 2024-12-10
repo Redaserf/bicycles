@@ -40,10 +40,10 @@ public class BicicletaRepository {
         this.apiService = RetrofitClient.getInstance(context).getApiService();
     }
 
-    public MutableLiveData<Bicicleta> addBicicleta(MultipartBody.Part imagen, RequestBody nombre) {
+    public MutableLiveData<Bicicleta> addBicicleta(BicicletaRequest nombre) {
         MutableLiveData<Bicicleta> bicicletaResponse = new MutableLiveData<>();
 
-        apiService.addBicicleta(imagen, nombre).enqueue(new Callback<BicicletaResponse>() {
+        apiService.addBicicleta(nombre).enqueue(new Callback<BicicletaResponse>() {
             @Override
             public void onResponse(Call<BicicletaResponse> call, Response<BicicletaResponse> response) {
                 if(response.isSuccessful()){
@@ -97,11 +97,11 @@ public class BicicletaRepository {
         return liveData;
     }
 
-    public MutableLiveData<EditarBicicletaResponse> editarBicicleta(int id, MultipartBody.Part imagen, RequestBody nombre){
+    public MutableLiveData<EditarBicicletaResponse> editarBicicleta(int id, BicicletaRequest nombre){
         MutableLiveData<EditarBicicletaResponse> editarResponse = new MutableLiveData<>();
         Log.d("DEBUG", "Nombre de la bici que remplaza el anterior: " + nombre);
 
-        apiService.editarBicicleta(id, imagen, nombre).enqueue(new Callback<EditarBicicletaResponse>() {
+        apiService.editarBicicleta(id, nombre).enqueue(new Callback<EditarBicicletaResponse>() {
             @Override
             public void onResponse(Call<EditarBicicletaResponse> call, Response<EditarBicicletaResponse> response) {
                 if(response.isSuccessful()){

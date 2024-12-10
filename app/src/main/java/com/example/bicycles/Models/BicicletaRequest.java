@@ -5,12 +5,12 @@ import java.io.File;
 public class BicicletaRequest {
 
     private String nombre;
-    private File imagen;
+//    private File imagen;
 
     // Constructor
-    public BicicletaRequest(String nombre, File imagen) {
+    public BicicletaRequest(String nombre) {
         this.nombre = nombre;
-        this.imagen = imagen;
+//        this.imagen = imagen;
     }
 
     public String getNombre() {
@@ -21,19 +21,19 @@ public class BicicletaRequest {
         this.nombre = nombre;
     }
 
-    public File getImagen() {
-        return imagen;
-    }
-
-    public void setImagen(File imagen) {
-        this.imagen = imagen;
-    }
-
-    public boolean hasImage(){
-        if(getImagen() != null){
-            return true;
-        }
-
-        return false;
-    }
+//    public File getImagen() {
+//        return imagen;
+//    }
+//
+//    public void setImagen(File imagen) {
+//        this.imagen = imagen;
+//    }
+//
+//    public boolean hasImage(){
+//        if(getImagen() != null){
+//            return true;
+//        }
+//
+//        return false;
+//    }
 }

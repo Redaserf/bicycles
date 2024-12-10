@@ -8,10 +8,13 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -77,7 +80,7 @@ public class MisBicisFragment extends Fragment implements EliminarInterfaz {
     public List<Bicicleta> bicicletas = new ArrayList<>();
     public Button agregar_bici;
     //mostrar imagen y convertir
-    private MultipartBody.Part imagen;
+//    private MultipartBody.Part imagen = null;
 
     private String nombre;
 
@@ -110,6 +113,7 @@ public class MisBicisFragment extends Fragment implements EliminarInterfaz {
         agregar_bici.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                imagen = null;
                 mostrarDialogoAgregarBici();
             }
         });
@@ -168,9 +172,9 @@ public class MisBicisFragment extends Fragment implements EliminarInterfaz {
                 if (misBicicletasResponse != null && misBicicletasResponse.getBicicletas() != null) {
                     adapter.actualizarLista(misBicicletasResponse.getBicicletas());
                     bicicletas = misBicicletasResponse.getBicicletas();
-//                    Log.d("DEBUG","Se actualizo el adapter con las nuevas bicicletas");
+                    Log.d("DEBUG","Se actualizo el adapter con las nuevas bicicletas");
                 } else {
-//                    Log.e("ERROR", "Respuesta nula o lista de bicicletas vacía.");
+                    Log.e("ERROR", "Respuesta nula o lista de bicicletas vacía.");
                 }
                 progressDialog.dismiss();
             }
@@ -190,8 +194,7 @@ public class MisBicisFragment extends Fragment implements EliminarInterfaz {
                     if (position != -1) {
 
                         adapter.editarElemento(position,
-                                editarBicicletaResponse.getBicicleta().getNombre(),
-                                editarBicicletaResponse.getBicicleta().getImagen());
+                                editarBicicletaResponse.getBicicleta().getNombre());
 
                         progressDialog.dismiss();
                         btnEditar.setEnabled(true);
@@ -267,6 +270,7 @@ public class MisBicisFragment extends Fragment implements EliminarInterfaz {
 
     private void mostrarDialogoAgregarBici() {
 
+
         LayoutInflater inflater = getLayoutInflater();
         View vistaDialogo = inflater.inflate(R.layout.agregar_bici_dialog, null);
 
@@ -279,9 +283,9 @@ public class MisBicisFragment extends Fragment implements EliminarInterfaz {
         btnAgregar = vistaDialogo.findViewById(R.id.btnAgregar);
         Button btnCancel = vistaDialogo.findViewById(R.id.btnCancel);
 
-        prevImagen.setOnClickListener(v -> {
-            showImagePickerDialog();
-        });
+//        prevImagen.setOnClickListener(v -> {
+//            showImagePickerDialog();
+//        });
         dialog = builder.create();
 
 
@@ -289,29 +293,23 @@ public class MisBicisFragment extends Fragment implements EliminarInterfaz {
             nombre = edtxtNombre.getText().toString().trim();
             if (!nombre.isEmpty()) {
 
-                if(imagen != null){
-
-                    RequestBody nombreBody = RequestBody.create(
-                            MediaType.parse("text/plain"),
-                            nombre
-                    );
+                RequestBody nombreBody = RequestBody.create(
+                        MediaType.parse("text/plain"),
+                        nombre
+                );
 
 
-                    Factory factory = new Factory(requireContext());
-                    viewModel = new ViewModelProvider(this, factory).get(BicicletaViewModel.class);
-                    viewModel.addBicicleta(imagen, nombreBody);
+                Factory factory = new Factory(requireContext());
+                viewModel = new ViewModelProvider(this, factory).get(BicicletaViewModel.class);
+                BicicletaRequest bicicletaRequest = new BicicletaRequest(nombre);
+                viewModel.addBicicleta(bicicletaRequest);
 
-                    progressDialog = new ProgressDialog(requireContext());
-                    progressDialog.setMessage("Agregando bicicleta...");
-                    progressDialog.setCancelable(false);
-                    progressDialog.show();
+                progressDialog = new ProgressDialog(requireContext());
+                progressDialog.setMessage("Agregando bicicleta...");
+                progressDialog.setCancelable(false);
+                progressDialog.show();
 
-                    dialog.dismiss();
-
-                }else{
-                    Toast.makeText(requireContext(), "Selecciona una imagen válida.", Toast.LENGTH_SHORT).show();
-                }
-
+                dialog.dismiss();
             } else {
                 Toast.makeText(requireContext(), "Por favor, ingresa un nombre.", Toast.LENGTH_SHORT).show();
             }
@@ -326,136 +324,11 @@ public class MisBicisFragment extends Fragment implements EliminarInterfaz {
         dialog.show();
     }
 
-    private void showImagePickerDialog() {
-        String[] opciones = {"Tomar Foto", "Seleccionar en Galería", "Cancelar"};
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-        builder.setTitle("Seleccionar Imagen");
-        builder.setItems(opciones, (dialog, which) -> {
-            if (which == 0) {
-
-                if (requireContext().checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
-                } else {
-                    abrirCamara();
-                    Log.d("DEBUG", "Se intenot abirr la camara");
-
-                }
-            } else if (which == 1) {
-
-                Intent intentGaleria = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intentGaleria, REQUEST_GALLERY);
-            } else {
-                dialog.dismiss();
-            }
-        });
-
-        builder.show();
-    }
-    private void abrirCamara() {
-        try {
-            File cacheDir = requireContext().getApplicationContext().getCacheDir();
-            File imageFile = new File(cacheDir, "cached_image.jpg");
-
-            if (!imageFile.exists()) {
-                imageFile.createNewFile();
-            }
-
-            Uri imageUri = FileProvider.getUriForFile(
-                    requireContext(),
-                    "com.example.bicycles.fileprovider",
-                    imageFile
-            );
-
-            Intent intentCamara = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            intentCamara.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-            Log.d("DEBUG", "Se intenot abirr la camara");
 
 
-            startActivityForResult(intentCamara, REQUEST_CAMERA);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(requireContext(), "Error al preparar la cámara.", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-
-
-
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (resultCode == RESULT_OK) {
-            if (requestCode == REQUEST_CAMERA) {
-
-                File cacheDir = requireContext().getApplicationContext().getCacheDir();
-                File imageFile = new File(cacheDir, "cached_image.jpg");
-
-                if (imageFile.exists()) {
-                    Uri imageUri = Uri.fromFile(imageFile);
-                    try {
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), imageUri);
-                        saveImageToCache(bitmap);
-                        prevImagen.setImageBitmap(bitmap);
-                        Toast.makeText(requireContext(), "Foto tomada y mostrada", Toast.LENGTH_SHORT).show();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        Toast.makeText(requireContext(), "Error al cargar la imagen", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(requireContext(), "No se encontró la imagen", Toast.LENGTH_SHORT).show();
-                }
-
-
-            } else if (requestCode == REQUEST_IMAGE_PICK && data != null) {
-
-                Uri selectedImage = data.getData();
-                try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), selectedImage);
-                    saveImageToCache(bitmap);
-                    prevImagen.setImageBitmap(bitmap);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }else{
-                Toast.makeText(requireContext(), "No se pudo insertar la imagen", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    private void saveImageToCache(Bitmap bitmap) {
-        try {
-            File cacheDir = requireContext().getApplicationContext().getCacheDir();
-            File imageFile = new File(cacheDir, "cached_image.jpg");
-
-            FileOutputStream fos = new FileOutputStream(imageFile);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
-            fos.close();
-
-            convertToMultipart(imageFile);
-
-            Log.d("DEBUG", "Se guardo la imagen en el cache");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-
-    private void convertToMultipart(File file) {
-        RequestBody requestFile =
-                RequestBody.create(MultipartBody.FORM, file);
-
-        MultipartBody.Part body =
-                MultipartBody.Part.createFormData("imagen", file.getName(), requestFile);
-
-        imagen = body;
-    }
 
     private void mostrarEditarDialog(Bicicleta bici, int position){
+//        imagen = null;
         LayoutInflater inflater = getLayoutInflater();
         View view = inflater.inflate(R.layout.editar_bici, null);
 
@@ -468,9 +341,11 @@ public class MisBicisFragment extends Fragment implements EliminarInterfaz {
         Button btnCancel = view.findViewById(R.id.btnCancel);
 
 
-        Picasso.get().load(bici.getImagen()).resize(1200, 720)
+        Picasso.get().load(R.drawable.bicicletatarjeta).resize(1200, 720)
                 .error(R.drawable.bicicletatarjeta).into(prevImagen);
         viewNombre.setText(bici.getNombre());
+
+
 
         dialog = builder.create();
 
@@ -480,24 +355,25 @@ public class MisBicisFragment extends Fragment implements EliminarInterfaz {
         File cacheDir = requireContext().getApplicationContext().getCacheDir();
         File imageFile = new File(cacheDir, "cached_image.jpg");
 
-        prevImagen.setOnClickListener(v -> {
-            showImagePickerDialog();
-        });
+//        prevImagen.setOnClickListener(v -> {
+//            showImagePickerDialog();
+//        });
 
 
         btnEditar.setOnClickListener(v -> {
             btnEditar.setEnabled(false);
             nombre = viewNombre.getText().toString();
-            if(!nombre.isEmpty()  || imagen != null){
+            if(!nombre.isEmpty()){
                 Factory factory = new Factory(requireContext());
                 viewModel = new ViewModelProvider(this,factory).get(BicicletaViewModel.class);
 
-                RequestBody nombreBody = RequestBody.create(
-                        MediaType.parse("text/plain"),
-                        nombre
-                );
+//                RequestBody nombreBody = RequestBody.create(
+//                        MediaType.parse("text/plain"),
+//                        nombre
+//                );
 
-                viewModel.editarBicicleta(bici.getId(), imagen, nombreBody);
+                BicicletaRequest request = new BicicletaRequest(nombre);
+                viewModel.editarBicicleta(bici.getId(), request);
                 dialog.dismiss();
 
                 progressDialog = new ProgressDialog(requireContext());
@@ -531,7 +407,7 @@ public class MisBicisFragment extends Fragment implements EliminarInterfaz {
         ImageView imagenEliminar = view.findViewById(R.id.imagen);
 
         nombre.setText(bici.getNombre());
-        Picasso.get().load(bici.getImagen())
+        Picasso.get().load(R.drawable.bicicletatarjeta)
                 .resize(1200, 720)
                 .error(R.drawable.bicicletatarjeta).into(imagenEliminar);
         AppCompatActivity activity = (AppCompatActivity) requireContext();

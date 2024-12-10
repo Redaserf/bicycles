@@ -17,7 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitClient {
     private static RetrofitClient instance = null;
     private ApiService apiService;
-    public static final String BASE_URL = "http://3.135.19.191/api/v1/";
+    public static final String BASE_URL = "http://18.189.11.42/api/v1/";
 
     private RetrofitClient(Context context) {
         OkHttpClient client = new OkHttpClient.Builder()

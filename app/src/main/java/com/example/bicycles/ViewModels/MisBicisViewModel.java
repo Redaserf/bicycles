@@ -42,22 +42,21 @@ public class MisBicisViewModel extends ViewModel {
     
 
     public void fetchBicicletas() {
+
         apiService.getBicicletas().enqueue(new Callback<MisBicicletasResponse>() {
             @Override
             public void onResponse(Call<MisBicicletasResponse> call, Response<MisBicicletasResponse> response) {
-                if(response.isSuccessful()){
-                    if(response.body().getBicicletas() != null){
-                        bicicletasLiveData.setValue(response.body());
-                        Log.d("DEBUG", "Se actualizaron las bicicletas");
-                    }
+                Log.d("DEBUG", "Response code: " + response.code());
+                if (response.isSuccessful()) {
+                    bicicletasLiveData.setValue(response.body());
+                }else{
+                    Toast.makeText(context, "Error al obtener las bicicletas", Toast.LENGTH_SHORT).show();
                 }
-
             }
 
             @Override
             public void onFailure(Call<MisBicicletasResponse> call, Throwable throwable) {
-                Toast.makeText(context, "NO Respondio la api", Toast.LENGTH_SHORT).show();
-                Log.d("DEBUG", throwable.getMessage().toString());
+                Toast.makeText(context, "Error al obtener las bicicletas", Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -87,7 +87,7 @@ public class MisBicisDialogAdapter extends RecyclerView.Adapter<MisBicisDialogAd
         public void bind(Bicicleta bicicleta, int position) {
             this.position = position;
             nombreBicicleta.setText(bicicleta.getNombre());
-            Picasso.get().load(bicicleta.getImagen()).resize(1200, 720)
+            Picasso.get().load(R.drawable.bicicletatarjeta).resize(1200, 720)
                     .error(R.drawable.bicicletatarjeta).into(imagen);
 
             Log.d("DEBUG", "Se esta llenando el recycler view");

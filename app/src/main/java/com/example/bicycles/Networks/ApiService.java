@@ -1,5 +1,6 @@
 package com.example.bicycles.Networks;
 
+import com.example.bicycles.Models.BicicletaRequest;
 import com.example.bicycles.Models.LoginRequest;
 import com.example.bicycles.Models.Recorrido;
 import com.example.bicycles.Models.ReenviarRequest;
@@ -68,12 +69,9 @@ public interface ApiService {
 
     // =====[ Bicicletas ]=====
 
-    @Multipart
+//    @Multipart
     @POST("bicicleta")
-    Call<BicicletaResponse> addBicicleta(
-            @Part MultipartBody.Part imagen,
-            @Part("nombre") RequestBody nombre
-            );
+    Call<BicicletaResponse> addBicicleta(@Body BicicletaRequest nombre);
 
     @GET("bicicleta")
     Call<MisBicicletasResponse> getBicicletas();
@@ -81,10 +79,8 @@ public interface ApiService {
     @DELETE("bicicleta/{id}")
     Call<EliminarBicicletaResponse> eliminarBicicleta(@Path("id") int id);
 
-    @Multipart
     @POST("bicicleta/{id}")
-    Call<EditarBicicletaResponse> editarBicicleta(@Path("id") int id,
-              @Part MultipartBody.Part imagen, @Part ("nombre") RequestBody nombre);
+    Call<EditarBicicletaResponse> editarBicicleta(@Path("id") int id, @Body BicicletaRequest nombre);
 
 //    @GET("bicicleta/{id}")
 //    Call<BicicletaResponse> getBicicleta(@Body Bicicleta bicicleta);
