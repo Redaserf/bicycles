@@ -18,10 +18,10 @@ import retrofit2.Response;
 
 public class LoginRepository {
     private ApiService apiService;
-    private Context context; // Variable de instancia para el contexto
+    private Context context;
 
     public LoginRepository(Context context) {
-        this.context = context; // Asigna el contexto al inicializar el repositorio
+        this.context = context;
         this.apiService = RetrofitClient.getInstance(context).getApiService();
     }
 
@@ -33,39 +33,55 @@ public class LoginRepository {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    // Guardar el token en SharedPreferences
+                    // Guardar el token
                     SharedPreferences pref = context.getSharedPreferences("token", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = pref.edit();
                     editor.putString("token", response.body().getToken());
                     editor.apply();
 
                     RetrofitClient.resetInstance();
-
                     loginResponse.setValue("REDIRECT");
                 } else if (response.code() == 403) {
-                    // Usuario no verificado, redirigir a verificación
                     try {
                         String errorBody = response.errorBody().string();
                         JSONObject jsonObject = new JSONObject(errorBody);
+
                         if (jsonObject.has("redirect") && "verify_code".equals(jsonObject.getString("redirect"))) {
                             loginResponse.setValue("VERIFY_CODE");
                         } else {
-                            loginResponse.setValue(jsonObject.getString("mensaje"));
+                            loginResponse.setValue(jsonObject.optString("mensaje", "Error inesperado"));
                         }
                     } catch (Exception e) {
-                        loginResponse.setValue("Error inesperado.");
+                        loginResponse.setValue("Error inesperado");
                         e.printStackTrace();
                     }
-                } else {
-                    // Manejo de errores normales
+                } else if (response.code() == 422) {
+                    // Manejar errores de validación
                     try {
                         String errorBody = response.errorBody().string();
                         JSONObject jsonObject = new JSONObject(errorBody);
-                        loginResponse.setValue(jsonObject.getString("mensaje"));
+
+                        if (jsonObject.has("errores")) {
+                            JSONObject errores = jsonObject.getJSONObject("errores");
+                            StringBuilder errorMessage = new StringBuilder();
+
+                            if (errores.has("email")) {
+                                errorMessage.append(errores.getJSONArray("email").getString(0)).append("\n");
+                            }
+                            if (errores.has("password")) {
+                                errorMessage.append(errores.getJSONArray("password").getString(0));
+                            }
+
+                            loginResponse.setValue(errorMessage.toString().trim());
+                        } else {
+                            loginResponse.setValue("Error desconocido");
+                        }
                     } catch (Exception e) {
-                        loginResponse.setValue("Error inesperado.");
+                        loginResponse.setValue("Error inesperado");
                         e.printStackTrace();
                     }
+                } else {
+                    loginResponse.setValue("Credenciales inválidas");
                 }
             }
 
