@@ -1,6 +1,8 @@
 package com.example.bicycles.Views;
 
 import android.annotation.SuppressLint;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -82,4 +84,16 @@ public class Home extends AppCompatActivity implements MasFragment.OnFragmentInt
     public void onShowBottomNavigation() {
         bottomNavigation.setVisibility(View.VISIBLE);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        // Elimina la notificación si la aplicación se cierra
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        if (notificationManager != null) {
+            notificationManager.cancelAll();
+        }
+    }
+
 }

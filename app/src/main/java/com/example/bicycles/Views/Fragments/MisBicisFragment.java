@@ -309,7 +309,7 @@ public class MisBicisFragment extends Fragment implements EliminarInterfaz {
                     dialog.dismiss();
 
                 }else{
-                    Toast.makeText(requireContext(), "Selecciona una imagen válida", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireContext(), "Selecciona una imagen válida.", Toast.LENGTH_SHORT).show();
                 }
 
             } else {
@@ -549,8 +549,6 @@ public class MisBicisFragment extends Fragment implements EliminarInterfaz {
                 progressDialog.setCancelable(false);
                 progressDialog.show();
 
-
-                Toast.makeText(requireContext(), "Bicicleta eliminada", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(requireContext(), "No se puede crear el ViewModelProvider con este contexto", Toast.LENGTH_SHORT).show();
             }

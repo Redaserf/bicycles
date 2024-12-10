@@ -25,7 +25,7 @@
         android:id="@+id/agregar_bici"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/azul_500"
+        android:backgroundTint="@color/azul_300"
         android:textSize="12dp"
         android:layout_marginTop="8dp"
         android:text="Agregar Bici"

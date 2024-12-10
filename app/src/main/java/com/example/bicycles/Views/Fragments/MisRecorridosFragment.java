@@ -138,7 +138,7 @@ public class MisRecorridosFragment extends Fragment {
 
     private void observarCambiosDeRecorridos() {
         allRecorridosUsuarioViewModel.getRecorridosLiveData().observe(getViewLifecycleOwner(), response -> {
-            progressDialogCarga.dismiss();
+            progressDialogCarga.dismiss(); // Asegúrate de cerrarlo aquí siempre
 
             if (response != null && response.getRecorridos() != null) {
                 Log.d(TAG, "Recorridos obtenidos con éxito: " + response.getRecorridos().size());
@@ -148,5 +148,7 @@ public class MisRecorridosFragment extends Fragment {
                 Log.e(TAG, "Error al obtener los recorridos o no hay datos disponibles.");
             }
         });
+
+
     }
 }

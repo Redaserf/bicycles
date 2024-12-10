@@ -44,7 +44,6 @@ public class BicicletaViewModel extends ViewModel {
     }
 
     public void addBicicleta(MultipartBody.Part imagen, RequestBody nombre) {
-        Toast.makeText(context, "Se intento crear la bicci", Toast.LENGTH_SHORT).show();
         apiService.addBicicleta(imagen, nombre).enqueue(new Callback<BicicletaResponse>() {
             @Override
             public void onResponse(Call<BicicletaResponse> call, Response<BicicletaResponse> response) {

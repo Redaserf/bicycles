@@ -8,7 +8,7 @@
         android:id="@+id/recycler_bicycles"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="83dp"
         android:padding="16dp" />
 
     <androidx.appcompat.widget.SearchView
@@ -17,6 +17,7 @@
         android:layout_height="wrap_content"
         android:iconifiedByDefault="false"
         android:queryHint="Buscar..."
+        android:layout_marginBottom="10dp"
         android:outlineAmbientShadowColor="@color/black"
         android:outlineSpotShadowColor="@color/black"
         android:layout_margin="8dp"

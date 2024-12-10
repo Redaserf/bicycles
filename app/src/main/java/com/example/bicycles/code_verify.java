@@ -101,7 +101,6 @@ public class code_verify extends AppCompatActivity {
             progressDialog.dismiss();
 
             if (mensaje != null) {
-                Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
                 tvReenvio.setVisibility(View.VISIBLE);
                 tvReenvio.setText(mensaje);
             } else {
