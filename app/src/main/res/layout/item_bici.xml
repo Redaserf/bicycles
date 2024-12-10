@@ -36,8 +36,11 @@
 
         <TextView
             android:id="@+id/nombre_bicicleta"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:gravity="center"
+            android:maxLines="3"
+            android:ellipsize="end"
             android:text="Nombre Bicicleta"
             android:textColor="@android:color/black"
             android:textStyle="bold"
