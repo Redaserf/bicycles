@@ -27,8 +27,11 @@
 
         <TextView
             android:id="@+id/tv_bici"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="150dp"
+            android:layout_height="60dp"
+            android:gravity="center"
+            android:maxLines="3"
+            android:ellipsize="end"
             android:layout_marginEnd="200dp"
             android:fontFamily="sans-serif-smallcaps"
             android:text="MAMALONA"
