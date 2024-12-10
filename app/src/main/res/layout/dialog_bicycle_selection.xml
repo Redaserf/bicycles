@@ -8,18 +8,23 @@
         android:id="@+id/recycler_bicycles"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="83dp"
         android:padding="16dp" />
 
     <androidx.appcompat.widget.SearchView
         android:id="@+id/edTxtBuscar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:background="@color/azul_200"
         android:iconifiedByDefault="false"
-        android:clickable="true"
+        android:queryHint="Buscar..."
+        android:layout_marginBottom="10dp"
+        android:outlineAmbientShadowColor="@color/black"
+        android:outlineSpotShadowColor="@color/black"
+        android:layout_margin="8dp"
+        android:background="@drawable/bgx_search"
+        android:padding="8dp"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        app:defaultQueryHint="Buscar..." />
+        android:clickable="true" />
+
 </FrameLayout>

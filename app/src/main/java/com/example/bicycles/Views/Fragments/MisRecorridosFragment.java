@@ -2,12 +2,14 @@ package com.example.bicycles.Views.Fragments;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
@@ -58,6 +60,9 @@ public class MisRecorridosFragment extends Fragment {
         observarCambiosDeRecorridos();
 
         filtroButton.setOnClickListener(v -> mostrarMenuDeFiltro());
+        ImageView searchIcon = buscar.findViewById(androidx.appcompat.R.id.search_mag_icon);
+        searchIcon.setVisibility(View.GONE);
+        buscar.setIconified(false);
 
         buscar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -76,6 +81,16 @@ public class MisRecorridosFragment extends Fragment {
                 return false;
             }
         });
+        buscar.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                // Retornar true significa que se consume el evento y NO se cierra
+                // Si quieres que la "X" solo limpie el texto, hazlo aquí manualmente
+                buscar.setQuery("", false);
+                return true;
+            }
+        });
+
 
         return view;
     }
@@ -123,7 +138,7 @@ public class MisRecorridosFragment extends Fragment {
 
     private void observarCambiosDeRecorridos() {
         allRecorridosUsuarioViewModel.getRecorridosLiveData().observe(getViewLifecycleOwner(), response -> {
-            progressDialogCarga.dismiss();
+            progressDialogCarga.dismiss(); // Asegúrate de cerrarlo aquí siempre
 
             if (response != null && response.getRecorridos() != null) {
                 Log.d(TAG, "Recorridos obtenidos con éxito: " + response.getRecorridos().size());
@@ -133,5 +148,7 @@ public class MisRecorridosFragment extends Fragment {
                 Log.e(TAG, "Error al obtener los recorridos o no hay datos disponibles.");
             }
         });
+
+
     }
 }

@@ -15,21 +15,28 @@ public class AllRecorridosUsuarioViewModel extends ViewModel {
 
     public AllRecorridosUsuarioViewModel(Context context) {
         recorridosRepository = new AllRecorridosUsuarioRepository(context);
+        recorridosLiveData = new MutableLiveData<>(); // Inicializado una vez
     }
 
     // Cargar todos los recorridos
     public void cargarRecorridos() {
-        recorridosLiveData = recorridosRepository.obtenerRecorridos();
+        recorridosRepository.obtenerRecorridos().observeForever(newData -> {
+            recorridosLiveData.setValue(newData); // Actualiza en lugar de reasignar
+        });
     }
 
     // Cargar recorridos de la última semana
     public void cargarRecorridosSemana() {
-        recorridosLiveData = recorridosRepository.obtenerRecorridosSemana();
+        recorridosRepository.obtenerRecorridosSemana().observeForever(newData -> {
+            recorridosLiveData.setValue(newData); // Actualiza el mismo LiveData
+        });
     }
 
     // Cargar recorridos del último mes
     public void cargarRecorridosMes() {
-        recorridosLiveData = recorridosRepository.obtenerRecorridosMes();
+        recorridosRepository.obtenerRecorridosMes().observeForever(newData -> {
+            recorridosLiveData.setValue(newData); // Actualiza el mismo LiveData
+        });
     }
 
     // Obtener LiveData de los recorridos

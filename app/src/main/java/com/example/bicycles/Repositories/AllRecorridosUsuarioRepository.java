@@ -1,6 +1,7 @@
 package com.example.bicycles.Repositories;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
@@ -23,22 +24,24 @@ public class AllRecorridosUsuarioRepository {
     public MutableLiveData<AllRecorridosUsuarioResponse> obtenerRecorridos() {
         MutableLiveData<AllRecorridosUsuarioResponse> recorridosLiveData = new MutableLiveData<>();
 
-        apiService.getRecorridos().enqueue(new Callback<AllRecorridosUsuarioResponse>() {
+        apiService.getRecorridos().enqueue(new Callback<AllRecorridosUsuarioResponse>() { // Cambiado a getRecorridos()
             @Override
             public void onResponse(Call<AllRecorridosUsuarioResponse> call, Response<AllRecorridosUsuarioResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
+                    Log.d("Repository", "Datos cargados correctamente: " + response.body().getRecorridos().size());
                     recorridosLiveData.setValue(response.body());
                 } else {
+                    Log.e("Repository", "Error en la respuesta: " + response.message());
                     recorridosLiveData.setValue(null);
                 }
             }
 
             @Override
             public void onFailure(Call<AllRecorridosUsuarioResponse> call, Throwable t) {
+                Log.e("Repository", "Error al cargar los datos: " + t.getMessage());
                 recorridosLiveData.setValue(null);
             }
         });
-
         return recorridosLiveData;
     }
 
@@ -73,16 +76,20 @@ public class AllRecorridosUsuarioRepository {
             @Override
             public void onResponse(Call<AllRecorridosUsuarioResponse> call, Response<AllRecorridosUsuarioResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
+                    Log.d("Repository", "Datos cargados correctamente: " + response.body().getRecorridos().size());
                     recorridosLiveData.setValue(response.body());
                 } else {
+                    Log.e("Repository", "Error en la respuesta: " + response.message());
                     recorridosLiveData.setValue(null);
                 }
             }
 
             @Override
             public void onFailure(Call<AllRecorridosUsuarioResponse> call, Throwable t) {
+                Log.e("Repository", "Error al cargar los datos: " + t.getMessage());
                 recorridosLiveData.setValue(null);
             }
+
         });
 
         return recorridosLiveData;

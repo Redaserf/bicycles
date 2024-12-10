@@ -134,6 +134,9 @@ public class MisBicisFragment extends Fragment implements EliminarInterfaz {
         progressDialog.setMessage("Cargando bicicletas...");
         progressDialog.setCancelable(false);
         progressDialog.show();
+        ImageView searchIcon = buscar.findViewById(androidx.appcompat.R.id.search_mag_icon);
+        searchIcon.setVisibility(View.GONE);
+        buscar.setIconified(false);
 
         buscar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -146,6 +149,15 @@ public class MisBicisFragment extends Fragment implements EliminarInterfaz {
             public boolean onQueryTextChange(String newText) {
                 adapter.filter(newText);
                 return false;
+            }
+        });
+        buscar.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                // Retornar true significa que se consume el evento y NO se cierra
+                // Si quieres que la "X" solo limpie el texto, hazlo aquí manualmente
+                buscar.setQuery("", false);
+                return true;
             }
         });
 
@@ -297,7 +309,7 @@ public class MisBicisFragment extends Fragment implements EliminarInterfaz {
                     dialog.dismiss();
 
                 }else{
-                    Toast.makeText(requireContext(), "Selecciona una imagen válida", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireContext(), "Selecciona una imagen válida.", Toast.LENGTH_SHORT).show();
                 }
 
             } else {
@@ -537,8 +549,6 @@ public class MisBicisFragment extends Fragment implements EliminarInterfaz {
                 progressDialog.setCancelable(false);
                 progressDialog.show();
 
-
-                Toast.makeText(requireContext(), "Bicicleta eliminada", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(requireContext(), "No se puede crear el ViewModelProvider con este contexto", Toast.LENGTH_SHORT).show();
             }

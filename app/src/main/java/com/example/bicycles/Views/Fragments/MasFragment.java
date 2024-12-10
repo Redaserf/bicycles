@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -31,12 +32,21 @@ import com.example.bicycles.ViewModels.MisBicisViewModel;
 import com.example.bicycles.ViewModels.RecorridoInicioViewModel;
 import com.example.bicycles.ViewModels.SensoresViewModel;
 import com.example.bicycles.Views.OnBicicletaClickListener;
+import android.app.NotificationManager;
+import android.os.Build;
+import androidx.core.app.NotificationCompat;
+import android.app.Notification;
+import android.app.NotificationChannel;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MasFragment extends Fragment implements OnBicicletaClickListener {
-
+    private static final String CHANNEL_ID = "recorrido_channel";
+    private NotificationManager notificationManager;
+    private Runnable notificationRunnable;
+    private boolean isNotificationActive = false; // Indicador de notificación activa
     private boolean isPlaying = false;
     private boolean isPaused = false; // Indica si el recorrido está en pausa
     private MisBicisViewModel misBicisViewModel;
@@ -72,6 +82,64 @@ public class MasFragment extends Fragment implements OnBicicletaClickListener {
         } else {
             throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
         }
+        createNotificationChannel();
+    }
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(
+                    CHANNEL_ID,
+                    "Notificaciones de Recorrido",
+                    NotificationManager.IMPORTANCE_LOW
+            );
+            channel.setDescription("Notificaciones del estado del recorrido");
+
+            notificationManager = requireContext().getSystemService(NotificationManager.class);
+            if (notificationManager != null) {
+                notificationManager.createNotificationChannel(channel);
+            }
+        }
+    }
+    private void iniciarNotificacion(int recorridoId) {
+        notificationManager = (NotificationManager) requireContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        isNotificationActive = true;
+
+        notificationRunnable = new Runnable() {
+            @Override
+            public void run() {
+                if (!isNotificationActive) return; // Si se detuvo, no actualizar
+
+                String tiempoActual = tiempoTranscurrido.getText().toString();
+
+                Notification notification = new NotificationCompat.Builder(requireContext(), CHANNEL_ID)
+                        .setContentTitle("Recorrido en progreso")
+                        .setContentText("Tiempo transcurrido: " + tiempoActual)
+                        .setSmallIcon(R.drawable.bicicletatarjeta) // Cambia por tu icono
+                        .setOngoing(true)
+                        .build();
+
+                notificationManager.notify(recorridoId, notification);
+
+                // Actualizar la notificación cada segundo
+                handler.postDelayed(this, 1000);
+            }
+        };
+        handler.post(notificationRunnable);
+    }
+
+    private void detenerNotificacion() {
+        if (notificationManager != null) {
+            notificationManager.cancelAll();
+        }
+        isNotificationActive = false;
+        if (notificationRunnable != null) {
+            handler.removeCallbacks(notificationRunnable);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        detenerNotificacion();
     }
 
     @Override
@@ -191,8 +259,12 @@ public class MasFragment extends Fragment implements OnBicicletaClickListener {
                 tiempoInicio = System.currentTimeMillis();
                 iniciarActualizacionesPeriodicas(recorridoId);
                 iniciarTemporizador();
+                iniciarNotificacion(recorridoId);
 
-                pauseButton.setVisibility(View.VISIBLE); // Mostrar botón de pausa/reanudar
+                TextView mensajeVelocidad = getView().findViewById(R.id.textoVelocidad);
+                mensajeVelocidad.setVisibility(View.VISIBLE);
+
+                pauseButton.setVisibility(View.VISIBLE);
                 isPaused = false;
 
                 if (listener != null) {
@@ -203,6 +275,8 @@ public class MasFragment extends Fragment implements OnBicicletaClickListener {
             }
         });
     }
+
+
 
     private void mostrarAlertaDetenerRecorrido() {
         new AlertDialog.Builder(requireContext())
@@ -220,6 +294,10 @@ public class MasFragment extends Fragment implements OnBicicletaClickListener {
         reiniciarTextViews();
         isPlaying = false;
 
+        // Ocultar el mensaje de velocidad
+        TextView mensajeVelocidad = getView().findViewById(R.id.textoVelocidad);
+        mensajeVelocidad.setVisibility(View.GONE);
+
         playPauseButton.setImageResource(R.drawable.ic_play);
         pauseButton.setVisibility(View.GONE);
         tvPausado.setVisibility(View.GONE);
@@ -228,14 +306,23 @@ public class MasFragment extends Fragment implements OnBicicletaClickListener {
         tiempoInicio = 0;
         tiempoPausado = 0;
 
-        requireActivity().getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_container, new MasFragment()).commit();
+        if (isAdded()) {
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new MasFragment())
+                    .commit();
+        } else {
+            Log.e("MasFragment", "Fragmento no está adjunto. No se puede reemplazar.");
+        }
+
+        detenerNotificacion();
 
         if (listener != null) {
             listener.onShowBottomNavigation();
         }
     }
+
+
 
     private void iniciarActualizacionesPeriodicas(int recorridoId) {
         dataFetcher = new Runnable() {
@@ -244,22 +331,44 @@ public class MasFragment extends Fragment implements OnBicicletaClickListener {
                 String tiempoActual = tiempoTranscurrido.getText().toString();
                 sensoresViewModel.fetchSensores(recorridoId, tiempoActual).observe(getViewLifecycleOwner(), sensoresResponse -> {
                     if (sensoresResponse != null && sensoresResponse.isSuccess()) {
-                        velocidadActual.setText(String.format("%.2f km/h", sensoresResponse.getVelocidadActual()));
+                        double velocidadActualValor = sensoresResponse.getVelocidadActual();
+
+                        // Actualizar las vistas con los datos del sensor
+                        velocidadActual.setText(String.format("%.2f km/h", velocidadActualValor));
                         velocidadMaxima.setText(String.format("%.2f km/h", sensoresResponse.getVelocidadMaxima()));
                         velocidadPromedio.setText(String.format("%.2f km/h", sensoresResponse.getVelocidadPromedio()));
                         distanciaRecorrida.setText(String.format("%.2f km", sensoresResponse.getDistanciaRecorrida()));
                         caloriasQuemadas.setText(String.format("Calorías quemadas: %.2f kcal", sensoresResponse.getCalorias()));
                         temperaturaView.setText(String.format("Temperatura: %.2f°C", sensoresResponse.getTemperatura()));
+
+                        // Llamar al método para actualizar el texto y el color según la velocidad
+                        actualizarTextoVelocidad(velocidadActualValor);
                     }
                 });
 
-                // Handler para el Adafruit
-                handler.postDelayed(this, 1800);
+                // Handler para actualizar los datos periódicamente
+                handler.postDelayed(this, 1800); // Actualización cada 1.8 segundos
             }
         };
 
         handler.post(dataFetcher);
     }
+
+    private void actualizarTextoVelocidad(double velocidad) {
+        TextView mensajeVelocidad = getView().findViewById(R.id.textoVelocidad);
+
+        if (velocidad <= 10) {
+            mensajeVelocidad.setText("Velocidad baja - Estás en un ritmo estable.");
+            mensajeVelocidad.setTextColor(ContextCompat.getColor(requireContext(), R.color.verde));
+        } else if (velocidad <= 18) {
+            mensajeVelocidad.setText("Velocidad moderada - Buen ritmo.");
+            mensajeVelocidad.setTextColor(ContextCompat.getColor(requireContext(), R.color.amarillo));
+        } else {
+            mensajeVelocidad.setText("Velocidad alta - Ten cuidado.");
+            mensajeVelocidad.setTextColor(ContextCompat.getColor(requireContext(), R.color.rojo));
+        }
+    }
+
 
     private void detenerActualizacionesPeriodicas() {
         if (dataFetcher != null) {

@@ -57,6 +57,19 @@
         app:layout_constraintEnd_toEndOf="parent"
     />
 
+    <!--Para los errores-->
+    <TextView
+        android:id="@+id/tv_login_errors"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:textAlignment="center"
+        android:textColor="#FF0000"
+        android:padding="8dp"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edtxt_nombre"/>
 
     <Button
         android:id="@+id/btnAgregar"
