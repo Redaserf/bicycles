@@ -13,6 +13,7 @@ import com.example.bicycles.ViewModels.BicicletasMasViewModel;
 import com.example.bicycles.ViewModels.EliminarVelocidadViewModel;
 import com.example.bicycles.ViewModels.LoginViewModel;
 import com.example.bicycles.ViewModels.LogoutViewModel;
+import com.example.bicycles.ViewModels.LuzViewModel;
 import com.example.bicycles.ViewModels.MisBicisViewModel;
 import com.example.bicycles.ViewModels.RecorridoInicioViewModel;
 import com.example.bicycles.ViewModels.ReenviarCodeViewModel;
@@ -60,6 +61,8 @@ public class Factory implements ViewModelProvider.Factory {
             return (T) new ReenviarCodeViewModel(context);
         } else if (modelClass.isAssignableFrom(BicicletasMasViewModel.class)) {
             return (T) new BicicletasMasViewModel(context);
+        } else if (modelClass.isAssignableFrom(LuzViewModel.class)) {
+            return (T) new LuzViewModel(context);
         }
         //A qui ir agregando los viewModels
 

@@ -278,7 +278,7 @@ public class MisBicisFragment extends Fragment implements EliminarInterfaz {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         builder.setView(vistaDialogo);
 
-        prevImagen = vistaDialogo.findViewById(R.id.prev_imagen);
+//        prevImagen = vistaDialogo.findViewById(R.id.prev_imagen);
         EditText edtxtNombre = vistaDialogo.findViewById(R.id.edtxt_nombre);
         btnAgregar = vistaDialogo.findViewById(R.id.btnAgregar);
         Button btnCancel = vistaDialogo.findViewById(R.id.btnCancel);
@@ -291,29 +291,29 @@ public class MisBicisFragment extends Fragment implements EliminarInterfaz {
 
         btnAgregar.setOnClickListener(v -> {
             nombre = edtxtNombre.getText().toString().trim();
-            if (!nombre.isEmpty()) {
-
-                RequestBody nombreBody = RequestBody.create(
-                        MediaType.parse("text/plain"),
-                        nombre
-                );
-
-
-                Factory factory = new Factory(requireContext());
-                viewModel = new ViewModelProvider(this, factory).get(BicicletaViewModel.class);
-                BicicletaRequest bicicletaRequest = new BicicletaRequest(nombre);
-                viewModel.addBicicleta(bicicletaRequest);
-
-                progressDialog = new ProgressDialog(requireContext());
-                progressDialog.setMessage("Agregando bicicleta...");
-                progressDialog.setCancelable(false);
-                progressDialog.show();
-
-                dialog.dismiss();
-            } else {
+            if (nombre.isEmpty()) {
                 Toast.makeText(requireContext(), "Por favor, ingresa un nombre.", Toast.LENGTH_SHORT).show();
+                return;
             }
+
+            if (nombre.length() > 60) {
+                Toast.makeText(requireContext(), "El nombre no debe superar los 60 caracteres.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            Factory factory = new Factory(requireContext());
+            viewModel = new ViewModelProvider(this, factory).get(BicicletaViewModel.class);
+            BicicletaRequest bicicletaRequest = new BicicletaRequest(nombre);
+            viewModel.addBicicleta(bicicletaRequest);
+
+            progressDialog = new ProgressDialog(requireContext());
+            progressDialog.setMessage("Agregando bicicleta...");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+
+            dialog.dismiss();
         });
+
 
 
 
@@ -361,37 +361,30 @@ public class MisBicisFragment extends Fragment implements EliminarInterfaz {
 
 
         btnEditar.setOnClickListener(v -> {
-            btnEditar.setEnabled(false);
-            nombre = viewNombre.getText().toString();
-            if(!nombre.isEmpty()){
-                Factory factory = new Factory(requireContext());
-                viewModel = new ViewModelProvider(this,factory).get(BicicletaViewModel.class);
-
-//                RequestBody nombreBody = RequestBody.create(
-//                        MediaType.parse("text/plain"),
-//                        nombre
-//                );
-
-                BicicletaRequest request = new BicicletaRequest(nombre);
-                viewModel.editarBicicleta(bici.getId(), request);
-                dialog.dismiss();
-
-                progressDialog = new ProgressDialog(requireContext());
-                progressDialog.setMessage("Editando bicicleta...");
-                progressDialog.setCancelable(false);
-                progressDialog.show();
-//                adapter.editarElemento(position, nombre, null);
-
-
-            }else{
-                Toast.makeText(requireContext(), "Verifique los campos correctamente", Toast.LENGTH_SHORT).show();
+            nombre = viewNombre.getText().toString().trim();
+            if (nombre.isEmpty()) {
+                Toast.makeText(requireContext(), "Por favor, ingresa un nombre.", Toast.LENGTH_SHORT).show();
+                return;
             }
 
+            if (nombre.length() > 60) {
+                Toast.makeText(requireContext(), "El nombre no debe superar los 60 caracteres.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            Factory factory = new Factory(requireContext());
+            viewModel = new ViewModelProvider(this, factory).get(BicicletaViewModel.class);
+
+            BicicletaRequest request = new BicicletaRequest(nombre);
+            viewModel.editarBicicleta(bici.getId(), request);
+            dialog.dismiss();
+
+            progressDialog = new ProgressDialog(requireContext());
+            progressDialog.setMessage("Editando bicicleta...");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
         });
 
-        btnCancel.setOnClickListener(v -> {
-            dialog.dismiss();
-        });
 
     }
 

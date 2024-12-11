@@ -1,6 +1,7 @@
 package com.example.bicycles.Networks;
 
 import com.example.bicycles.Models.BicicletaRequest;
+import com.example.bicycles.Models.EncenderRequest;
 import com.example.bicycles.Models.LoginRequest;
 import com.example.bicycles.Models.Recorrido;
 import com.example.bicycles.Models.ReenviarRequest;
@@ -13,6 +14,7 @@ import com.example.bicycles.Responses.EliminarBicicletaResponse;
 import com.example.bicycles.Responses.EliminarVelocidadResponse;
 import com.example.bicycles.Responses.LoginResponse;
 import com.example.bicycles.Responses.LogoutResponse;
+import com.example.bicycles.Responses.LuzResponse;
 import com.example.bicycles.Responses.MisBicicletasResponse;
 import com.example.bicycles.Responses.RecorridoInicioResponse;
 import com.example.bicycles.Responses.RecorridoResponse;
@@ -118,6 +120,9 @@ public interface ApiService {
 
     @POST("adafruit")
     Call<SensoresResponse> getSensores(@Body JsonObject body);
+
+    @POST("encender/luz")
+    Call<LuzResponse> getEstadoLuz(@Body EncenderRequest encenderRequest);
 
 
 }

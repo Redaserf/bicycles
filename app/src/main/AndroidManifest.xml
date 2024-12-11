@@ -45,6 +45,7 @@
         <activity
             android:name=".Views.register"
             android:exported="false"
+            android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
@@ -61,6 +62,7 @@
             android:name=".Views.login"
             android:exported="false"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".Views.MainActivity"
@@ -71,6 +73,7 @@
             android:name=".Views.EditProfileActivity"
             android:exported="false"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"
             tools:ignore="LockedOrientationActivity" />
 
         <provider

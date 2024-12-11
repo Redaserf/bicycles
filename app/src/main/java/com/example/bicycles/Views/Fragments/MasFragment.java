@@ -29,6 +29,7 @@ import com.example.bicycles.Models.Bicicleta;
 import com.example.bicycles.R;
 import com.example.bicycles.Responses.MisBicicletasResponse;
 import com.example.bicycles.ViewModels.EliminarVelocidadViewModel;
+import com.example.bicycles.ViewModels.LuzViewModel;
 import com.example.bicycles.ViewModels.MisBicisViewModel;
 import com.example.bicycles.ViewModels.RecorridoInicioViewModel;
 import com.example.bicycles.ViewModels.SensoresViewModel;
@@ -74,6 +75,10 @@ public class MasFragment extends Fragment implements OnBicicletaClickListener {
     private View dialogView;
     private AlertDialog dialog;
     private TextView tvPausado;
+
+    private ImageButton luzButton;
+    private Integer isLuzEncendida = 1;
+    private LuzViewModel luzViewModel;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -165,6 +170,8 @@ public class MasFragment extends Fragment implements OnBicicletaClickListener {
         caloriasQuemadas = view.findViewById(R.id.tv_calorias);
         temperaturaView = view.findViewById(R.id.tv_temperatura);
         tvPausado = view.findViewById(R.id.tv_pausado);
+        luzButton = view.findViewById(R.id.luz);
+        luzViewModel = new ViewModelProvider(this, new Factory(requireContext())).get(LuzViewModel.class);
 
         Factory factory = new Factory(requireContext());
         misBicisViewModel = new ViewModelProvider(this, factory).get(MisBicisViewModel.class);
@@ -180,7 +187,7 @@ public class MasFragment extends Fragment implements OnBicicletaClickListener {
             }
         });
 
-        pauseButton.setOnClickListener(v -> togglePauseResumeRecorrido()); // Configurar botón de pausa/reanudar
+        pauseButton.setOnClickListener(v -> togglePauseResumeRecorrido());
 
         LayoutInflater inflaterLyt = LayoutInflater.from(requireContext());
         dialogView = inflaterLyt.inflate(R.layout.dialog_bicycle_selection, null);
@@ -212,6 +219,22 @@ public class MasFragment extends Fragment implements OnBicicletaClickListener {
             }
         });
 
+        luzButton.setOnClickListener(v -> {
+            int nuevoEstado = (isLuzEncendida == 1) ? 0 : 1; // Si está encendida, apaga (0); si está apagada, enciende (1)
+            luzViewModel.cambiarEstadoLuz(nuevoEstado).observe(getViewLifecycleOwner(), encendido -> {
+                if (encendido != null) {
+                    // Actualizar el estado visual y lógico
+                    isLuzEncendida = nuevoEstado; // Actualizar el estado lógico
+                    luzButton.setImageResource(isLuzEncendida == 1 ? R.drawable.luz_prendida : R.drawable.luz_apagada);
+                    String mensaje = isLuzEncendida == 1 ? "Luz encendida" : "Luz apagada";
+                    Toast.makeText(requireContext(), mensaje, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(requireContext(), "Error al cambiar el estado de la luz", Toast.LENGTH_SHORT).show();
+                }
+            });
+        });
+
+
         recyclerView = dialogView.findViewById(R.id.recycler_bicycles);
         adapter = new MisBicisDialogAdapter(bicicletas, this);
         recyclerView.setAdapter(adapter);
@@ -236,6 +259,12 @@ public class MasFragment extends Fragment implements OnBicicletaClickListener {
         });
 
         return view;
+    }
+
+    private void actualizarEstadoLuz(boolean encendido) {
+        luzButton.setImageResource(encendido ? R.drawable.luz_prendida : R.drawable.luz_apagada);
+        String mensaje = encendido ? "Luz encendida" : "Luz apagada";
+        Toast.makeText(requireContext(), mensaje, Toast.LENGTH_SHORT).show();
     }
 
     private void togglePauseResumeRecorrido() {
@@ -288,8 +317,6 @@ public class MasFragment extends Fragment implements OnBicicletaClickListener {
             }
         });
     }
-
-
 
     private void mostrarAlertaDetenerRecorrido() {
         new AlertDialog.Builder(requireContext())
